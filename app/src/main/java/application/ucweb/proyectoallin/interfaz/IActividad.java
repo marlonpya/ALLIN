@@ -5,7 +5,6 @@ package application.ucweb.proyectoallin.interfaz;
  */
 
 public interface IActividad {
-
     /**
      * MÉTODO PARA SABER SI EXISTE UNA SESIÓN
      * @return SESION USUARIO
