@@ -55,7 +55,7 @@ public class ListaRapidaActivity extends BaseActivity {
             evento.setFecha_inicio("SAB 08 DE AGOSTO 2015");
             evento.setFecha_fin("10:0");
             evento.setNombre("DISCOTECA NIGHT LIFE");
-            evento.setTipo_evento(6);
+            evento.setTipo(6);
             realm.copyToRealm(evento);
             realm.commitTransaction();
             realm.close();

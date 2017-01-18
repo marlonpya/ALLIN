@@ -55,7 +55,7 @@ public class ListaEventoActivity extends BaseActivity {
             evento.setNombre("Night Life");
             evento.setFecha_inicio("Viernes 07 de Agosto 2015");
             evento.setFecha_fin("10:00pm");
-            evento.setTipo_evento(4);
+            evento.setTipo(4);
             realm.copyToRealm(evento);
             realm.commitTransaction();
             realm.close();
