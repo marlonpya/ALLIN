@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_detalle_compra"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="application.ucweb.proyectoallin.DetalleCompraActivity">
+
+    <ImageView
+        android:id="@+id/fondo_detalle_compra"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        tools:background="@drawable/fondo_allin_desenfoquev3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/son_toolbar" />
+
+        <include layout="@layout/toolbar_descripcion" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="RAINBOW PARTY"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter5" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Chacarilla 412 - Surco"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Oct. 26 2016 08:00 pm"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/colorblanco" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter5"
+                        tools:text="@string/tarjeta_credito" />
+
+                    <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+                        android:id="@+id/rrv_lista_detalle_compra"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        app:rrvLayoutType="LinearLayout" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".75"
+                                android:text="@string/comision_online"
+                                android:textColor="@color/colorblanco"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".25"
+                                android:gravity="right|center"
+                                android:text="S/. 15.00"
+                                android:textColor="@color/colorblanco"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight=".5"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".75"
+                                android:text="@string/total_tarjeta"
+                                android:textColor="@color/colorblanco"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tv_total_compra_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".25"
+                                android:gravity="right|center"
+                                android:textColor="@color/colorblanco"
+                                android:textSize="14sp"
+                                tools:text="S/. 800.00" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <EditText
+                                style="@style/StyledTilEditText"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:drawableStart="@drawable/tarjeta_numero_tarjeta"
+                                android:hint="@string/hint_tarjeta"
+                                android:inputType="number"
+                                android:textColorHint="@color/colorblanco"
+                                android:textColorLink="@color/colorblanco" />
+
+                            <TextView
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nro_tarjeta"
+                                android:textColor="@color/colorblanco" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".5"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <EditText
+                                    style="@style/StyledTilEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:drawableStart="@drawable/tarjeta_vencimiento"
+                                    android:hint="@string/vencimiento_tarjeta"
+                                    android:maxLength="6"
+                                    android:textColorHint="@color/colorblanco" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/vencimiento"
+                                    android:textColor="@color/colorblanco" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".5"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <EditText
+                                    style="@style/StyledTilEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:drawablePadding="10dp"
+                                    android:drawableStart="@drawable/tarjeta_codigo_seguridad"
+                                    android:hint="@string/cvc_tarjeta"
+                                    android:imeOptions="actionDone"
+                                    android:maxLength="4"
+                                    android:textColorHint="@color/colorblanco" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/codigo_seguridad"
+                                    android:textColor="@color/colorblanco" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:orientation="vertical"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight=".5"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:layout_width="30dp"
+                                android:layout_height="30dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/guardar_tarjeta"
+                                android:textColor="@color/colorblanco"
+                                android:textSize="@dimen/size_letter6" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight=".5"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:layout_width="30dp"
+                                android:layout_height="30dp" />
+
+                            <TextView
+                                android:id="@+id/tv_aceptar_terminos_compra"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="@string/aceptar_terminos"
+                                android:textColor="@color/colorblanco"
+                                android:textSize="@dimen/size_letter6" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center">
+
+                        <Button
+                            style="@style/boton_allin_oscuro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pagar_ahora" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,438 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/fondo_allin"
+    tools:context=".EventoActivity">
+
+    <ImageView
+        android:id="@+id/idiv_layout_perfil_discoteca"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/container_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/son_toolbar" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight=".12"
+                android:orientation="vertical">
+
+                <include layout="@layout/toolbar_descripcion" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/margin_top_sontoolbar_default"
+                android:layout_weight=".73"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".45"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:id="@+id/iv_big_perfil_discoteca"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".45"
+                        android:scaleType="fitCenter"
+                        tools:background="@drawable/img_party" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".55"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|right"
+                            android:text="@string/discoteca_direccion"
+                            android:textColor="@color/colorblanco"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtDireccionDiscoteca"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="Av. Larco 123 Miraflores. Referencia  Esquina con Malecon  Armendariz"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter7" />
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="@dimen/espacio_registro"
+                            android:text="@string/discoteca_aforo"
+                            android:textColor="@color/colorblanco"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtAforoDiscoteca"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="850 personas"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter7" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".55"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="@dimen/espacio_registro"
+                        android:text="@string/discoteca_descripcion"
+                        android:textColor="@color/colorblanco"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtDescripcionDiscoteca"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="¿Con cual te vacilas más? Disfruta de los mejores temas de la salsa y el regueton a manos de la orquesta &quot;La  Picante&quot;"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter7" />
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="@dimen/espacio_registro"
+                        android:text="@string/discoteca_tipomusica"
+                        android:textColor="@color/colorblanco"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtTipoMusicaDiscoteca"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="Salsa / Regueton "
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter7" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/width_images_perfil_extras"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:id="@+id/btnverCarta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivCartaPerfilD"
+                        android:layout_width="@dimen/width_images_perfil"
+                        android:layout_height="@dimen/width_images_perfil"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/efecto_circular_transparente"
+                        android:clickable="true"
+                        tools:background="@drawable/copa" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/ver_carta"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter8" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivApuntarmePerfilD"
+                        android:layout_width="@dimen/width_images_perfil"
+                        android:layout_height="@dimen/width_images_perfil"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/efecto_circular_transparente"
+                        android:clickable="true"
+                        tools:background="@drawable/apuntarme" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:gravity="center"
+                        android:text="@string/apuntarme_lista"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter8" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnProximos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivEventosPerfilD"
+                        android:layout_width="@dimen/width_images_perfil"
+                        android:layout_height="@dimen/width_images_perfil"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/efecto_circular_transparente"
+                        android:clickable="true"
+                        tools:background="@drawable/proximoseventos" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:gravity="center"
+                        android:text="@string/proximos_eventos"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter8" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnListaRapida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivAgregarPerfilD"
+                        android:layout_width="@dimen/width_images_perfil"
+                        android:layout_height="@dimen/width_images_perfil"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/efecto_circular_transparente"
+                        android:clickable="true"
+                        tools:background="@drawable/lista" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:gravity="center"
+                        android:text="@string/agregar_a_lista_rapida"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter8" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".01"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="@color/colorgreyBoton"
+                    android:orientation="horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight=".15"
+                android:background="@color/colorPrimary"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <FrameLayout
+                    android:id="@+id/btnverWeb"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:background="@drawable/efecto_item_lista_transparente"
+                    android:clickable="true"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_ic_webPerfilD"
+                            android:layout_width="@dimen/width_images_perfil_extras"
+                            android:layout_height="@dimen/width_images_perfil_extras"
+                            tools:background="@drawable/verweb" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/perfil_discoteca_ver_web"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter8" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btnCompartir"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:background="@drawable/efecto_item_lista_transparente"
+                    android:clickable="true"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_ic_compartirPerfilD"
+                            android:layout_width="@dimen/width_images_perfil_extras"
+                            android:layout_height="@dimen/width_images_perfil_extras"
+                            android:layout_gravity="center"
+                            tools:background="@drawable/compartir" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/perfil_discoteca_compartir"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter8" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:background="@drawable/efecto_item_lista_transparente"
+                    android:clickable="true"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_ic_fotosPerfilD"
+                            android:layout_width="@dimen/width_images_perfil_extras"
+                            android:layout_height="@dimen/width_images_perfil_extras"
+                            android:layout_gravity="center"
+                            tools:background="@drawable/fotos" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/perfil_discoteca_fotos"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter8" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btnUbicanos"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:background="@drawable/efecto_item_lista_transparente"
+                    android:clickable="true"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivMarkerDiscotecaPerfilD"
+                            android:layout_width="@dimen/width_images_perfil_extras"
+                            android:layout_height="@dimen/width_images_perfil_extras"
+                            android:layout_gravity="center"
+                            tools:background="@drawable/ubicanos" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/perfil_discoteca_ubicanos"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter8" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

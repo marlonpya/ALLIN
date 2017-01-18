@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cc_row_lista_compra"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/row_lista_compra_tv_producto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Botella Rica Sebada" />
+
+    <TextView
+        android:id="@+id/row_lista_compra_tv_moneda_texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Pre. Normal: S/."
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_lista_compra_tv_producto" />
+
+    <TextView
+        android:id="@+id/row_lista_compra_tv_precio_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/row_lista_compra_tv_moneda_texto"
+        app:layout_constraintTop_toBottomOf="@+id/row_lista_compra_tv_producto"
+        tools:text="100.00" />
+
+    <TextView
+        android:textColor="@color/colorAccent2"
+        android:id="@+id/row_lista_compra_tv_precio_allin_texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Pre. Allin: S/. "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_lista_compra_tv_moneda_texto"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:textColor="@color/colorAccent2"
+        android:id="@+id/row_lista_compra_tv_precio_allin"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        app:layout_constraintLeft_toRightOf="@+id/row_lista_compra_tv_precio_allin_texto"
+        app:layout_constraintTop_toBottomOf="@+id/row_lista_compra_tv_precio_normal"
+        tools:text="50.00" />
+
+    <ImageView
+        android:id="@+id/row_lista_compra_iv_agregar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icono_agregar" />
+
+    <TextView
+        android:id="@+id/row_lista_compra_tv_unidad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/e_row_lista_compra_unidad"
+        android:gravity="center"
+        android:textColor="@color/colorblanco"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/row_lista_compra_iv_agregar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="0" />
+
+    <ImageView
+        android:id="@+id/row_lista_compra_iv_remover"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/row_lista_compra_tv_unidad"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icono_remover" />
+
+
+</android.support.constraint.ConstraintLayout>

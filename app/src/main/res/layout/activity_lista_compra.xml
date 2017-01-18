@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_lista_compra"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="@drawable/fondo_allin_desenfoquev3"
+    tools:context="application.ucweb.proyectoallin.ListaCompraActivity">
+
+    <include layout="@layout/son_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".05"
+            android:background="@color/colorAccent2"
+            android:gravity="center|left">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Compra"
+                android:textColor="@color/colorblanco"
+                android:textSize="@dimen/size_letter5"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+            android:id="@+id/rrv_lista_compra"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".75"
+            app:rrvLayoutType="LinearLayout" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".05"
+            android:background="@color/colorAccent2"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Total: "
+                android:textColor="@color/colorblanco" />
+
+            <TextView
+                android:id="@+id/tv_total_compra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorblanco"
+                tools:text="200.00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".15"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnAceptarProductos"
+                style="@style/boton_allin_oscuro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pagar" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

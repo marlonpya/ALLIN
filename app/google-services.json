@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "668041049083",
+    "firebase_url": "https://proyectoallin-633c5.firebaseio.com",
+    "project_id": "proyectoallin-633c5",
+    "storage_bucket": "proyectoallin-633c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668041049083:android:22936241e1cae68a",
+        "android_client_info": {
+          "package_name": "application.ucweb.proyectoallin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668041049083-1gehot1jm7bruvjcm7he3vo5cf0534da.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "application.ucweb.proyectoallin",
+            "certificate_hash": "65ED51BB7312CA3C45DB2521C65EBA063892723F"
+          }
+        },
+        {
+          "client_id": "668041049083-5tmfaa0u8n503prob7j6av7g3r8jckf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKMw30smLE7KE2Amr0cG455Cvn_InTwvk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668041049083-5tmfaa0u8n503prob7j6av7g3r8jckf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

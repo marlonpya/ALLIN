@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="application.ucweb.proyectoallin.ListaClientesCorporativoActivity">
+
+    <ImageView
+        android:id="@+id/fondo_lista_clientes_corporativo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        tools:background="@drawable/fondo_allin_desenfoquev3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/son_toolbar" />
+
+        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+            android:id="@+id/rrv_clientes_corporativo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rrvLayoutType="LinearLayout" />
+    </LinearLayout>
+
+
+</RelativeLayout>

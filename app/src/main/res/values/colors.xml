@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">@color/colorAccent2</color>
+    <color name="colorAccentLight">#ffc4f3</color>
+    <color name="colorAccentDark">#835079</color>
+    <color name="colorblanco">#FFFFFF</color>
+    <color name="colorblue">#0099e5</color>
+    <color name="colorgreyLight">#e0e0e0</color>
+    <color name="colorgreyLightBlack">#a4a4a4</color>
+    <color name="colorgreyBoton">#616264</color>
+    <color name="maincolorgreen">#56ab52</color>
+    <color name="maincolorbluefb">#31508c</color>
+    <color name="colorgreyBotonDark">#575757</color>
+    <color name="colorwhite">#FFFFFF</color>
+    <color name="orange_dark">#f5585c</color>
+    <color name="blue_dark">#858eba</color>
+    <color name="turquoise">#b15ac1</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+
+    <color name="colorAccent2">#FF00CC</color>
+</resources>

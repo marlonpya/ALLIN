@@ -1,0 +1,368 @@
+<resources>
+    <string name="app_name">ALL IN</string>
+
+    <string name="key_api">AIzaSyCgEWTJip9-V4XVUGgfHrzRdPXW9S7h6Jk</string>
+    <string name="facebook_app_id">1605130663121241</string>
+    <string name="registrar_alling">Registrarse en ALLIN</string>
+    <string name="Acerca_Allin">ACERCA DE ALLIN</string>
+    <string name="Usuario_Allin">USUARIO ALLIN</string>
+    <string name="Sugerencia_Allin">SUGERENCIAS PARA ALLIN</string>
+    <string name="Cerrar">CERRAR</string>
+
+    <string name="nav_item_inicio">INICIO</string>
+    <string name="nav_item_perfil">EDITAR MI PERFIL</string>
+    <string name="nav_item_recomendar">RECOMENDAR AMIGOS</string>
+    <string name="nav_item_compras">VER MIS COMPRAS</string>
+    <string name="nav_item_puntos">MIS PUNTOS ALL IN</string>
+    <string name="nav_item_cerrar_sesion">CERRAR SESION</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+
+    <!-- Activity Main -->
+    <string name="usuario_corporativo">USUARIO CORPORATIVO</string>
+    <string name="admin_preventas">Administrador de preventas y listas</string>
+    <string name="usuario_correo_login">USUARIO O CORREO</string>
+    <string name="password_login">*******</string>
+    <string name="registrarse_login">Registrarse en ALLIN</string>
+    <string name="registrarse_loginF">Connect with Facebook</string>
+
+    <!-- Activity Registro -->
+    <string name="registro">REGISTRO</string>
+    <string name="registro_nombres">Nombres</string>
+    <string name="registro_fechanac">Fecha de Nacimiento</string>
+    <string name="registro_dni">Numero de DNI</string>
+    <string name="registro_sexo">Sexo</string>
+    <string name="registro_direccion">Direccion</string>
+    <string name="registro_correo">Correo Electronico</string>
+    <string name="registro_numero">Numero de Movil</string>
+    <string name="registro_operador">Operador</string>
+    <string name="registro_tarjeta">¿Que tarjeta de credito usas ?</string>
+    <string name="registro_visa">VISA</string>
+    <string name="registro_mastercard">MASTERCARD</string>
+    <string name="registro_avatar">Mi Avatar (FOTO)</string>
+
+    <!-- Main User -->
+    <string name="user_titulo">Todos tus locales y eventos con descuentos increibles</string>
+    <string name="user_login">Connect with Facebook</string>
+
+    <!-- Resultado de Eventos -->
+    <string name="eventos_fiestas">Fiestas</string>
+    <string name="eventos_conciertos">Conciertos</string>
+    <string name="eventos_otroseventos">Otros Eventos</string>
+    <string name="eventos_calendario">Calendario</string>
+    <string name="eventos_vertodo">Ver Todo</string>
+    <string name="eventos_titulo">ELIJA UN TIPO DE BUSQUEDA</string>
+
+    <!-- Recomendados -->
+    <string name="recomendados_titulo">ELIJA UN TIPO DE BUSQUEDA</string>
+    <string name="recomendados_lugar">Lugares</string>
+    <string name="recomendados_eventosespec">Eventos Especiales</string>
+
+    <!-- Lista Rapida -->
+    <string name="lista_discoteca">Discoteca</string>
+    <string name="lista_karaokes">Karaokes</string>
+    <string name="lista_restobares">Restobares</string>
+    <string name="lista_eventos">Eventos Especiales</string>
+    <string name="lista_titulo">FILTRO</string>
+
+    <!-- Perfil Discoteca -->
+    <string name="discoteca_direccion"><u>DIRECCIÓN</u></string>
+    <string name="discoteca_aforo"><u>AFORO</u></string>
+    <string name="discoteca_descripcion"><u>DESCRIPCIÓN</u></string>
+    <string name="discoteca_tipomusica"><u>TIPO DE MUSICA</u></string>
+
+    <!-- Busqueda Discoteca -->
+    <string name="busqueda_titulo">ELIJA UN TIPO DE BUSQUEDA</string>
+    <string name="busqueda_gps">Busqueda por GPS</string>
+    <string name="busqueda_distrito">Busqueda por Distrito</string>
+    <string name="busqueda_tipomusica">Busqueda por Tipo de Musica</string>
+    <string name="busqueda_calendario">Busqueda por Calendario</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- FRAGMENTS DE PEFIL DE USUARIO -->
+    <string name="editar_nombre">Nombres:</string>
+    <string name="editar_apellido_paterno">Apellido Paterno:</string>
+    <string name="editar_apellido_materno">Apellido Materno:</string>
+    <string name="editar_fecha_nacimiento">Fecha de Nacimiento:</string>
+    <string name="editar_numero_dni">N° de DNI:</string>
+    <string name="editar_Direccion">Direccion:</string>
+    <string name="editar_referencia">Referencia</string>
+    <string name="editar_numero_movil">Numero Móvil:</string>
+    <string name="editar_correo">Correo Electrónico</string>
+    <string name="editar_confirmar_correo">Confirmar correo</string>
+    <string name="recomendar">Recomendar a amigos:</string>
+    <string name="telefono">Telefono:</string>
+    <string name="correo">Correo:</string>
+    <string name="no_obligatorio">(No Obligatorio)</string>
+
+    <!-- FRAGMENT DE PERFIL DE COMPRAS-->
+    <string name="ver_compras">VER MIS COMPRAS</string>
+    <string name="historial">HISTORIAL</string>
+    <string name="fecha_compra">FECHA DE COMPRA</string>
+    <string name="detalle">DETALLE</string>
+    <string name="pago">PAGO</string>
+    <string name="detalle_compra">DETALLES</string>
+    <string name="sientente_vip">Sientete VIP.\n Todos tus locales y eventos \n con descuentos increíbles</string>
+    <string name="iniciar_sesion">Iniciar Sesion</string>
+    <string name="registro_apellido">Apellidos</string>
+    <string name="registro_referecia">Referencia</string>
+    <string name="registro_contrasenia">Contraseña</string>
+    <string name="registro_recontrasenia">Repita su contraseña</string>
+    <string name="row_condiciones">CONDICIONES</string>
+    <string name="row_agregar">AGREGAR A CARRITO</string>
+    <string name="row_canjear">CANJEAR</string>
+
+    <!-- FRAGMENT EDITAR PERFIL DE USUARIO-->
+    <string name="editar_perfil">EDITAR PERFIL</string>
+
+    <!-- FRAGMENT DE MIS PUNTOS ALLIN-->
+    <string name="mis_puntos">MIS PUNTOS ALLIN</string>
+    <string name="puntos_consumo">PUNTOS CONSUMO:</string>
+    <string name="puntos_interaccion">PUNTOS INTERACCIÓN:</string>
+    <!-- DISTRITOS-->
+    <string-array name="DISTRITOS">
+        <item>ANCÓN</item>
+        <item>ATE</item>
+        <item>BARRANCO</item>
+        <item>BREÑA</item>
+        <item>CARABAYLLO</item>
+        <item>CHACLACAYO</item>
+        <item>CHORRILLOS</item>
+        <item>CIENEGUILLA</item>
+        <item>COMAS</item>
+        <item>EL AGUSTINO</item>
+        <item>INDEPENDENCIA</item>
+        <item>JESÚS MARÍA</item>
+        <item>LA MOLINA</item>
+        <item>LA VICTORIA</item>
+        <item>LIMA</item>
+        <item>LINCE</item>
+    </string-array>
+    <string name="ancon">ANCÓN</string>
+    <string name="ate">ATE</string>
+    <string name="barranco">BARRANCO</string>
+    <string name="breña">BREÑA</string>
+    <string name="Carabayllo">CARABAYLLO</string>
+    <string name="Chaclacayo">CHACLACAYO</string>
+    <string name="Chorrillos">CHORRILLOS</string>
+    <string name="Cieneguilla">CIENEGUILLA</string>
+    <string name="Comas">COMAS</string>
+    <string name="el_agustino">EL AGUSTINO</string>
+    <string name="independencia">INDEPENDENCIA</string>
+    <string name="jesus_maria">JESÚS MARÍA</string>
+    <string name="la_molina">LA MOLINA</string>
+    <string name="la_victoria">LA VICTORIA</string>
+    <string name="lima">LIMA</string>
+    <string name="lince">LINCE</string>
+
+    <string name="ver_carta">VER CARTA \n </string><!--\n para alinear con los 2 textos-->
+    <string name="apuntarme_lista">APUNTARME EN LISTA</string>
+    <string name="proximos_eventos">PRÓXIMOS EVENTOS</string>
+    <string name="agregar_a_lista_rapida">AGREGAR A LISTA RÁPIDA</string>
+    <string name="comprar_entrada">\nCOMPRAR ENTRADA</string>
+    <string name="ver_mapa_evento">VER MAPA \n DEL EVENTO</string>
+    <!-- COMPRAR ENTRADA -->
+    <string name="desea_adquirir">Elija las entradas que desea adquirir:</string>
+    <string name="entradas">ENTRADAS</string>
+    <string name="precio_normal">Precio NORMAL</string>
+    <string name="precio_allin">Precio ALLIN</string>
+    <string name="general">GENERAL</string>
+    <string name="vip">VIP</string>
+    <string name="box10">BOX (10 PERSONAS)</string>
+    <string name="pagar_ahora">PAGAR AHORA</string>
+    <string name="comprar_entradas">COMPRA DE ENTRADAS</string>
+    <string name="cantidad">cantidad</string>
+    <string name="ahorrado">TE HAS AHORRADO:</string>
+    <string name="nombre_titular">Nombre del Titular</string>
+    <string name="nro_tarjeta">Número de la Tarjeta</string>
+    <string name="fec_vencimiento">Fecha de vencimiento:</string>
+    <string name="mes">Mes</string>
+    <string name="anio">Año</string>
+    <string name="codigo_seguridad">Cod. Seguridad</string>
+    <string name="pagar">PAGAR</string>
+    <!-- STRING PARA DIALOGOS -->
+    <string name="dialogo_su_pago">Su pago ha sido ejecutado con éxito, para mas detalles \n de su compra realizada, puede visualizar en la opción \n de VER MIS COMPRAS.</string>
+    <string name="dialogo_usuario_registrate">Si quieres acceder a mas beneficios \n de ALLIN, hazte miembro \n GRATUITAMENTE</string>
+    <string name="dialogo_condiciones_compra">*No válido para eventos especiales \n ( VER CALENDARIO ) \n *Incluye entrada libre para el cliente</string>
+    <string name="dialogo_compra_realizada">Su compra ha sido realizada y efectuada con éxito. \n Puede ver más detalles de sus compras, en la opción \n \"Ver mis compras\".</string>
+    <string name="dialogo_like_discoteca_no_registrada">Si quieres que esta discoteca pertenezca a \n ALLIN, NIGHT LIFE dale LIKE para que pronto \n aparezca en nuestra aplicación</string>
+    <string name="concepto">CONCEPTO</string>
+    <string name="cantidadM">CANTIDAD</string>
+    <string name="normal">NORMAL</string>
+    <string name="allin">ALLIN</string>
+    <string name="elija_busquedad">ELIJA UN TIPO DE BUSQUEDAD</string>
+
+    <!-- ARRAY DE SPINNER -->
+    <string-array name="arraySexo">
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </string-array>
+    <string-array name="arrayDepartamento">
+        <item>Amazonas</item>
+        <item>Ancash</item>
+        <item>Apurimac</item>
+        <item>Arequipa</item>
+        <item>Ayacucho</item>
+        <item>Cajamarca</item>
+        <item>Callao</item>
+        <item>Cusco</item>
+        <item>Huancavelica</item>
+    </string-array>
+    <string-array name="arrayProvincia">
+        <item>Lima</item>
+        <item>Barranca</item>
+        <item>Cajatambo</item>
+        <item>Canta</item>
+        <item>Cañete</item>
+        <item>Huaral</item>
+        <item>Huarochirí</item>
+    </string-array>
+    <string-array name="arrayDistrito">
+        <item>Cercado callao</item>
+        <item>Bellavista</item>
+        <item>Carmen de la Legua</item>
+        <item>La perla</item>
+        <item>La punta</item>
+    </string-array>
+    <string-array name="arrayOperador">
+        <item>Movistar</item>
+        <item>Claro</item>
+        <item>Entel</item>
+    </string-array>
+    <string-array name="arrayCarta">
+        <item>Bebidas y tragos</item>
+        <item>Promociones</item>
+        <item>Piqueos</item>
+        <item>Comidas</item>
+    </string-array>
+    <string-array name="arrayEstadoCivil">
+        <item>Soltero</item>
+        <item>Casado</item>
+    </string-array>
+    <string-array name="arrayFiltrarDiscoteca">
+        <item>Discotecas</item>
+        <item>Karaokes</item>
+        <item>Restobares</item>
+        <item>Eventos Especiales</item>
+    </string-array>
+    <string name="title_activity_busqueda_gps">Map</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="te_gusta_nuestra_variedad_tragos">¿ Te gusta nuestra variedad de tragos ?</string>
+    <!-- ENCUESTA ACTIVITY-->
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="encuesta">ENCUESTA</string>
+    <string name="respondido_todo">HE RESPONDIDO TODO</string>
+    <string name="discoteca_nightlife">DISCOTECA NIGHT LIFE</string>
+    <!-- CARTA -->
+    <string name="carta_bebidas">carta de bebidas y más</string>
+    <string name="dialogo_antes_de_canjear">Para validar tus puntos y canjear \n una variedad de productos, primero \n queremos conocerte.</string>
+    <string name="total">TOTAL:</string>
+    <string name="canjear_ahora">CANJEAR AHORA</string>
+
+    <!-- ROW de CANJEAR OBJETO-->
+    <string name="row_promocion">Promocion : \n %d</string>
+
+    <!-- Actividad CanjearPuntos-->
+    <string name="puntos_consumo_np">PUNTOS \n CONSUMO</string>
+    <string name="filtrar">FILTRAR</string>
+    <string name="lista_rapida">LISTA RAPIDA</string>
+    <string name="ventas_realizadas">VENTAS REALIZADAS</string>
+    <string name="ver_lista">VER LISTA</string>
+    <string name="descargar_lista">Descargar Lista</string>
+    <string name="nombre">NOMBRE</string>
+    <string name="apellidos">APELLIDOS</string>
+    <string name="dni">DNI</string>
+    <string name="buscar">Buscar</string>
+    <string name="buscar_persona">Buscar Persona</string>
+    <!-- PERFIL DISCOTECA-->
+    <string name="perfil_discoteca_ver_web">VER WEB</string>
+    <string name="perfil_discoteca_compartir">COMPARTIR</string>
+    <string name="perfil_discoteca_fotos">FOTOS</string>
+    <string name="perfil_discoteca_ubicanos">UBICANOS</string>
+
+    <string name="nombre_usuario">MELLISSA VALDIVIA C.</string>
+    <!-- FRAGMENT RECOMENDAR AMIGOS-->
+    <string name="editar_telefono">Telefono</string>
+    <string name="editar_nombre_apellidos">Nombres y Apellidos</string>
+    <string name="enviar">ENVIAR</string>
+    <string name="recomendar_amigos">RECOMENDAR AMIGOS</string>
+    <string name="enviar_a">ENVIAR A</string>
+    <string name="en_lista">EN LISTA</string>
+    <string name="registro_cliente">REGISTRO</string>
+    <string name="carta_discoteca">CARTA DE DISCOTECA</string>
+    <string name="codigo">CÓDIGO</string>
+
+    <!-- ACTIVIDAD PRODUCTOS POR RECOGER-->
+    <string name="productos_por_recoger">PRODUCTOS POR RECOGER</string>
+    <string name="detalle_de_la_compra">DETALLE DE LA COMPRA</string>
+    <string name="hint_nombres">Nombres</string>
+    <string name="hint_Ape_Paterno">Apellido Paterno</string>
+    <string name="hint_Ape_Materno">Apelido Materno</string>
+    <string name="registro_recibir_ofertas">¿ Deseas recibir ofertas de ALLIN NIGHT LIFE ?</string>
+    <string name="texto_detalle_compra_administrador">CO185308 BOTELLA CHIVAS REGAL \n
+        CO185408 BALDE DE 10 CERVEZAS MILLER \n
+        CO185408 BALDE DE 10 CERVEZAS MILLER \n
+        COD COMPRA: COD198VN \n
+        \n
+        FECHA DE COMPRA: 07.05.2015\n
+        FECHA DE VENCIMIENTO: 07.05.2015\n
+        ESTADO: COMPRADO\n
+        PAGO: s/457</string>
+    <!-- ACTIVIDAD CALENDARIO -->
+    <string name="calendario">CALENDARIO</string>
+    <string name="galeria">GALERIA</string>
+    <string name="administrador_de_ventas">Administrador de preventas y\nlistas</string>
+    <string name="titulo_antes_canjear">ANTES DE CANJEAR</string>
+    <string name="elija_entradas">Elija las entradas que desea adquirir:</string>
+    <string name="ingresar_codigo">INGRESAR CÓDIGO</string>
+    <string name="confirmar_datos">CONFIRMAR DATOS</string>
+    <string name="compras">Compras</string>
+    <string name="mis_compras">Mis Compras</string>
+    <string name="transaccion_aprobada">TRANSACCIÓN APROBADA</string>
+
+    <!-- AVISO AGREGADO A LISTA RÁPIDA -->
+    <string name="agregado_a_lista_rapida_titulo">AGREGADO CON ÉXITO</string>
+    <string name="agregado_a_lista_rapida_mensaje">Ha sido agregado correctamente a su lista rápida. Para más detalles puede ir al menú principal y ver sus demás eventos.</string>
+
+    <!-- AVISO YA ESTÁS EN LISTA -->
+    <string name="ya_estas_en_lista_titulo">¿ DESEAS ESTAR EN LISTA ?</string>
+    <string name="ya_estas_en_lista_mensaje">Aceptas estar en lista.</string>
+
+    <!-- AVISO YA ESTÁS EN LISTA - RESULTADO SI-->
+    <string name="ya_estas_en_lista_titulo_si">¡ YA ESTÁS EN LISTA !</string>
+    <string name="ya_estas_en_lista_mensaje_si">Presentar DNI(OBLIGATORIO)\nCierre de lista - 11:30pm\nNo polos no zapatillas\nMayores de 24 años</string>
+
+    <!-- AVISO ELIMINAR COMPRA CARRITO -->
+    <string name="aviso_eliminar_compra_carrito_mensaje">Si acepta se eliminarán todos los productos de carrito</string>
+    <string name="hint_tarjeta">1234567891651461584</string>
+    <string name="vencimiento_tarjeta">MM/YY</string>
+    <string name="vencimiento">Vencimiento</string>
+    <string name="cvc_tarjeta">CVC</string>
+    <string name="guardar_tarjeta">Quiero guardar esta tarjeta para mi próxima compra</string>
+    <string name="aceptar_terminos">Acepto los términos y condiciones y las políticas de devolución y compra</string>
+    <string name="comision_online">Comisión online</string>
+    <string name="total_tarjeta">Total</string>
+    <string name="tarjeta_credito">Tarjeta de crédito/débito</string>
+    <string name="medio_pago">MEDIO DE PAGO</string>
+    <string name="cargando">Cargando..</string>
+    <string name="enviando_peticion" >Enviando petición..</string>
+    <string name="actualizando">Actualizando..</string>
+    <string name="campos_vacios">Se requiere todos los campos</string>
+    <string name="registrar_error">Ocurrió un error al registrar, vuelva a intentarlo.</string>
+    <string name="iniciarsesion_error">Datos incorrectos</string>
+    <string name="conexion_error">Ocurrió un error de conexión</string>
+    <string name="cerrar_sesion">Está seguro de cerrar sesión ?</string>
+    <string name="iniciando_sesion">Iniciando Sesión..</string>
+    <string name="registrar_error_3">El correo ingresado ya se encuentra en uso</string>
+    <string name="registrar_error_2">No se recibieron los datos necesarios</string>
+    <string name="debe_iniciar_sesion">Debe iniciar sesión</string>
+
+
+</resources>

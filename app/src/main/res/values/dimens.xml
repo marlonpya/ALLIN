@@ -1,0 +1,68 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_newpaddingRF">24dp</dimen>
+    <dimen name="styledtil_edit_text_size">20sp</dimen>
+
+    <dimen name="margin_top_toolbar">8dp</dimen>
+    <dimen name="margin_top_sontoolbar_default">20dp</dimen>
+
+    <dimen name="margin_top_linear_layout">15dp</dimen>
+    <dimen name="margin_top_btnRegistrar">20dp</dimen>
+    <dimen name="margin_botton_btnRegistrar">20dp</dimen>
+    <dimen name="tamaño_text_spinner">15dp</dimen>
+
+    <dimen name="height_borde_toolbar">1dp</dimen>
+
+    <!-- Size principal letters -->
+    <dimen name="size_letter1">22sp</dimen>1
+    <dimen name="size_letter2">20sp</dimen>2
+    <dimen name="size_letter3">16sp</dimen>3
+    <dimen name="size_letter4">14sp</dimen>4
+    <dimen name="size_letter5">16sp</dimen>5
+    <dimen name="size_letter6">12sp</dimen>6
+    <dimen name="size_letter7">10sp</dimen>7
+    <dimen name="size_letter8">9sp</dimen>8
+    <dimen name="size_letter9">8sp</dimen>9
+
+    <!-- Login form -->
+    <dimen name="width_input_login">300dp</dimen>
+    <dimen name="height_input_login">30dp</dimen>
+    <dimen name="margin_top_login">15dp</dimen>
+    <dimen name="margin_top_letters">20dp</dimen>
+    <dimen name="margin_top_letters2">10dp</dimen>
+    <dimen name="height_button">40dp</dimen>
+
+    <!-- Register form -->
+    <dimen name="width_input_registro">350dp</dimen>
+    <dimen name="width_input_registro2">170dp</dimen>
+    <dimen name="width_input_registro3">300dp</dimen>
+    <dimen name="margin_top_registro">10dp</dimen>
+    <dimen name="height_input_registro">37dp</dimen>
+    <dimen name="height_input_registronew">35dp</dimen>
+    <dimen name="espacio_registro">10dp</dimen>
+
+    <!-- Pantalla Principal -->
+    <dimen name="width_images">94dp</dimen>
+    <dimen name="width_images_perfil">50dp</dimen>
+    <dimen name="width_images_perfil_extras">25dp</dimen>
+    <dimen name="width_circulo_plus">10dp</dimen>
+
+    <!--medida para franja negra -->
+    <dimen name="padding_bottom_fondo">7dp</dimen>
+
+    <dimen name="width_imagen_titulo_allin">40dp</dimen>
+    <dimen name="height_imagen_titulo_allin">70dp</dimen>
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_album_radius">0dp</dimen>
+    <dimen name="width_radio_button_tarjeta">35dp</dimen>
+    <dimen name="height_layout_radio_group">58dp</dimen>
+    <dimen name="spacing_medium">5dp</dimen>
+    <dimen name="spacing_middle">2dp</dimen>
+    <dimen name="spacing_large">3dp</dimen>
+    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="elevation_card">4dp</dimen>
+    <dimen name="spacing_mlarge">5dp</dimen>
+
+
+</resources>

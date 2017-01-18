@@ -1,0 +1,195 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    tools:context="application.ucweb.proyectoallin.fragment.RecomendarAmigosFragment">
+
+    <include layout="@layout/toolbar_descripcion" />
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/tvNombreyApellidoUno"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:hint="@string/editar_nombre_apellidos"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+                <EditText
+                    android:id="@+id/tvTelefonoUno"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/editar_telefono"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+                <EditText
+                    android:id="@+id/tvEmailUno"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/editar_correo"
+                    android:inputType="textEmailAddress"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorblanco" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/tvNombreyApellidoDos"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:hint="@string/editar_nombre_apellidos"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+                <EditText
+                    android:id="@+id/tvTelefonoDos"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/editar_telefono"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+                <EditText
+                    android:id="@+id/tvEmailDos"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/editar_correo"
+                    android:inputType="textEmailAddress"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorblanco" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/tvNombreyApellidoTres"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:hint="@string/editar_nombre_apellidos"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+                <EditText
+                    android:id="@+id/tvTelefonoTres"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/editar_telefono"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+                <EditText
+                    android:id="@+id/tvEmailTres"
+                    style="@style/StyledTilEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/editar_correo"
+                    android:inputType="textEmailAddress"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/colorblanco"
+                    android:textSize="@dimen/size_letter6" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorblanco" />
+
+            <Button
+                android:id="@+id/btnEnviarRecomendar"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:background="@color/colorgreyBoton"
+                android:text="@string/enviar" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,150 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_f_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:background="@drawable/fondo_allin"
+    tools:context="application.ucweb.proyectoallin.fragment.MenuFragment">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_fragment_menu"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".17"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".03"/>
+
+    <LinearLayout
+        android:id="@+id/container_body_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight=".8"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".06">
+
+                <ImageView
+                    android:id="@+id/btnDiscotecas"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:src="@drawable/discoteca" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2">
+
+                <ImageView
+                    android:id="@+id/btnKaraoke"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:src="@drawable/karaoke" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2">
+
+                <ImageView
+                    android:id="@+id/btnRecomendamos"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:layout_gravity="right|top"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:src="@drawable/recomendaciones" />
+                <!--android:background="@drawable/recomendaciones"-->
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2">
+
+                <ImageView
+                    android:id="@+id/btnRestobares"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:src="@drawable/restobar" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1">
+
+                <ImageView
+                    android:id="@+id/btnEventosEspeciales"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:layout_gravity="left|top"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:src="@drawable/eventosespeciales" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2">
+
+                <ImageView
+                    android:id="@+id/btnListaRapida"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:layout_gravity="left|top"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:src="@drawable/listarapida" />
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

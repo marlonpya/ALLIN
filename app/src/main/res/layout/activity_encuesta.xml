@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/fondo_allin"
+    tools:context=".EncuestaActivity">
+
+    <ImageView
+        android:id="@+id/idiv_layout_encuesta_allin"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/son_toolbar" />
+
+        <include layout="@layout/toolbar_descripcion" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".8"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+                    android:id="@+id/rrv_lista_encuesta"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:rrvLayoutType="LinearLayout" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".2"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnRespondidoTodo"
+                    style="@style/boton_allin_oscuro"
+                    android:text="@string/respondido_todo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

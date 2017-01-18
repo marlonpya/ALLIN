@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/mnAcerca"
+        android:orderInCategory="1"
+        android:title="@string/Acerca_Allin"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mnUsuario"
+        android:orderInCategory="2"
+        android:title="@string/Usuario_Allin"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/mnSugerencia"
+        android:orderInCategory="3"
+        android:title="@string/Sugerencia_Allin"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/mnCerrar"
+        android:orderInCategory="3"
+        android:title="@string/Cerrar"
+        app:showAsAction="never"/>
+</menu>

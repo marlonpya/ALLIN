@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@drawable/efecto_item_lista_transparente"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    tools:background="@android:color/darker_gray">
+
+    <TextView
+        android:id="@+id/row_clientes_tv_nombre"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_weight=".7"
+        android:gravity="center|start"
+        android:textSize="@dimen/size_letter5"
+        android:textStyle="bold"
+        tools:text="El joven mas naita" />
+
+    <TextView
+        android:id="@+id/row_clientes_tv_dni"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".3"
+        android:gravity="center"
+        android:textSize="@dimen/size_letter5"
+        android:textStyle="bold"
+        tools:text="48123451" />
+
+</LinearLayout>

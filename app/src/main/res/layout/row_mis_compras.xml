@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:background="@drawable/efecto_item_lista_transparente"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="129dp"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fecha_inicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorblanco"
+                android:textSize="12sp"
+                tools:text="07.05.2015" />
+
+            <TextView
+                android:id="@+id/fecha_fin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/colorgreyBoton"
+                android:padding="5dp"
+                android:paddingTop="3dp"
+                android:textColor="@color/colorblanco"
+                android:textSize="10sp"
+                tools:text="VENCE : 07.09.2015" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detalle_compra"
+                    android:textColor="@color/colorblanco"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/iv_plusrosa"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_margin="5dp"
+                    tools:background="@drawable/plusrosa" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.7"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nombre_discoteca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorblanco"
+                android:textSize="12sp"
+                tools:text="DISCOTECA NIGHT LIFE" />
+
+            <TextView
+                android:id="@+id/nombre_evento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorblanco"
+                android:textSize="12sp"
+                tools:text="EVENTO: SALSA VS. REGUETON" />
+
+            <TextView
+                android:id="@+id/detalle_uno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorblanco"
+                android:textSize="11sp"
+                tools:text="Su pack de 6 latas redbull" />
+
+            <TextView
+                android:id="@+id/detalle_dos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorblanco"
+                android:textSize="11sp"
+                tools:text="Balde de 10 cervezas Millers" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:orientation="vertical"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:paddingTop="30dp"
+                android:gravity="top|center"
+                android:id="@+id/pago"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorblanco"
+                android:textSize="12sp"
+                tools:text="S/.270" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white" />
+</LinearLayout>

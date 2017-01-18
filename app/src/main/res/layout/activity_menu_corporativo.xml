@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_menu_corporativo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/fondo_allin"
+    tools:context=".MenuCorporativo">
+
+    <ImageView
+        android:id="@+id/idiv_layout_usuario_administrado"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:weightSum="1">
+
+        <include layout="@layout/son_toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|right"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/margin_top_sontoolbar_default"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:gravity="center|right"
+                    android:orientation="vertical"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/discoteca_nightlife"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text="@string/usuario_corporativo"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter6" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2">
+
+                    <ImageView
+                        android:id="@+id/iv_imagen_usuario_administrado"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        tools:background="@drawable/logo" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum=".9">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".3"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/btnAdministradorVentas"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:background="@drawable/iconoventas" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".3"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/btnAdministradorLista"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:background="@drawable/iconolista" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".3"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/btnAdministradorCodigo"
+                    android:layout_width="@dimen/width_images"
+                    android:layout_height="@dimen/width_images"
+                    android:background="@drawable/efecto_circular_transparente"
+                    android:clickable="true"
+                    tools:background="@drawable/iconocodigo" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

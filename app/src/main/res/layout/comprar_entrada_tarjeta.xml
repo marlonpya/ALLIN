@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/fondo_allin"
+    tools:context="com.allin.ComprarEntradaTarjeta">
+
+    <ImageView
+        android:id="@+id/idiv_layout_comprar_entrada_tarjeta"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/son_toolbar" />
+
+        <include layout="@layout/toolbar_descripcion" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.7"
+                            android:text="@string/concepto"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/cantidadM"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/normal"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/allin"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/size_letter6" />
+
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/lista_compras"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="350dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:background="@color/colorblanco"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="20dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.7"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|right"
+                            android:paddingBottom="12dp"
+                            android:text="TOTAL:"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/size_letter6" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCantidadTotalCompra"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingBottom="12dp"
+                            android:text="02"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingBottom="12dp"
+                            android:text="S/.175.00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/size_letter6" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingBottom="12dp"
+                            android:text="S/.220.00"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:paddingLeft="150dp"
+                            android:text="@string/ahorrado"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <ImageView
+                            android:id="@+id/ivCifraAhorrada"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:paddingLeft="10dp"
+                            tools:background="@drawable/soles45" />
+                    </LinearLayout>
+
+                    <EditText
+                        style="@style/StyledTilEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="@string/nombre_titular"
+                        android:paddingTop="20dp"
+                        android:textColorHint="@color/colorblanco"
+                        android:textSize="@dimen/size_letter6" />
+
+                    <EditText
+                        style="@style/StyledTilEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="@string/nro_tarjeta"
+                        android:textColorHint="@color/colorblanco"
+                        android:textSize="@dimen/size_letter6" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fec_vencimiento"
+                            android:textColor="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <EditText
+                            style="@style/StyledTilEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="@string/mes"
+                            android:textColorHint="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" / "
+                            android:textColor="@color/colorblanco" />
+
+                        <EditText
+                            style="@style/StyledTilEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="@string/anio"
+                            android:textColorHint="@color/colorblanco"
+                            android:textSize="@dimen/size_letter6" />
+                    </LinearLayout>
+
+                    <EditText
+                        style="@style/StyledTilEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="@string/codigo_seguridad"
+                        android:textColorHint="@color/colorblanco"
+                        android:textSize="@dimen/size_letter6" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="30dp"
+                        android:layout_weight=".15"
+                        android:orientation="horizontal"
+                        android:paddingTop="20dp"
+                        android:weightSum="1">
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight=".09">
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight=".12"
+                            android:background="@color/colorgreyBoton">
+
+                            <ImageView
+                                android:id="@+id/imgRegistroFacebook"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/ic_shopping_cart_white_24dp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight=".004"
+                            android:background="@color/colorgreyBotonDark"></FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/btnPagar"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_weight=".69"
+                            android:background="@color/colorgreyBoton">
+
+                            <TextView
+                                android:id="@+id/txtRegistroFacebook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/pagar"
+                                android:textColor="@color/colorblanco" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>

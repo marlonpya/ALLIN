@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_btnEstablecimiento"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:clickable="true"
+    android:background="@drawable/efecto_item_lista_transparente"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight=".35"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".35">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/row_iv_establecimiento_contorno"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center"
+                    tools:background="@drawable/circulo_con_lineas" />
+
+                <ImageView
+                    android:id="@+id/row_iv_establecimiento_imagen"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".65"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingEnd="10dp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp">
+
+            <TextView
+                android:id="@+id/row_tv_establecimiento_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/size_letter2"
+                android:textStyle="bold"
+                tools:text="FIESTA BLACK" />
+
+            <TextView
+                android:id="@+id/row_tv_establecimiento_fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:textColor="@color/colorblanco"
+                android:textSize="@dimen/size_letter6"
+                tools:text="Fecha : Domingo 21 de Junio 2016" />
+
+            <TextView
+                android:id="@+id/row_tv_establecimiento_hora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:textColor="@color/colorblanco"
+                android:textSize="@dimen/size_letter6"
+                tools:text="Hora : 10:00 pm" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_height="1dp"/>
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="@drawable/fondo_allin"
+    tools:context=".ListaDiscotecasActivity">
+
+    <ImageView
+        android:id="@+id/idiv_layout_lista_discoteca"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/son_toolbar" />
+
+        <include layout="@layout/toolbar_descripcion" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+                android:id="@+id/lista_eventos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rrvLayoutType="LinearLayout" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

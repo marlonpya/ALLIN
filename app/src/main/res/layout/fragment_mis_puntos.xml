@@ -1,0 +1,145 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="@drawable/fondo_allin"
+    tools:context="fragment.MisPuntosFragment">
+
+    <include layout="@layout/toolbar_descripcion" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/white"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="@string/puntos_consumo"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/size_letter8" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight=".8"
+                android:src="@drawable/puntos100" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorblanco"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/tvResultadoCarta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight=".45"
+            android:gravity="left"
+            android:textColor="@color/colorgreyBoton"
+            android:textSize="@dimen/size_letter5"
+            tools:text="35 resultados" />
+
+        <RelativeLayout
+            android:id="@+id/iv_ir_a_carrito_puntos"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_weight=".15"
+            android:background="@drawable/efecto_item_lista_transparente"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".15"
+                android:src="@drawable/icono_carrito" />
+
+            <TextView
+                android:id="@+id/tv_cantidad_productos_carrito"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="3dp"
+                android:textColor="@color/colorblanco"
+                android:textSize="@dimen/size_letter6"
+                android:textStyle="bold"
+                tools:text="14" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".4"
+            android:gravity="center">
+
+            <Spinner
+                android:id="@+id/spCarta"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorblanco"
+        android:orientation="vertical">
+
+        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+            android:id="@+id/lista_puntos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorblanco"
+            app:rrvGridLayoutSpanCount="2"
+            app:rrvIsRefreshable="false"
+            app:rrvLayoutType="Grid" />
+    </LinearLayout>
+
+</LinearLayout>
