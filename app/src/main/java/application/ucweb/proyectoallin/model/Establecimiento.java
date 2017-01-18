@@ -12,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
 public class Establecimiento extends RealmObject {
     private static final String TAG = Establecimiento.class.getSimpleName();
     public static final String ID                   = "id";
-    public static final String TIPO_EVENTO          = "tipo_evento";
+    public static final String TIPO_EVENTO          = "tipo";
 
     public static final int DISCOTECA               = 1;
     public static final int RESTAURANT              = 2;
@@ -37,7 +37,7 @@ public class Establecimiento extends RealmObject {
     private String departamento;
     private String provincia;
     private String distrito;
-    private int tipo_evento;
+    private int tipo;
     private boolean plus;
     private boolean estado;
 
@@ -238,12 +238,12 @@ public class Establecimiento extends RealmObject {
         this.distrito = distrito;
     }
 
-    public int getTipo_evento() {
-        return tipo_evento;
+    public int getTipo() {
+        return tipo;
     }
 
-    public void setTipo_evento(int tipo_evento) {
-        this.tipo_evento = tipo_evento;
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 
     public boolean isPlus() {

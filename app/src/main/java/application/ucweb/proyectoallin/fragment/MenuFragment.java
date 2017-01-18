@@ -143,7 +143,10 @@ public class MenuFragment extends Fragment implements IActividad{
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0 : startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
-                            .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, Establecimiento.DISCOTECA));
+                            .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, Establecimiento.DISCOTECA)); break;
+                            case 1 : break;
+                            case 2 : break;
+                            case 3 : break;
                         }
                     }
                 })
