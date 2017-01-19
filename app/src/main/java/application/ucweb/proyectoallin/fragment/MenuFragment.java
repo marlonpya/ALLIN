@@ -129,7 +129,10 @@ public class MenuFragment extends Fragment implements IActividad{
 
     @OnClick(R.id.btnDiscotecas)
     public void dialogoListaBuscarDiscotecas() {
-        //dialogoListaRepetida(1);
+        metodo(Establecimiento.DISCOTECA);
+    }
+
+    private void metodo(final int tipo_local) {
         ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         itemSimples.add(new ItemSimple(getString(R.string.busqueda_gps),          R.drawable.busqueda_por_gps_64px));
         itemSimples.add(new ItemSimple(getString(R.string.busqueda_distrito),     R.drawable.busqueda_por_distritos_64px));
@@ -138,13 +141,13 @@ public class MenuFragment extends Fragment implements IActividad{
 
         DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
         new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.elija_busquedad)
+                .setTitle(elija_busquedad)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0 : startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
-                            .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, Establecimiento.DISCOTECA)); break;
+                                    .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local)); break;
                             case 1 : break;
                             case 2 : break;
                             case 3 : break;
