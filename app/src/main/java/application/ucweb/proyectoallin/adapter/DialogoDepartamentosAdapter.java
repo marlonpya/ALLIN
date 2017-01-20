@@ -111,7 +111,12 @@ public class DialogoDepartamentosAdapter extends RecyclerView.Adapter<DialogoDep
                 adapter.mCallback.onMaterialListItemSelected(adapter.dialog, getAdapterPosition(), adapter.getItem(getAdapterPosition()));
                 ItemSimple item = adapter.getItem(getAdapterPosition());
                 if (item.getTitulo() != null) {
-                    MenuFragment.intentAListaDRKER(item.getTitulo(), context);
+                    MenuFragment.intentAListaDRKER(item.getTitulo(), context);/*
+                    switch (item.getTipo()){
+                        case 0: MenuFragment.dialogoListaProvincias(context, item.getId());break;
+                        case 1: MenuFragment.dialogoListaDistritos(context, item.getId());break;
+                        case 2: MenuFragment.intentAListaDRKER(item.getTitulo(), context); break;
+                    }*/
                 }
             }
         }

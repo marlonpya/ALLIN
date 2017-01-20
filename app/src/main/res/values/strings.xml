@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ALL IN</string>
 
-    <string name="key_api">AIzaSyAIyIgyqYaU-kbFrQzz1aBjpwMWn0IMUJ0</string>
+    <string name="key_api">AIzaSyBP5P6Zpi6UBcOiD0g5yM86AK92IobgZvE</string>
     <string name="facebook_app_id">1605130663121241</string>
     <string name="registrar_alling">Registrarse en ALLIN</string>
     <string name="Acerca_Allin">ACERCA DE ALLIN</string>
@@ -196,6 +196,9 @@
     <string name="normal">NORMAL</string>
     <string name="allin">ALLIN</string>
     <string name="elija_busquedad">ELIJA UN TIPO DE BUSQUEDAD</string>
+    <string name="elija_departamento">ELIJA UN DEPARTAMENTO</string>
+    <string name="elija_provincia">ELIJA UNA PROVINCIA</string>
+    <string name="elija_distrito">ELIJA UN DISTRITO</string>
 
     <!-- ARRAY DE SPINNER -->
     <string-array name="arraySexo">

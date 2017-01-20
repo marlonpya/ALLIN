@@ -2,6 +2,8 @@ package application.ucweb.proyectoallin.model;
 
 import android.util.Log;
 
+import java.io.Serializable;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -9,13 +11,13 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by ucweb02 on 21/09/2016.
  */
-public class Establecimiento extends RealmObject {
+public class Establecimiento extends RealmObject{
     private static final String TAG = Establecimiento.class.getSimpleName();
     public static final String ID                   = "id";
     public static final String TIPO_EVENTO          = "tipo";
 
     public static final int DISCOTECA               = 1;
-    public static final int RESTAURANT              = 2;
+    public static final int RESTOBAR                = 2;
     public static final int KARAOKE                 = 3;
     public static final int RECOMENDADA             = 4;
 
@@ -40,6 +42,8 @@ public class Establecimiento extends RealmObject {
     private int tipo;
     private boolean plus;
     private boolean estado;
+    private String razon_social;
+    private String ruc;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -76,6 +80,8 @@ public class Establecimiento extends RealmObject {
             insert_establecimiento.setDistrito(establecimiento.getDistrito());
             insert_establecimiento.setPlus(establecimiento.isPlus());
             insert_establecimiento.setEstado(establecimiento.isEstado());
+            insert_establecimiento.setRazon_social(establecimiento.getRazon_social());
+            insert_establecimiento.setRuc(establecimiento.getRuc());
             realm.copyToRealm(insert_establecimiento);
             Log.d(TAG, insert_establecimiento.toString());
         } else {
@@ -96,6 +102,8 @@ public class Establecimiento extends RealmObject {
             select_establecimiento.setDistrito(establecimiento.getDistrito());
             select_establecimiento.setPlus(establecimiento.isPlus());
             select_establecimiento.setEstado(establecimiento.isEstado());
+            select_establecimiento.setRazon_social(establecimiento.getRazon_social());
+            select_establecimiento.setRuc(establecimiento.getRuc());
             Log.d(TAG, select_establecimiento.toString());
         }
         realm.commitTransaction();
@@ -260,5 +268,21 @@ public class Establecimiento extends RealmObject {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public String getRazon_social() {
+        return razon_social;
+    }
+
+    public void setRazon_social(String razon_social) {
+        this.razon_social = razon_social;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
     }
 }

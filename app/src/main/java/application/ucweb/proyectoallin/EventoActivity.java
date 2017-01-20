@@ -18,6 +18,7 @@ import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
+import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindString;
 import butterknife.BindView;
@@ -40,12 +41,22 @@ public class EventoActivity extends BaseActivity {
     @BindView(R.id.iv_big_perfil_discoteca)ImageView ivBigPerfilDiscoteca;
     @BindString(R.string.dialogo_like_discoteca_no_registrada) String discoteca_no_registrada;
 
+    @BindView(R.id.txtDireccionDiscoteca) TextView txtDireccionDiscoteca;
+    @BindView(R.id.txtAforoDiscoteca) TextView txtAforoDiscoteca;
+    @BindView(R.id.txtDescripcionDiscoteca) TextView txtDescripcionDiscoteca;
+    @BindView(R.id.txtTipoMusicaDiscoteca) TextView txtTipoMusicaDiscoteca;
+
+    private Establecimiento obj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento);
         iniciarLayout();
+        //obj=(Establecimiento)getIntent().getSerializableExtra("obj");
         toolbarDiscoteca.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
+        txtDireccionDiscoteca.setText(getIntent().getStringExtra("obj"));
+        //toolbarDiscoteca.setText(obj.getNombre());
         if (getIntent().hasExtra(Constantes.K_L_ID_EVENTO)) {
             long posicion = getIntent().getLongExtra(Constantes.K_L_ID_EVENTO, -1);
             if (posicion == 0) {

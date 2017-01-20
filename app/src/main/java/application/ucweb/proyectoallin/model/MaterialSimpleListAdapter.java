@@ -86,10 +86,10 @@ public class MaterialSimpleListAdapter extends RecyclerView.Adapter<MaterialSimp
     public static class SimpleListVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.iv_row_lista_dialogo_imagen) ImageView imagen;
         @BindView(R.id.tv_row_lista_dialogo_titulo) TextView titulo;
+        @BindString(R.string.busqueda_gps) String b_gps;
         @BindString(R.string.busqueda_distrito) String b_distrito;
         @BindString(R.string.busqueda_tipomusica) String b_tipo_musica;
         @BindString(R.string.busqueda_calendario) String b_calendario;
-        @BindString(R.string.busqueda_gps) String b_gps;
         final MaterialSimpleListAdapter adapter;
         private Context context;
 
