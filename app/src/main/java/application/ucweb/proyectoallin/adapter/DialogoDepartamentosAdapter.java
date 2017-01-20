@@ -2,6 +2,7 @@ package application.ucweb.proyectoallin.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +112,8 @@ public class DialogoDepartamentosAdapter extends RecyclerView.Adapter<DialogoDep
                 adapter.mCallback.onMaterialListItemSelected(adapter.dialog, getAdapterPosition(), adapter.getItem(getAdapterPosition()));
                 ItemSimple item = adapter.getItem(getAdapterPosition());
                 if (item.getTitulo() != null) {
-                    MenuFragment.intentAListaDRKER(item.getTitulo(), context);/*
+                    Log.v("Amd", "DialogDepAdap");
+                    MenuFragment.intentAListaDRKER(item.getTitulo(), context, -1);/*
                     switch (item.getTipo()){
                         case 0: MenuFragment.dialogoListaProvincias(context, item.getId());break;
                         case 1: MenuFragment.dialogoListaDistritos(context, item.getId());break;

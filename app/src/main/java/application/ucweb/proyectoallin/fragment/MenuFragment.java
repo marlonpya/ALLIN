@@ -95,6 +95,7 @@ public class MenuFragment extends Fragment implements IActividad{
     private BannerAdapter bannerAdapter;
     private static int index_banner = 0;
     private ProgressDialog pDialog;
+    final ArrayList<ItemSimple> itemGenero = new ArrayList<>();
 
     public MenuFragment() { }
 
@@ -111,6 +112,7 @@ public class MenuFragment extends Fragment implements IActividad{
         iniciarViewPager();
         if (!isSesion()) usuarioNoRegistrado();
         //requestLocales();
+        requestGeneros();
         return view;
     }
 
@@ -161,9 +163,9 @@ public class MenuFragment extends Fragment implements IActividad{
                         dialog.dismiss();
                         switch (which) {
                             case 0 : startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
-                                    .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local)); break;
-                            case 1 : dialogoListaDepartamentos(getContext()); break;
-                            case 2 : /*dialogoTipoDeMusica2(getContext(), "Sample");*/ break;
+                                    .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local).putExtra("TIPO", 0)); break;
+                            case 1 : dialogoListaDepartamentos(getContext(), tipo_local); break;
+                            case 2 : dialogoGeneroMusica(getContext()); break;//dialogoTipoDeMusica2(getContext(), "Sample"); break;
                             case 3 : break;
                         }
                     }
@@ -243,7 +245,7 @@ public class MenuFragment extends Fragment implements IActividad{
     }
 
 
-    private void dialogoListaDepartamentos(final Context context){
+    private void dialogoListaDepartamentos(final Context context, final int tipoLocal){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Departamento> departamento = realm.where(Departamento.class).findAll();
@@ -256,14 +258,14 @@ public class MenuFragment extends Fragment implements IActividad{
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialogoListaProvincias(context, adapter.getItem(which).getId());
+                        dialogoListaProvincias(context, adapter.getItem(which).getId(), tipoLocal);
                         dialog.dismiss();
                     }
                 })
                 .show();
     }
 
-    private void dialogoListaProvincias(final Context context, int idDep){
+    private void dialogoListaProvincias(final Context context, int idDep, final int tipoLocal){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Provincia> provincia = realm.where(Provincia.class).equalTo("dep_id", idDep).findAll();
@@ -276,14 +278,14 @@ public class MenuFragment extends Fragment implements IActividad{
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialogoListarDistritos(context, adapter.getItem(which).getId());
+                        dialogoListarDistritos(context, adapter.getItem(which).getId(), tipoLocal);
                         dialog.dismiss();
                     }
                 })
                 .show();
     }
 
-    private void dialogoListarDistritos(final Context context, int idPro){
+    private void dialogoListarDistritos(final Context context, int idPro, final int tipoLocal){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Distrito> distrito = realm.where(Distrito.class).equalTo("pro_id", idPro).findAll();
@@ -296,7 +298,7 @@ public class MenuFragment extends Fragment implements IActividad{
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context);
+                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context, tipoLocal);
                         dialog.dismiss();
                     }
                 })
@@ -323,6 +325,20 @@ public class MenuFragment extends Fragment implements IActividad{
                 .show();
     }
 
+    private void dialogoGeneroMusica(final Context context){
+        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemGenero);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.elija_genero)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, itemGenero.get(which).getTitulo(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
     public static void dialogoTipoDeMusica2(Context context, String titulo) {
         final ArrayList<ItemSimple> arrayList = new ArrayList<>();
         arrayList.add(new ItemSimple("Pachanga", R.drawable.busqueda_pachanga_64px));
@@ -345,9 +361,10 @@ public class MenuFragment extends Fragment implements IActividad{
         dialog.show();
     }
 
-    public static void intentAListaDRKER(String detalle_extra, Context context) {
+    public static void intentAListaDRKER(String detalle_extra, Context context, int tipo) {
         Intent intent = new Intent(context, ListaDiscotecasActivity.class);
         intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, detalle_extra);
+        intent.putExtra("TIPO_LOCAL", tipo);
         context.startActivity(intent);
     }
 
@@ -469,5 +486,42 @@ public class MenuFragment extends Fragment implements IActividad{
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
         pDialog.setMessage(getString(R.string.actualizando));
+    }
+
+    private void requestGeneros() {
+        if (ConexionBroadcastReceiver.isConect()) {
+            BaseActivity.showDialog(pDialog);
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    Constantes.GENEROS,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d(TAG, response);
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jGeneros = jsonObject.getJSONArray("categoria");
+                                for (int i = 0; i < jGeneros.length(); i++) {
+                                    itemGenero.add(new ItemSimple(jGeneros.getJSONObject(i).getInt("GEN_ID"), jGeneros.getJSONObject(i).getString("GEN_NOMBRE"), -1, R.drawable.busqueda_alternativa_64px));
+                                }
+                                BaseActivity.hidepDialog(pDialog);
+                            } catch (JSONException e) {
+                                Log.e(TAG, e.toString(), e);
+                                BaseActivity.hidepDialog(pDialog);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.e(error.toString(), error);
+                            BaseActivity.errorConexion(getActivity());
+                            BaseActivity.hidepDialog(pDialog);
+                        }
+                    }
+            );
+            request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Configuracion.getInstance().addToRequestQueue(request, TAG);
+        }
     }
 }

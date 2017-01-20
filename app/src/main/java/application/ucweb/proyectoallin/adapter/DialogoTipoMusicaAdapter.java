@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,8 @@ public class DialogoTipoMusicaAdapter extends RecyclerView.Adapter<DialogoTipoMu
         holder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentAListaDRKER(item.getTitulo(), context);
+                Log.v("Amd", "DialogTipoMusicAdap");
+                intentAListaDRKER(item.getTitulo(), context, -1);
             }
         });
     }

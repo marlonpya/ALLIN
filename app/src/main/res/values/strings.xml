@@ -199,6 +199,7 @@
     <string name="elija_departamento">ELIJA UN DEPARTAMENTO</string>
     <string name="elija_provincia">ELIJA UNA PROVINCIA</string>
     <string name="elija_distrito">ELIJA UN DISTRITO</string>
+    <string name="elija_genero">ELIJA UN TIPO DE MUSICA</string>
 
     <!-- ARRAY DE SPINNER -->
     <string-array name="arraySexo">

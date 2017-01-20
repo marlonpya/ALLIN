@@ -1,10 +1,12 @@
 package application.ucweb.proyectoallin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,15 +16,31 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
+import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 public class EventoActivity extends BaseActivity {
     @BindView(R.id.drawer_layout) RelativeLayout layout_PerfilDiscoteca;
@@ -45,18 +63,29 @@ public class EventoActivity extends BaseActivity {
     @BindView(R.id.txtAforoDiscoteca) TextView txtAforoDiscoteca;
     @BindView(R.id.txtDescripcionDiscoteca) TextView txtDescripcionDiscoteca;
     @BindView(R.id.txtTipoMusicaDiscoteca) TextView txtTipoMusicaDiscoteca;
-
-    private Establecimiento obj;
+    public static final String TAG = EventoActivity.class.getSimpleName();
+    private ProgressDialog progressDialog;
+    private String generoMusica = "";
+    private Establecimiento local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.actualizando));
         iniciarLayout();
-        //obj=(Establecimiento)getIntent().getSerializableExtra("obj");
+        int idLocal = getIntent().getIntExtra(Constantes.K_L_ID_EVENTO, -1);
+        Realm realm = Realm.getDefaultInstance();
+        local = realm.where(Establecimiento.class).equalTo("id_server", idLocal).findFirst();
+        requestGeneroMusica();
+        Glide.with(this).load(local.getImagen()).into(ivBigPerfilDiscoteca);
         toolbarDiscoteca.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
-        txtDireccionDiscoteca.setText(getIntent().getStringExtra("obj"));
-        //toolbarDiscoteca.setText(obj.getNombre());
+        txtDireccionDiscoteca.setText(local.getDireccion());
+        txtAforoDiscoteca.setText(String.valueOf(local.getAforo()));
+        txtDescripcionDiscoteca.setText(local.getNosotros());
+
         if (getIntent().hasExtra(Constantes.K_L_ID_EVENTO)) {
             long posicion = getIntent().getLongExtra(Constantes.K_L_ID_EVENTO, -1);
             if (posicion == 0) {
@@ -77,6 +106,53 @@ public class EventoActivity extends BaseActivity {
             }
         }
     }
+
+    private void requestGeneroMusica() {
+        showDialog(progressDialog);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.GENERO_X_LOCAL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jArray = jsonObject.getJSONArray("genero");
+                            for (int i = 0; i < jArray.length(); i++) {
+                                if (i==0){
+                                    generoMusica = jArray.getJSONObject(i).getString("GEN_NOMBRE");
+                                }else {
+                                    generoMusica = generoMusica + "/" + jArray.getJSONObject(i).getString("GEN_NOMBRE");
+                                }
+                            }
+                            txtTipoMusicaDiscoteca.setText(generoMusica);
+                            Log.d(TAG, jsonObject.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString(), e);
+                        }
+                        hidepDialog(progressDialog);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e(error.toString(), error);
+                        hidepDialog(progressDialog);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("LOC_ID", String.valueOf(local.getId_server()));
+                return params;
+            }
+        };
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
+    }
+
 
     private void ver() {
         final String[] stringItems = { "1", "2", "3", "4" };
@@ -158,14 +234,18 @@ public class EventoActivity extends BaseActivity {
 
     @OnClick(R.id.btnverWeb)
     public void openWeb() {
-        Uri uriUrl = Uri.parse("http://www.uc-web.mobi/All-in-night/index.php");
+        //Uri uriUrl = Uri.parse("http://www.uc-web.mobi/All-in-night/index.php");
+        Uri uriUrl = Uri.parse("http://"+local.getUrl());
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
         startActivity(launchBrowser);
     }
 
     @OnClick(R.id.ivMarkerDiscotecaPerfilD)
     public void establecimiendoEnMapa() {
-        startActivity(new Intent(this, MapaActivity.class));
+        startActivity(new Intent(this, MapaActivity.class)
+                .putExtra("LAT", local.getLatitud())
+                .putExtra("LON", local.getLongitud())
+                .putExtra("TIPO", 1));
     }
 
     private void iniciarLayout() {

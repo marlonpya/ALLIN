@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.load.engine.Resource;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -77,10 +78,31 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         if (ConexionBroadcastReceiver.isConect()){
-            vaciarLocalesRealm();
-            requestLocalXCategoria();
+            if (getIntent().hasExtra("TIPO")){
+                switch (getIntent().getIntExtra("TIPO", -1)){
+                    case 0: mostrarLocales(); break;
+                    case 1: addSingleMarker(); break;
+                }
+            }
         }
         mGoogleMap.setMyLocationEnabled(true);
+    }
+
+    public void mostrarLocales(){
+        vaciarLocalesRealm();
+        requestLocalXCategoria();
+    }
+
+    public void addSingleMarker(){
+        double lat, lon;
+        lat=getIntent().getDoubleExtra("LAT", -1);
+        lon=getIntent().getDoubleExtra("LON", -1);
+        LatLng latLngTda = new LatLng(lat, lon);
+        mGoogleMap.addMarker(new MarkerOptions()
+                .position(latLngTda)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_allin)));
+        //fijarMapa();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngTda, 17));
     }
 
     private void requestLocalXCategoria() {
@@ -149,6 +171,8 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
+
+
     private void agregarMakers() {
         int idMarkerIcon=-1;
         switch (tipo_establecimiento){
@@ -213,8 +237,12 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
 
 
     private void fijarMapa() {
-        LatLng latLng = new LatLng(ubicacionActual.getLatitude(), ubicacionActual.getLongitude());
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        if (getIntent().hasExtra("TIPO")) {
+            if (getIntent().getIntExtra("TIPO", -1) == 0) {
+                LatLng latLng = new LatLng(ubicacionActual.getLatitude(), ubicacionActual.getLongitude());
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+            }
+        }
         fijarMapa = false;
     }
 

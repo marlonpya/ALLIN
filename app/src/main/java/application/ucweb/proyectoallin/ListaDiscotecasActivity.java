@@ -40,12 +40,13 @@ public class ListaDiscotecasActivity extends BaseActivity {
     @BindView(R.id.tvDescripcionToolbar)TextView toolbarListadiscoteca;
     @BindView(R.id.idiv_layout_lista_discoteca)ImageView ivFondoListaDiscoteca;
     public static final String TAG = ListaDiscotecasActivity.class.getSimpleName();
-    private Realm realm;
+        private Realm realm;
     private EstablecimientoRealmAdapter adapter;
     private RealmResults<Establecimiento> listaEventos;
     private ProgressDialog progressDialog;
     private String nombreDistrito;
     private Establecimiento establecimiento;
+    private int tipoLocal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class ListaDiscotecasActivity extends BaseActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.actualizando));
         nombreDistrito=getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR);
+        tipoLocal=getIntent().getIntExtra("TIPO_LOCAL", -1);
         toolbarListadiscoteca.setText(nombreDistrito);
         vaciarLocalesRealm();
         requestLocalXCategoria();
@@ -110,6 +112,7 @@ public class ListaDiscotecasActivity extends BaseActivity {
                                 local.setEstado(jArray.getJSONObject(i).getInt("LOC_ESTADO") == 1);
                                 local.setRazon_social(jArray.getJSONObject(i).getString("LOC_RAZ_SOCIAL"));
                                 local.setRuc(jArray.getJSONObject(i).getString("LOC_RUC"));
+
                                 realm.copyToRealm(local);
                                 realm.commitTransaction();
                             }
@@ -135,7 +138,7 @@ public class ListaDiscotecasActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("CAT_ID", String.valueOf(1));
+                params.put("CAT_ID", String.valueOf(tipoLocal));
                 return params;
             }
         };

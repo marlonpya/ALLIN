@@ -17,6 +17,9 @@ public class Constantes {
     public static final String DEPARTAMENTOS_TOTAL  = "http://www.uc-web.mobi/Allnight/obtenerTotalDepartamento";
     public static final String LOCALES              = "http://www.uc-web.mobi/Allnight/api/locales";
     public static final String LOCALES_X_CATEGORIA  = "http://uc-web.mobi/Allnight/api/listarLocalXCategoria";
+    public static final String GENERO_X_LOCAL       = "http://uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
+    public static final String GENEROS              = "http://uc-web.mobi/Allnight/api/generos";
+
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";

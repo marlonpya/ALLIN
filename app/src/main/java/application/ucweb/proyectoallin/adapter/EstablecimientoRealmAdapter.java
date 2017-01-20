@@ -48,8 +48,7 @@ public class EstablecimientoRealmAdapter extends RealmBasedRecyclerViewAdapter<E
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EventoActivity.class);
                 intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
-                intent.putExtra(Constantes.K_L_ID_EVENTO, item.getId());
-                intent.putExtra("obj", item.getDireccion());
+                intent.putExtra(Constantes.K_L_ID_EVENTO, item.getId_server());
                 getContext().startActivity(intent);
             }
         });
