@@ -1,5 +1,6 @@
 package application.ucweb.proyectoallin;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -7,9 +8,25 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import application.ucweb.proyectoallin.adapter.EstablecimientoRealmAdapter;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
+import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.model.Establecimiento;
+import application.ucweb.proyectoallin.model.zona.Distrito;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindView;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
@@ -26,6 +43,9 @@ public class ListaDiscotecasActivity extends BaseActivity {
     private Realm realm;
     private EstablecimientoRealmAdapter adapter;
     private RealmResults<Establecimiento> listaEventos;
+    private ProgressDialog progressDialog;
+    private String nombreDistrito;
+    private Establecimiento establecimiento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +55,99 @@ public class ListaDiscotecasActivity extends BaseActivity {
         /*if (Establecimiento.getUltimoId(1) == 0) {
             cargaDataEventosRealm();
         }*/
-        toolbarListadiscoteca.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
-        cargarRealmListas();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.actualizando));
+        nombreDistrito=getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR);
+        toolbarListadiscoteca.setText(nombreDistrito);
+        vaciarLocalesRealm();
+        requestLocalXCategoria();
     }
 
     private void cargarRealmListas() {
         realm = Realm.getDefaultInstance();
-        listaEventos = realm.where(Establecimiento.class).equalTo(Establecimiento.TIPO_EVENTO, 1).findAll();
+        listaEventos = realm.where(Establecimiento.class).equalTo("distrito", nombreDistrito).findAll();
+        for (int i = 0; i < listaEventos.size() ; i++) {
+        }
         adapter = new EstablecimientoRealmAdapter(this, listaEventos);
         lista_eventos.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+
+    private void requestLocalXCategoria() {
+        showDialog(progressDialog);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.LOCALES_X_CATEGORIA,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jArray = jsonObject.getJSONArray("local");
+                            Realm realm = Realm.getDefaultInstance();
+                            for (int i = 0; i < jArray.length(); i++) {
+                                realm.beginTransaction();
+                                Establecimiento local = realm.createObject(Establecimiento.class, Establecimiento.getUltimoId());
+                                local.setId_server(jArray.getJSONObject(i).getInt("LOC_ID"));
+                                local.setNombre(jArray.getJSONObject(i).getString("LOC_NOMBRE"));
+                                local.setDireccion(jArray.getJSONObject(i).getString("LOC_DIRECCION"));
+                                local.setLatitud(Double.parseDouble(jArray.getJSONObject(i).getString("LOC_LATITUD")));
+                                local.setLongitud(Double.parseDouble(jArray.getJSONObject(i).getString("LOC_LONGITUD")));
+                                local.setAforo(jArray.getJSONObject(i).getInt("LOC_AFORO"));
+                                local.setNosotros(jArray.getJSONObject(i).getString("LOC_NOSOTROS"));
+                                local.setUrl(jArray.getJSONObject(i).getString("LOC_URL"));
+                                //local.setGay(jArray.getJSONObject(i).getInt("LOC_GAY") == 1 ? true : false);
+                                local.setGay(jArray.getJSONObject(i).getInt("LOC_GAY") == 1);
+                                local.setFecha_inicio(jArray.getJSONObject(i).getString("LOC_FEC_INICIO"));
+                                local.setFecha_fin(jArray.getJSONObject(i).getString("LOC_FEC_FIN"));
+                                local.setDistrito(jArray.getJSONObject(i).getString("LOC_DISTRITO"));
+                                local.setProvincia(jArray.getJSONObject(i).getString("LOC_PROVINCIA"));
+                                local.setDepartamento(jArray.getJSONObject(i).getString("LOC_DEPARTAMENTO"));
+                                local.setPlus(jArray.getJSONObject(i).getInt("LOC_PLUS") == 1);
+                                local.setEstado(jArray.getJSONObject(i).getInt("LOC_ESTADO") == 1);
+                                local.setRazon_social(jArray.getJSONObject(i).getString("LOC_RAZ_SOCIAL"));
+                                local.setRuc(jArray.getJSONObject(i).getString("LOC_RUC"));
+                                realm.copyToRealm(local);
+                                realm.commitTransaction();
+                            }
+                            realm.close();
+                            //agregarMakers();
+                            cargarRealmListas();
+                            Log.d(TAG, jsonObject.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString(), e);
+                        }
+                        hidepDialog(progressDialog);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e(error.toString(), error);
+                        hidepDialog(progressDialog);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("CAT_ID", String.valueOf(1));
+                return params;
+            }
+        };
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
+    }
+
+    private void vaciarLocalesRealm() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Establecimiento> local_lista = realm.where(Establecimiento.class).findAll();
+        realm.beginTransaction();
+        local_lista.deleteAllFromRealm();
+        realm.commitTransaction();
     }
 
     /*private void cargaDataEventosRealm() {
@@ -60,7 +163,7 @@ public class ListaDiscotecasActivity extends BaseActivity {
             evento.setHora_evento("10:00pm");
             evento.setImagen(R.drawable.concierto);
             evento.setNombre_evento("");
-            evento.setTipo_evento(1);
+            evento.setTipo(1);
             evento.setAforo(10);
             evento.setCalificacion(5);
             realm.copyToRealm(evento);

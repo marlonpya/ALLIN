@@ -16,6 +16,7 @@ public class Constantes {
     public static final String INICIAR_SESION       = "http://www.uc-web.mobi/Allnight/iniciarSesion";
     public static final String DEPARTAMENTOS_TOTAL  = "http://www.uc-web.mobi/Allnight/obtenerTotalDepartamento";
     public static final String LOCALES              = "http://www.uc-web.mobi/Allnight/api/locales";
+    public static final String LOCALES_X_CATEGORIA  = "http://uc-web.mobi/Allnight/api/listarLocalXCategoria";
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";

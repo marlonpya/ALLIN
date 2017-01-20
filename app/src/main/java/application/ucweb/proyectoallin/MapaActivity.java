@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,6 +25,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
@@ -73,42 +77,17 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         if (ConexionBroadcastReceiver.isConect()){
-            requestLocal();
+            vaciarLocalesRealm();
+            requestLocalXCategoria();
         }
-            // Add a marker in Sydney and move the camera
-
-        /*LatLng sydney = new LatLng(-12.0888899, -77.0800761);
-        mGoogleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_allin)).position(sydney));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom((sydney),16));*/
-
-
-
-        /*mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(41.889, -87.622), 16));*/
-
-        /*
-        googleMap.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_disco))
-
-                .anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-                .position(new LatLng(-12.0838899, -77.0804761)));
-
-        googleMap.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_karaoke))
-                .anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-                .position(new LatLng(-12.0848899, -77.0808761)));
-
-        googleMap.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_restobar))
-                .anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-                .position(new LatLng(-12.0851899, -77.0802261)));*/
+        mGoogleMap.setMyLocationEnabled(true);
     }
 
-    private void requestLocal() {
+    private void requestLocalXCategoria() {
         showDialog(progressDialog);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                Constantes.LOCALES,
+                Constantes.LOCALES_X_CATEGORIA,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -137,6 +116,8 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                                 local.setDepartamento(jArray.getJSONObject(i).getString("LOC_DEPARTAMENTO"));
                                 local.setPlus(jArray.getJSONObject(i).getInt("LOC_PLUS") == 1);
                                 local.setEstado(jArray.getJSONObject(i).getInt("LOC_ESTADO") == 1);
+                                local.setRazon_social(jArray.getJSONObject(i).getString("LOC_RAZ_SOCIAL"));
+                                local.setRuc(jArray.getJSONObject(i).getString("LOC_RUC"));
                                 realm.copyToRealm(local);
                                 realm.commitTransaction();
                             }
@@ -157,12 +138,24 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                         hidepDialog(progressDialog);
                     }
                 }
-        );
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("CAT_ID", String.valueOf(tipo_establecimiento));
+                return params;
+            }
+        };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-
     private void agregarMakers() {
+        int idMarkerIcon=-1;
+        switch (tipo_establecimiento){
+            case Establecimiento.DISCOTECA: idMarkerIcon=R.drawable.marker_disco; break;
+            case Establecimiento.RESTOBAR: idMarkerIcon=R.drawable.marker_restobar; break;
+            case Establecimiento.KARAOKE: idMarkerIcon=R.drawable.marker_karaoke; break;
+        }
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Establecimiento> local = realm.where(Establecimiento.class).findAll();
         for (int i = 0; i < local.size(); i++) {
@@ -171,10 +164,17 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                 LatLng latLngTda = new LatLng(local.get(i).getLatitud(), local.get(i).getLongitud());
                 mGoogleMap.addMarker(new MarkerOptions()
                         .position(latLngTda)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_disco))
+                        .icon(BitmapDescriptorFactory.fromResource(idMarkerIcon))
                         .title(local.get(i).getNombre())).setTag(local.get(i));
             }
         }
+    }
+    private void vaciarLocalesRealm() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Establecimiento> local_lista = realm.where(Establecimiento.class).findAll();
+        realm.beginTransaction();
+        local_lista.deleteAllFromRealm();
+        realm.commitTransaction();
     }
 
     private class MyLocationListener implements LocationListener {

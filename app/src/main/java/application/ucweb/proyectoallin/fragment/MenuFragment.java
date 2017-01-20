@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.DefaultRetryPolicy;
@@ -30,7 +33,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,6 +59,9 @@ import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.model.ItemSimple;
 import application.ucweb.proyectoallin.model.MaterialSimpleListAdapter;
 import application.ucweb.proyectoallin.model.Usuario;
+import application.ucweb.proyectoallin.model.zona.Departamento;
+import application.ucweb.proyectoallin.model.zona.Distrito;
+import application.ucweb.proyectoallin.model.zona.Provincia;
 import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoallin.util.Constantes;
 import application.ucweb.proyectoallin.util.Preferencia;
@@ -61,6 +70,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,6 +87,9 @@ public class MenuFragment extends Fragment implements IActividad{
     @BindView(R.id.btnRestobares) ImageView btnRestobares;
     @BindView(R.id.vp_fragment_menu) ViewPager viewPager;
     @BindString(R.string.elija_busquedad) String elija_busquedad;
+    @BindString(R.string.elija_departamento) String elija_departamento;
+    @BindString(R.string.elija_provincia) String elija_provincia;
+    @BindString(R.string.elija_distrito) String elija_distrito;
     private Preferencia preferencia;
     private Realm realm;
     private BannerAdapter bannerAdapter;
@@ -97,7 +110,7 @@ public class MenuFragment extends Fragment implements IActividad{
         iniciarPDialog();
         iniciarViewPager();
         if (!isSesion()) usuarioNoRegistrado();
-        requestLocales();
+        //requestLocales();
         return view;
     }
 
@@ -145,11 +158,12 @@ public class MenuFragment extends Fragment implements IActividad{
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                         switch (which) {
                             case 0 : startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
                                     .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local)); break;
-                            case 1 : break;
-                            case 2 : break;
+                            case 1 : dialogoListaDepartamentos(getContext()); break;
+                            case 2 : /*dialogoTipoDeMusica2(getContext(), "Sample");*/ break;
                             case 3 : break;
                         }
                     }
@@ -159,12 +173,14 @@ public class MenuFragment extends Fragment implements IActividad{
 
     @OnClick(R.id.btnRestobares)
     public void dialogoListaBuscarRestobares() {
-        dialogoListaRepetida(2);
+        //dialogoListaRepetida(2);
+        metodo(Establecimiento.RESTOBAR);
     }
 
     @OnClick(R.id.btnKaraoke)
     public void dialogoListaBuscarKaraokes() {
-        dialogoListaRepetida(3);
+        //dialogoListaRepetida(3);
+        metodo(Establecimiento.KARAOKE);
     }
 
     @OnClick(R.id.btnRecomendamos)
@@ -226,29 +242,80 @@ public class MenuFragment extends Fragment implements IActividad{
         startActivity(new Intent(getActivity().getApplicationContext(), ListaRapidaActivity.class));
     }
 
-    public static void dialogoListaDepartamentos2(Context context) {
+
+    private void dialogoListaDepartamentos(final Context context){
+        final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Departamento> departamento = realm.where(Departamento.class).findAll();
+        for (int i = 0; i < departamento.size(); i++){
+            itemSimples.add(new ItemSimple((int)departamento.get(i).getId(), departamento.get(i).getNombre(), 0, R.drawable.icono_linea));
+        }
+        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(elija_departamento)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogoListaProvincias(context, adapter.getItem(which).getId());
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void dialogoListaProvincias(final Context context, int idDep){
+        final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Provincia> provincia = realm.where(Provincia.class).equalTo("dep_id", idDep).findAll();
+        for (int i = 0; i < provincia.size(); i++){
+            itemSimples.add(new ItemSimple(provincia.get(i).getId_server(), provincia.get(i).getNombre(), 0, R.drawable.icono_linea));
+        }
+        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(elija_provincia)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogoListarDistritos(context, adapter.getItem(which).getId());
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void dialogoListarDistritos(final Context context, int idPro){
+        final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Distrito> distrito = realm.where(Distrito.class).equalTo("pro_id", idPro).findAll();
+        for (int i = 0; i < distrito.size(); i++){
+            itemSimples.add(new ItemSimple(distrito.get(i).getId_server(), distrito.get(i).getNombre(), 0, R.drawable.icono_linea));
+        }
+        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(elija_distrito)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context);
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    public static void dialogoListaDepartamentos2(final Context context) {
         final DialogoDepartamentosAdapter adapter = new DialogoDepartamentosAdapter(context, new DialogoDepartamentosAdapter.Callback() {
             @Override
             public void onMaterialListItemSelected(MaterialDialog dialog, int index, ItemSimple item) {
                 dialog.dismiss();
             }
         });
-        adapter.add(new ItemSimple(context.getString(R.string.ancon), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.ate), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.barranco), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.breña), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.Carabayllo), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.Chaclacayo), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.Chorrillos), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.Cieneguilla), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.Comas), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.el_agustino), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.independencia), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.jesus_maria), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.la_molina), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.la_victoria), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.lima), R.drawable.icono_linea));
-        adapter.add(new ItemSimple(context.getString(R.string.lince), R.drawable.icono_linea));
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Departamento> departamento = realm.where(Departamento.class).findAll();
+        for (int i = 0; i < departamento.size(); i++){
+            adapter.add(new ItemSimple((int)departamento.get(i).getId(), departamento.get(i).getNombre(), 0, R.drawable.icono_linea));
+        }
 
         new MaterialDialog.Builder(context)
                 .title(context.getString(R.string.elija_busquedad))
@@ -306,7 +373,7 @@ public class MenuFragment extends Fragment implements IActividad{
                 .show();
     }
 
-    private void requestLocales() {
+    /*private void requestLocales() {
         if (ConexionBroadcastReceiver.isConect()) {
             BaseActivity.showDialog(pDialog);
             StringRequest request = new StringRequest(
@@ -360,7 +427,7 @@ public class MenuFragment extends Fragment implements IActividad{
             request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Configuracion.getInstance().addToRequestQueue(request, TAG);
         }
-    }
+    }*/
 
     private void movimientoBanner() {
         final Handler handler = new Handler();
