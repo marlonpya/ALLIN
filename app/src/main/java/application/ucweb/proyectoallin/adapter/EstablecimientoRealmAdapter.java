@@ -8,6 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Logger;
+
 import application.ucweb.proyectoallin.EventoActivity;
 import application.ucweb.proyectoallin.R;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
@@ -37,12 +42,23 @@ public class EstablecimientoRealmAdapter extends RealmBasedRecyclerViewAdapter<E
 
     @Override
     public void onBindRealmViewHolder(ViewHolder viewHolder, int i) {
+        Date d = new Date();
         final Establecimiento item = realmResults.get(i);
         BaseActivity.setImageConGlideCircular(getContext(), viewHolder.imagen, item.getImagen());
         BaseActivity.setImageConGlideCircular(getContext(), viewHolder.contorno, R.drawable.circulo_con_lineas);
         viewHolder.nombre.setText(item.getNombre());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            d = sdf.parse(item.getFecha_inicio());
+
+        } catch (ParseException ex) {
+
+        }
+/*
         viewHolder.fecha.setText("Fecha: "+item.getFecha_inicio());
-        viewHolder.hora.setText("Hora: "+item.getFecha_fin());
+        viewHolder.hora.setText("Hora: "+item.getFecha_fin());*/
+        viewHolder.fecha.setText("Fecha: " + d);
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

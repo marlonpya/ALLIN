@@ -10,6 +10,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -28,13 +29,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -48,6 +55,7 @@ import application.ucweb.proyectoallin.R;
 import application.ucweb.proyectoallin.RegistroActivity;
 import application.ucweb.proyectoallin.adapter.BannerAdapter;
 import application.ucweb.proyectoallin.adapter.DialogAdapter;
+import application.ucweb.proyectoallin.adapter.DialogDepaProvDistAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoDepartamentosAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoEventosAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoRecomendacionesAdapter;
@@ -96,6 +104,7 @@ public class MenuFragment extends Fragment implements IActividad{
     private static int index_banner = 0;
     private ProgressDialog pDialog;
     final ArrayList<ItemSimple> itemGenero = new ArrayList<>();
+    private int idGenero;
 
     public MenuFragment() { }
 
@@ -163,10 +172,10 @@ public class MenuFragment extends Fragment implements IActividad{
                         dialog.dismiss();
                         switch (which) {
                             case 0 : startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
-                                    .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local).putExtra("TIPO", 0)); break;
-                            case 1 : dialogoListaDepartamentos(getContext(), tipo_local); break;
-                            case 2 : dialogoGeneroMusica(getContext()); break;//dialogoTipoDeMusica2(getContext(), "Sample"); break;
-                            case 3 : break;
+                                    .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local).putExtra(Constantes.FILTRO, Constantes.FILTRO_GPS)); break;
+                            case 1 : dialogoListaDepartamentos(getContext(), tipo_local, Constantes.FILTRO_DISTRITO); break;
+                            case 2 : dialogoGeneroMusica(getContext(), tipo_local, Constantes.FILTRO_MUSICA); break;//dialogoTipoDeMusica2(getContext(), "Sample"); break;
+                            case 3 : dialogoCalendario(); break;
                         }
                     }
                 })
@@ -244,61 +253,95 @@ public class MenuFragment extends Fragment implements IActividad{
         startActivity(new Intent(getActivity().getApplicationContext(), ListaRapidaActivity.class));
     }
 
+    private void dialogoCalendario(){
+        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        Bundle args = new Bundle();
+        Calendar cal = Calendar.getInstance();
+        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+        caldroidFragment.setArguments(args);
+        caldroidFragment.setMinDate(new Date());
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            d = sdf.parse("2017-01-25 00:00:00");
 
-    private void dialogoListaDepartamentos(final Context context, final int tipoLocal){
+        } catch (ParseException ex) {
+
+        }
+
+        ArrayList<Date> disableDates = new ArrayList<Date>();
+        disableDates.add(d);
+        caldroidFragment.setDisableDates(disableDates);
+        CaldroidListener cl = new CaldroidListener() {
+            @Override
+            public void onSelectDate(Date date, View view) {
+                Toast.makeText(getContext(), ""+date, Toast.LENGTH_SHORT).show();
+            }
+
+        };
+        caldroidFragment.setCaldroidListener(cl);
+        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.layout_f_menu, caldroidFragment);
+        t.commit();
+    }
+
+
+
+    private void dialogoListaDepartamentos(final Context context, final int tipoLocal, final int filtro){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Departamento> departamento = realm.where(Departamento.class).findAll();
         for (int i = 0; i < departamento.size(); i++){
             itemSimples.add(new ItemSimple((int)departamento.get(i).getId(), departamento.get(i).getNombre(), 0, R.drawable.icono_linea));
         }
-        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
+        final DialogDepaProvDistAdapter adapter = new DialogDepaProvDistAdapter(getActivity(), itemSimples);
         new AlertDialog.Builder(getActivity())
                 .setTitle(elija_departamento)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialogoListaProvincias(context, adapter.getItem(which).getId(), tipoLocal);
+                        dialogoListaProvincias(context, adapter.getItem(which).getId(), tipoLocal, filtro);
                         dialog.dismiss();
                     }
                 })
                 .show();
     }
 
-    private void dialogoListaProvincias(final Context context, int idDep, final int tipoLocal){
+    private void dialogoListaProvincias(final Context context, int idDep, final int tipoLocal, final int filtro){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Provincia> provincia = realm.where(Provincia.class).equalTo("dep_id", idDep).findAll();
         for (int i = 0; i < provincia.size(); i++){
             itemSimples.add(new ItemSimple(provincia.get(i).getId_server(), provincia.get(i).getNombre(), 0, R.drawable.icono_linea));
         }
-        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
+        final DialogDepaProvDistAdapter adapter = new DialogDepaProvDistAdapter(getActivity(), itemSimples);
         new AlertDialog.Builder(getActivity())
                 .setTitle(elija_provincia)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialogoListarDistritos(context, adapter.getItem(which).getId(), tipoLocal);
+                        dialogoListarDistritos(context, adapter.getItem(which).getId(), tipoLocal, filtro);
                         dialog.dismiss();
                     }
                 })
                 .show();
     }
 
-    private void dialogoListarDistritos(final Context context, int idPro, final int tipoLocal){
+    private void dialogoListarDistritos(final Context context, int idPro, final int tipoLocal, final int filtro){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Distrito> distrito = realm.where(Distrito.class).equalTo("pro_id", idPro).findAll();
         for (int i = 0; i < distrito.size(); i++){
             itemSimples.add(new ItemSimple(distrito.get(i).getId_server(), distrito.get(i).getNombre(), 0, R.drawable.icono_linea));
         }
-        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
+        final DialogDepaProvDistAdapter adapter = new DialogDepaProvDistAdapter(getActivity(), itemSimples);
         new AlertDialog.Builder(getActivity())
                 .setTitle(elija_distrito)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context, tipoLocal);
+                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context, tipoLocal, filtro);
                         dialog.dismiss();
                     }
                 })
@@ -325,14 +368,16 @@ public class MenuFragment extends Fragment implements IActividad{
                 .show();
     }
 
-    private void dialogoGeneroMusica(final Context context){
+    private void dialogoGeneroMusica(final Context context, final int tipoLocal, final int filtro){
         final DialogAdapter adapter = new DialogAdapter(getActivity(), itemGenero);
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.elija_genero)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, itemGenero.get(which).getTitulo(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, itemGenero.get(which).getTitulo(), Toast.LENGTH_SHORT).show();
+                        idGenero=itemGenero.get(which).getId();
+                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context, tipoLocal, filtro);
                         dialog.dismiss();
                     }
                 })
@@ -361,10 +406,12 @@ public class MenuFragment extends Fragment implements IActividad{
         dialog.show();
     }
 
-    public static void intentAListaDRKER(String detalle_extra, Context context, int tipo) {
+    public void intentAListaDRKER(String detalle_extra, Context context, int tipo, int filtro) {
         Intent intent = new Intent(context, ListaDiscotecasActivity.class);
         intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, detalle_extra);
-        intent.putExtra("TIPO_LOCAL", tipo);
+        intent.putExtra(Constantes.TIPO_ESTABLECIMIENTO, tipo);
+        intent.putExtra(Constantes.FILTRO, filtro);
+        intent.putExtra(Constantes.GENERO_MUSICA, idGenero);
         context.startActivity(intent);
     }
 

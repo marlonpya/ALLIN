@@ -113,7 +113,7 @@ public class DialogoDepartamentosAdapter extends RecyclerView.Adapter<DialogoDep
                 ItemSimple item = adapter.getItem(getAdapterPosition());
                 if (item.getTitulo() != null) {
                     Log.v("Amd", "DialogDepAdap");
-                    MenuFragment.intentAListaDRKER(item.getTitulo(), context, -1);/*
+                    /*MenuFragment.intentAListaDRKER(item.getTitulo(), context, -1, -1);
                     switch (item.getTipo()){
                         case 0: MenuFragment.dialogoListaProvincias(context, item.getId());break;
                         case 1: MenuFragment.dialogoListaDistritos(context, item.getId());break;

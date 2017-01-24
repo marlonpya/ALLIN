@@ -11,7 +11,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by ucweb02 on 21/09/2016.
  */
-public class Establecimiento extends RealmObject{
+public class    Establecimiento extends RealmObject{
     private static final String TAG = Establecimiento.class.getSimpleName();
     public static final String ID                   = "id";
     public static final String TIPO_EVENTO          = "tipo";
@@ -127,7 +127,8 @@ public class Establecimiento extends RealmObject{
     }
 
     public String getImagen() {
-        return imagen;
+
+        return "http://www.uc-web.mobi/Allnight/uploads/locales/"+getId_server()+"/principal.jpg";
     }
 
     public void setImagen(String imagen) {

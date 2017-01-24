@@ -78,10 +78,10 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         if (ConexionBroadcastReceiver.isConect()){
-            if (getIntent().hasExtra("TIPO")){
-                switch (getIntent().getIntExtra("TIPO", -1)){
-                    case 0: mostrarLocales(); break;
-                    case 1: addSingleMarker(); break;
+            if (getIntent().hasExtra(Constantes.FILTRO)){
+                switch (getIntent().getIntExtra(Constantes.FILTRO, -1)){
+                    case 1: mostrarLocales(); break;
+                    case 2: addSingleMarker(); break;
                 }
             }
         }
@@ -237,8 +237,8 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
 
 
     private void fijarMapa() {
-        if (getIntent().hasExtra("TIPO")) {
-            if (getIntent().getIntExtra("TIPO", -1) == 0) {
+        if (getIntent().hasExtra(Constantes.FILTRO)) {
+            if (getIntent().getIntExtra(Constantes.FILTRO, -1) == 1) {
                 LatLng latLng = new LatLng(ubicacionActual.getLatitude(), ubicacionActual.getLongitude());
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
             }

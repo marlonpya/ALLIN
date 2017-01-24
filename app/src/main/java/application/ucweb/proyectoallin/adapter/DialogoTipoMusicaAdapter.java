@@ -20,7 +20,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static application.ucweb.proyectoallin.fragment.MenuFragment.intentAListaDRKER;
+//import static application.ucweb.proyectoallin.fragment.MenuFragment.intentAListaDRKER;
 
 /**
  * Created by ucweb02 on 27/10/2016.
@@ -49,7 +49,7 @@ public class DialogoTipoMusicaAdapter extends RecyclerView.Adapter<DialogoTipoMu
             @Override
             public void onClick(View v) {
                 Log.v("Amd", "DialogTipoMusicAdap");
-                intentAListaDRKER(item.getTitulo(), context, -1);
+                //intentAListaDRKER(item.getTitulo(), context, -1, -1);
             }
         });
     }

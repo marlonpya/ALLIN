@@ -17,6 +17,7 @@ public class Constantes {
     public static final String DEPARTAMENTOS_TOTAL  = "http://www.uc-web.mobi/Allnight/obtenerTotalDepartamento";
     public static final String LOCALES              = "http://www.uc-web.mobi/Allnight/api/locales";
     public static final String LOCALES_X_CATEGORIA  = "http://uc-web.mobi/Allnight/api/listarLocalXCategoria";
+    public static final String LOCALES_X_GENERO     = "http://uc-web.mobi/Allnight/api/listarLocalXGenero";
     public static final String GENERO_X_LOCAL       = "http://uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
     public static final String GENEROS              = "http://uc-web.mobi/Allnight/api/generos";
 
@@ -29,7 +30,7 @@ public class Constantes {
     public static final String K_I_TIPO_DRKER = "k_i_tipo_drker";
     public static final String K_S_TIPO_EXTRA = "k_s_tipo_extra";
 
-    public static final String K_S_TITULO_TOOLBAR = "k_s_titulo_toolbar";
+    public static final String  K_S_TITULO_TOOLBAR = "k_s_titulo_toolbar";
     public static final String K_L_ID_EVENTO = "k_l_id_evento";
 
     //DATOS PARA ENVIAR RUTA Y POSICION AL DETALLE DE GALLERÍA
@@ -47,4 +48,15 @@ public class Constantes {
 
     public static final String B_MOSTRAR_PROMOCION = "B_MOSTRAR_PROMOCION";
     public static final String ACTUALIZAR_TOKEN = "http://www.uc-web.mobi/Allnight/editarToken";
+
+    //TIPOS DE FILTRO
+    public static final String TIPO_ESTABLECIMIENTO = "TIPO_ESTABLECIMIENTO";
+    public static final String FILTRO = "FILTRO";
+    public static final int FILTRO_GPS = 1;
+    public static final int FILTRO_DISTRITO = 2;
+    public static final int FILTRO_MUSICA = 3;
+    public static final int FILTRO_CALENDARIO = 4;
+    public static final String GENERO_MUSICA = "GENERO_MUSICA";
+
+    public static final String TIPO_MAPA = "TIPO_MAPA";
 }

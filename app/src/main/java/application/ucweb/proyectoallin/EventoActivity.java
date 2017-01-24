@@ -67,6 +67,7 @@ public class EventoActivity extends BaseActivity {
     private ProgressDialog progressDialog;
     private String generoMusica = "";
     private Establecimiento local;
+    private int idLocal=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class EventoActivity extends BaseActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.actualizando));
         iniciarLayout();
-        int idLocal = getIntent().getIntExtra(Constantes.K_L_ID_EVENTO, -1);
+        idLocal = getIntent().getIntExtra(Constantes.K_L_ID_EVENTO, -1);
         Realm realm = Realm.getDefaultInstance();
         local = realm.where(Establecimiento.class).equalTo("id_server", idLocal).findFirst();
         requestGeneroMusica();
@@ -146,7 +147,7 @@ public class EventoActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("LOC_ID", String.valueOf(local.getId_server()));
+                params.put("LOC_ID", String.valueOf(idLocal));
                 return params;
             }
         };
@@ -245,7 +246,7 @@ public class EventoActivity extends BaseActivity {
         startActivity(new Intent(this, MapaActivity.class)
                 .putExtra("LAT", local.getLatitud())
                 .putExtra("LON", local.getLongitud())
-                .putExtra("TIPO", 1));
+                .putExtra(Constantes.FILTRO, 2));
     }
 
     private void iniciarLayout() {
