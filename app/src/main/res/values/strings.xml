@@ -367,6 +367,8 @@
     <string name="registrar_error_3">El correo ingresado ya se encuentra en uso</string>
     <string name="registrar_error_2">No se recibieron los datos necesarios</string>
     <string name="debe_iniciar_sesion">Debe iniciar sesión</string>
-
+    <string name="lista_establecimiento_vacio">Usted no tiene ningún local o evento asignado</string>
+    <string name="imagen_error">Imagen no soportada</string>
+    <string name="fb_contra_error">Se requiere el permiso de correo para registrarse</string>
 
 </resources>
