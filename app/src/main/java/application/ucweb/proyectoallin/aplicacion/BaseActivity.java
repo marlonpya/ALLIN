@@ -27,6 +27,7 @@ import java.util.List;
 
 import application.ucweb.proyectoallin.R;
 import application.ucweb.proyectoallin.util.CircleTransform;
+import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.ButterKnife;
 import io.realm.Realm;
@@ -89,15 +90,6 @@ public class BaseActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setOverflowIcon(activity.getResources().getDrawable(R.drawable.ic_more_vert_white_24dp));
     }
-
-    /*public static void setToolbarEscape(Toolbar toolbar, AppCompatActivity activity, ImageView imageView) {
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
-        activity.getSupportActionBar().setTitle("");
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-        usarGlide(activity.getApplicationContext(), R.drawable.allinnameicono, imageView);
-    }*/
 
     public static void setToolbarSonB(Toolbar toolbar, AppCompatActivity activity) {
         activity.setSupportActionBar(toolbar);
@@ -187,6 +179,18 @@ public class BaseActivity extends AppCompatActivity {
                 .setMessage(context.getString(R.string.conexion_error))
                 .setPositiveButton(R.string.aceptar, null)
                 .show();
+    }
+
+    public static void setGlide(Context context, String ruta, ImageView imageView) {
+        if (ConexionBroadcastReceiver.isConect())
+            Glide.with(context)
+                    .load(ruta)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageView);
+        else
+            usarGlide(context, ruta, imageView);
+
     }
 
 }
