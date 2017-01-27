@@ -36,14 +36,12 @@ public class NavegadorFragment extends Fragment {
     private static String TAG = NavegadorFragment.class.getSimpleName();
     @BindView(R.id.iv_imagen_usuario_navegador) ImageView imagen_usuario;
     @BindView(R.id.txtNombreUsuario) TextView nombre_usuario;
-
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavegadorAdapter adapter;
     private View containerView;
     private FragmentDrawerListener drawerListener;
-    private Realm realm;
 
     public NavegadorFragment() {}
 
@@ -169,7 +167,6 @@ public class NavegadorFragment extends Fragment {
     }
 
     private void instanciarSesion() {
-        realm = Realm.getDefaultInstance();
         Usuario usuario = Usuario.getUsuario();
         if (usuario != null ) {
             if (usuario.isSesion()) {

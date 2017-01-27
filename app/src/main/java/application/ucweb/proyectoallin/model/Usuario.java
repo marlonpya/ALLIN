@@ -21,6 +21,7 @@ public class Usuario extends RealmObject {
     private String apellido_p;
     private String apellido_m;
     private String fecha_nac;
+    private String dni;
     private String sexo;
     private String estado_civil;
     private String departamento;
@@ -47,6 +48,7 @@ public class Usuario extends RealmObject {
             user_insert.setApellido_p(usuario.getApellido_p());
             user_insert.setApellido_m(usuario.getApellido_m());
             user_insert.setFecha_nac(usuario.getFecha_nac());
+            user_insert.setDni(usuario.getDni());
             user_insert.setSexo(usuario.getSexo());
             user_insert.setEstado_civil(usuario.getEstado_civil());
             user_insert.setDepartamento(usuario.getDepartamento());
@@ -60,6 +62,7 @@ public class Usuario extends RealmObject {
             user_insert.setRecibir_oferta(usuario.isRecibir_oferta());
             user_insert.setPuntos(usuario.getPuntos());
             user_insert.setSesion(true);
+            user_insert.setOperador_movil(usuario.getOperador_movil());
             realm.copyToRealm(user_insert);
             Log.d(TAG, user_insert.toString());
         } else {
@@ -68,6 +71,7 @@ public class Usuario extends RealmObject {
             user_select.setApellido_p(usuario.getApellido_p());
             user_select.setApellido_m(usuario.getApellido_m());
             user_select.setFecha_nac(usuario.getFecha_nac());
+            user_select.setDni(usuario.getDni());
             user_select.setSexo(usuario.getSexo());
             user_select.setEstado_civil(usuario.getEstado_civil());
             user_select.setDepartamento(usuario.getDepartamento());
@@ -81,6 +85,7 @@ public class Usuario extends RealmObject {
             user_select.setRecibir_oferta(usuario.isRecibir_oferta());
             user_select.setPuntos(usuario.getPuntos());
             user_select.setSesion(true);
+            user_select.setOperador_movil(usuario.getOperador_movil());
             Log.d(TAG, user_select.toString());
         }
         realm.commitTransaction();
@@ -164,6 +169,14 @@ public class Usuario extends RealmObject {
 
     public void setFecha_nac(String fecha_nac) {
         this.fecha_nac = fecha_nac;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getSexo() {

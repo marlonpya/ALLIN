@@ -8,19 +8,20 @@ public class Constantes {
     public static final String DATOS_MOVIL =    "https://www.dropbox.com/s/bgndm508qtm1xwd/Flujo%20Final%20(ACTUAL).docx?dl=0";
 
     //RUTAS SERVICIOS
-    public static final String REGISTRAR_USUARIO    = "http://www.uc-web.mobi/Allnight/registrarUsuario";
-    public static final String EDITAR_USUARIO       = "http://www.uc-web.mobi/Allnight/editarUsuario";
-    public static final String DEPARTAMENTOS        = "http://www.uc-web.mobi/Allnight/obtenerDepartamentos";
-    public static final String PROVINCIAS           = "http://www.uc-web.mobi/Allnight/obtenerProvincias"; //dep_id
-    public static final String DISTRITOS            = "http://www.uc-web.mobi/Allnight/obtenerDistritos"; //pro_id
-    public static final String INICIAR_SESION       = "http://www.uc-web.mobi/Allnight/iniciarSesion";
-    public static final String DEPARTAMENTOS_TOTAL  = "http://www.uc-web.mobi/Allnight/obtenerTotalDepartamento";
-    public static final String LOCALES              = "http://www.uc-web.mobi/Allnight/api/locales";
-    public static final String LOCALES_X_CATEGORIA  = "http://uc-web.mobi/Allnight/api/listarLocalXCategoria";
-    public static final String LOCALES_X_GENERO     = "http://uc-web.mobi/Allnight/api/listarLocalXGenero";
-    public static final String GENERO_X_LOCAL       = "http://uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
-    public static final String GENEROS              = "http://uc-web.mobi/Allnight/api/generos";
-
+    public static final String REGISTRAR_USUARIO        = "http://www.uc-web.mobi/Allnight/registrarUsuario";
+    public static final String EDITAR_USUARIO           = "http://www.uc-web.mobi/Allnight/editarUsuario";
+    public static final String DEPARTAMENTOS            = "http://www.uc-web.mobi/Allnight/obtenerDepartamentos";
+    public static final String PROVINCIAS               = "http://www.uc-web.mobi/Allnight/obtenerProvincias"; //dep_id
+    public static final String DISTRITOS                = "http://www.uc-web.mobi/Allnight/obtenerDistritos"; //pro_id
+    public static final String INICIAR_SESION           = "http://www.uc-web.mobi/Allnight/iniciarSesion";
+    public static final String INICIAR_SESION_CORPORATIVO = "http://www.uc-web.mobi/Allnight/iniciarSesionContacto"; //correo, password
+    public static final String INICIAR_SESION_FACEBOOK  = "http://www.uc-web.mobi/Allnight/iniciarSesionFacebook"; //correo ,facbook
+    public static final String DEPARTAMENTOS_TOTAL      = "http://www.uc-web.mobi/Allnight/api/obtenerTotalDepartamento";
+    public static final String LOCALES                  = "http://www.uc-web.mobi/Allnight/api/locales";
+    public static final String LOCALES_X_CATEGORIA      = "http://uc-web.mobi/Allnight/api/listarLocalXCategoria";
+    public static final String LOCALES_X_GENERO         = "http://uc-web.mobi/Allnight/api/listarLocalXGenero";
+    public static final String GENERO_X_LOCAL           = "http://uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
+    public static final String GENEROS                  = "http://uc-web.mobi/Allnight/api/generos";
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";
@@ -30,7 +31,7 @@ public class Constantes {
     public static final String K_I_TIPO_DRKER = "k_i_tipo_drker";
     public static final String K_S_TIPO_EXTRA = "k_s_tipo_extra";
 
-    public static final String  K_S_TITULO_TOOLBAR = "k_s_titulo_toolbar";
+    public static final String K_S_TITULO_TOOLBAR = "k_s_titulo_toolbar";
     public static final String K_L_ID_EVENTO = "k_l_id_evento";
 
     //DATOS PARA ENVIAR RUTA Y POSICION AL DETALLE DE GALLERÍA
@@ -48,6 +49,14 @@ public class Constantes {
 
     public static final String B_MOSTRAR_PROMOCION = "B_MOSTRAR_PROMOCION";
     public static final String ACTUALIZAR_TOKEN = "http://www.uc-web.mobi/Allnight/editarToken";
+
+    //EXTRAS REGISTRO DE FACEBOOK
+    public static final String K_FOTO_FB = "K_FOTO_FB";
+    public static final String K_NOMBRE_FB = "K_NOMBRE_FB";
+    public static final String K_APELLIDO_FB = "K_APELLIDO_FB";
+    public static final String K_CORREO_FB = "K_CORREO_FB";
+    public static final String K_GENERO_FB = "K_GENERO_FB";
+    public static final String K_APELLIDO_M_FB = "K_APELLIDO_M_FB";
 
     //TIPOS DE FILTRO
     public static final String TIPO_ESTABLECIMIENTO = "TIPO_ESTABLECIMIENTO";
