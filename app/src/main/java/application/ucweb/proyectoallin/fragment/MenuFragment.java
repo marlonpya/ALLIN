@@ -5,12 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.DefaultRetryPolicy;
@@ -29,24 +25,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.roomorama.caldroid.CaldroidFragment;
-import com.roomorama.caldroid.CaldroidListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import application.ucweb.proyectoallin.Calendario2Activity;
 import application.ucweb.proyectoallin.ListaDiscotecasActivity;
 import application.ucweb.proyectoallin.ListaEventoActivity;
 import application.ucweb.proyectoallin.ListaRapidaActivity;
@@ -175,7 +163,7 @@ public class MenuFragment extends Fragment implements IActividad{
                                     .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local).putExtra(Constantes.FILTRO, Constantes.FILTRO_GPS)); break;
                             case 1 : dialogoListaDepartamentos(getContext(), tipo_local, Constantes.FILTRO_DISTRITO); break;
                             case 2 : dialogoGeneroMusica(getContext(), tipo_local, Constantes.FILTRO_MUSICA); break;//dialogoTipoDeMusica2(getContext(), "Sample"); break;
-                            case 3 : dialogoCalendario(); break;
+                            case 3 : dialogoCalendario(tipo_local); break;
                         }
                     }
                 })
@@ -253,7 +241,9 @@ public class MenuFragment extends Fragment implements IActividad{
         startActivity(new Intent(getActivity().getApplicationContext(), ListaRapidaActivity.class));
     }
 
-    private void dialogoCalendario(){
+    private void dialogoCalendario(int tipo_local){
+/*
+
         CaldroidFragment caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
@@ -261,29 +251,52 @@ public class MenuFragment extends Fragment implements IActividad{
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         caldroidFragment.setArguments(args);
         caldroidFragment.setMinDate(new Date());
-        Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            d = sdf.parse("2017-01-25 00:00:00");
 
-        } catch (ParseException ex) {
-
+        //ArrayList<Date> disableDates = new ArrayList<Date>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Establecimiento> local = realm.where(Establecimiento.class).findAll();
+        for (int i = 0; i < local.size(); i++){
+            if (new Date().before(local.get(i).getFechaFormato())){
+                caldroidFragment.setTextColorForDate(R.color.orange_dark, local.get(i).getFechaFormato());
+            }
         }
 
-        ArrayList<Date> disableDates = new ArrayList<Date>();
-        disableDates.add(d);
-        caldroidFragment.setDisableDates(disableDates);
+        //disableDates.add(d);
+        //caldroidFragment.setDisableDates(disableDates);
         CaldroidListener cl = new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getContext(), ""+date, Toast.LENGTH_SHORT).show();
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH)+1;
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                SimpleDateFormat y = new SimpleDateFormat("yyyy");
+                SimpleDateFormat m = new SimpleDateFormat("MM");
+                SimpleDateFormat d = new SimpleDateFormat("dd");
+                Log.v("Amd", y.format(date));
+                Log.v("Amd", m.format(date));
+                Log.v("Amd", d.format(date));
+
+*/
+/*
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+
+                     endDate = sdf.parse(year+"-"+month+"-"+day+" 23:59:59");
+                } catch (ParseException ex) {    }*//*
+
             }
 
         };
         caldroidFragment.setCaldroidListener(cl);
-        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.layout_f_menu, caldroidFragment);
         t.commit();
+*/
+        startActivity(new Intent(getActivity().getApplicationContext(), Calendario2Activity.class).putExtra(Constantes.TIPO_ESTABLECIMIENTO, tipo_local));
+
     }
 
 
