@@ -2,6 +2,7 @@ package application.ucweb.proyectoallin;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,18 +22,21 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.model.Establecimiento;
+import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoallin.util.Constantes;
 import io.realm.Realm;
@@ -40,13 +44,11 @@ import io.realm.RealmResults;
 
 public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
     public static final String TAG = MapaActivity.class.getSimpleName();
-    private RealmResults<Establecimiento> establecimientos;
-    private Realm realm;
+    private ArrayList<EstablecimientoSimple> establecimientos = new ArrayList<>();
     private GoogleMap mGoogleMap;
     private int tipo_establecimiento;
     private LocationManager locManager;
     private MyLocationListener myLocationListener;
-
     private Location ubicacionActual = new Location("");
     private ProgressDialog progressDialog;
     private boolean fijarMapa = true;
@@ -55,8 +57,6 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
-        realm = Realm.getDefaultInstance();
-
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -89,7 +89,7 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
     }
 
     public void mostrarLocales(){
-        vaciarLocalesRealm();
+            //vaciarLocalesRealm();
         requestLocalXCategoria();
     }
 
@@ -117,10 +117,8 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jArray = jsonObject.getJSONArray("local");
-                            Realm realm = Realm.getDefaultInstance();
                             for (int i = 0; i < jArray.length(); i++) {
-                                realm.beginTransaction();
-                                Establecimiento local = realm.createObject(Establecimiento.class, Establecimiento.getUltimoId());
+                                EstablecimientoSimple local = new EstablecimientoSimple();
                                 local.setId_server(jArray.getJSONObject(i).getInt("LOC_ID"));
                                 local.setNombre(jArray.getJSONObject(i).getString("LOC_NOMBRE"));
                                 local.setDireccion(jArray.getJSONObject(i).getString("LOC_DIRECCION"));
@@ -129,7 +127,6 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                                 local.setAforo(jArray.getJSONObject(i).getInt("LOC_AFORO"));
                                 local.setNosotros(jArray.getJSONObject(i).getString("LOC_NOSOTROS"));
                                 local.setUrl(jArray.getJSONObject(i).getString("LOC_URL"));
-                                //local.setGay(jArray.getJSONObject(i).getInt("LOC_GAY") == 1 ? true : false);
                                 local.setGay(jArray.getJSONObject(i).getInt("LOC_GAY") == 1);
                                 local.setFecha_inicio(jArray.getJSONObject(i).getString("LOC_FEC_INICIO"));
                                 local.setFecha_fin(jArray.getJSONObject(i).getString("LOC_FEC_FIN"));
@@ -140,10 +137,16 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                                 local.setEstado(jArray.getJSONObject(i).getInt("LOC_ESTADO") == 1);
                                 local.setRazon_social(jArray.getJSONObject(i).getString("LOC_RAZ_SOCIAL"));
                                 local.setRuc(jArray.getJSONObject(i).getString("LOC_RUC"));
-                                realm.copyToRealm(local);
-                                realm.commitTransaction();
+                                local.setLunes(jArray.getJSONObject(i).getInt("LOC_LUNES")== 1);
+                                local.setMartes(jArray.getJSONObject(i).getInt("LOC_MARTES")== 1);
+                                local.setMiercoles(jArray.getJSONObject(i).getInt("LOC_MIERCOLES")== 1);
+                                local.setJueves(jArray.getJSONObject(i).getInt("LOC_JUEVES")== 1);
+                                local.setViernes(jArray.getJSONObject(i).getInt("LOC_VIERNES")== 1);/*
+                                local.setSabado(jArray.getJSONObject(i).getInt("LOC_SABADO")== 1);
+                                local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);*/
+                                local.setPrecio(jArray.getJSONObject(i).getDouble("LOC_PRECIO"));
+                                establecimientos.add(local);
                             }
-                            realm.close();
                             agregarMakers();
                             Log.d(TAG, jsonObject.toString());
                         } catch (JSONException e) {
@@ -171,8 +174,6 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-
-
     private void agregarMakers() {
         int idMarkerIcon=-1;
         switch (tipo_establecimiento){
@@ -180,25 +181,32 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
             case Establecimiento.RESTOBAR: idMarkerIcon=R.drawable.marker_restobar; break;
             case Establecimiento.KARAOKE: idMarkerIcon=R.drawable.marker_karaoke; break;
         }
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Establecimiento> local = realm.where(Establecimiento.class).findAll();
-        for (int i = 0; i < local.size(); i++) {
-            if (local.get(i).isEstado())
+        //RealmResults<Establecimiento> local = realm.where(Establecimiento.class).findAll();
+
+
+        for (int i = 0; i < establecimientos.size(); i++) {
+            if (establecimientos.get(i).isEstado())
             {
-                LatLng latLngTda = new LatLng(local.get(i).getLatitud(), local.get(i).getLongitud());
+                LatLng latLngTda = new LatLng(establecimientos.get(i).getLatitud(), establecimientos.get(i).getLongitud());
                 mGoogleMap.addMarker(new MarkerOptions()
                         .position(latLngTda)
                         .icon(BitmapDescriptorFactory.fromResource(idMarkerIcon))
-                        .title(local.get(i).getNombre())).setTag(local.get(i));
+                        .title(establecimientos.get(i).getNombre())).setTag(establecimientos.get(i));
+
+                mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        final EstablecimientoSimple local = ((EstablecimientoSimple) marker.getTag());
+                        Intent intent = new Intent(MapaActivity.this, EventoActivity.class);
+                        intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, local.getNombre());
+                        intent.putExtra(Constantes.K_L_ID_EVENTO, local.getId_server());
+                        intent.putExtra("LOCAL", local);
+                        startActivity(intent);
+                        return false;
+                    }
+                });
             }
         }
-    }
-    private void vaciarLocalesRealm() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Establecimiento> local_lista = realm.where(Establecimiento.class).findAll();
-        realm.beginTransaction();
-        local_lista.deleteAllFromRealm();
-        realm.commitTransaction();
     }
 
     private class MyLocationListener implements LocationListener {

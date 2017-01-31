@@ -67,7 +67,6 @@ public class Constantes {
     public static final int FILTRO_MUSICA = 3;
     public static final int FILTRO_CALENDARIO = 4;
     public static final String GENERO_MUSICA = "GENERO_MUSICA";
-
     public static final String TIPO_MAPA = "TIPO_MAPA";
     //EXTRAS DIALOGO DE EVENTO
     public static final String I_EVENTO_DIALOG = "I_EVENTO_DIALOG";

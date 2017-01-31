@@ -1,6 +1,9 @@
 package application.ucweb.proyectoallin.modelparseable;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import application.ucweb.proyectoallin.model.Establecimiento;
 
@@ -45,12 +48,15 @@ public class EstablecimientoSimple implements Serializable {
     private boolean miercoles;
     private boolean jueves;
     private boolean viernes;
+    private boolean sabado;
+    private boolean domingo;
+    private double precio;
 
     public EstablecimientoSimple() { }
 
 //    private RealmList<Establecimiento> listaEventos2 =new RealmList<Establecimiento>();
 
-    public EstablecimientoSimple(long id, int id_server, String imagen, String nombre, String nombre_evento, String direccion, double latitud, double longitud, int aforo, String nosotros, String url, boolean gay, String fecha_inicio, String fecha_fin, String departamento, String provincia, String distrito, int tipo, boolean plus, boolean estado, String razon_social, String ruc, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes) {
+    public EstablecimientoSimple(long id, int id_server, String imagen, String nombre, String nombre_evento, String direccion, double latitud, double longitud, int aforo, String nosotros, String url, boolean gay, String fecha_inicio, String fecha_fin, String departamento, String provincia, String distrito, int tipo, boolean plus, boolean estado, String razon_social, String ruc, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes, boolean sabado, boolean domingo, double precio) {
         this.id = id;
         this.id_server = id_server;
         this.imagen = imagen;
@@ -78,6 +84,9 @@ public class EstablecimientoSimple implements Serializable {
         this.miercoles = miercoles;
         this.jueves = jueves;
         this.viernes = viernes;
+        this.sabado = sabado;
+        this.domingo = domingo;
+        this.precio = precio;
     }
 
     public long getId() {
@@ -97,7 +106,7 @@ public class EstablecimientoSimple implements Serializable {
     }
 
     public String getImagen() {
-        return imagen;
+        return "http://www.uc-web.mobi/Allnight/uploads/locales/"+getId_server()+"/principal.jpg";
     }
 
     public void setImagen(String imagen) {
@@ -294,5 +303,41 @@ public class EstablecimientoSimple implements Serializable {
 
     public void setViernes(boolean viernes) {
         this.viernes = viernes;
+    }
+
+    public boolean isSabado() {
+        return sabado;
+    }
+
+    public void setSabado(boolean sabado) {
+        this.sabado = sabado;
+    }
+
+    public boolean isDomingo() {
+        return domingo;
+    }
+
+    public void setDomingo(boolean domingo) {
+        this.domingo = domingo;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public Date getFechaFormato(){
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            d = sdf.parse(getFecha_inicio());
+
+        } catch (ParseException ex) {
+
+        }
+        return d;
     }
 }

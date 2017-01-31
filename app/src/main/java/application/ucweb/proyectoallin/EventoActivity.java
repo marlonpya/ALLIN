@@ -35,14 +35,17 @@ import java.util.Map;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
+import application.ucweb.proyectoallin.interfaz.IActividad;
 import application.ucweb.proyectoallin.model.Establecimiento;
+import application.ucweb.proyectoallin.model.Usuario;
+import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-public class EventoActivity extends BaseActivity {
+public class EventoActivity extends BaseActivity implements IActividad {
     @BindView(R.id.drawer_layout) RelativeLayout layout_PerfilDiscoteca;
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
@@ -66,7 +69,7 @@ public class EventoActivity extends BaseActivity {
     public static final String TAG = EventoActivity.class.getSimpleName();
     private ProgressDialog progressDialog;
     private String generoMusica = "";
-    private Establecimiento local;
+    private EstablecimientoSimple local;
     private int idLocal=-1;
 
     @Override
@@ -78,8 +81,8 @@ public class EventoActivity extends BaseActivity {
         progressDialog.setMessage(getString(R.string.actualizando));
         iniciarLayout();
         idLocal = getIntent().getIntExtra(Constantes.K_L_ID_EVENTO, -1);
-        Realm realm = Realm.getDefaultInstance();
-        local = realm.where(Establecimiento.class).equalTo("id_server", idLocal).findFirst();
+        local = (EstablecimientoSimple)getIntent().getSerializableExtra("LOCAL");
+
         requestGeneroMusica();
         Glide.with(this).load(local.getImagen()).into(ivBigPerfilDiscoteca);
         toolbarDiscoteca.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
@@ -87,9 +90,10 @@ public class EventoActivity extends BaseActivity {
         txtAforoDiscoteca.setText(String.valueOf(local.getAforo()));
         txtDescripcionDiscoteca.setText(local.getNosotros());
 
-        if (getIntent().hasExtra(Constantes.K_L_ID_EVENTO)) {
-            long posicion = getIntent().getLongExtra(Constantes.K_L_ID_EVENTO, -1);
-            if (posicion == 0) {
+        //if (getIntent().hasExtra(Constantes.K_L_ID_EVENTO)) {
+        if (!isSesion()){
+            /*long posicion = getIntent().getLongExtra(Constantes.K_L_ID_EVENTO, -1);
+            if (posicion == 0) {*/
                 BaseActivity.usarGlide(this, R.drawable.copablack, ivCartaPerfilD);
                 //ivCarta.setImageResource(R.drawable.copablack);
                 ivCartaPerfilD.setEnabled(false);
@@ -104,7 +108,7 @@ public class EventoActivity extends BaseActivity {
                 ivAgregarPerfilD.setEnabled(false);
 
                 //dialogo like
-            }
+            //}
         }
     }
 
@@ -249,7 +253,13 @@ public class EventoActivity extends BaseActivity {
                 .putExtra(Constantes.FILTRO, 2));
     }
 
-    private void iniciarLayout() {
+    @Override
+    public boolean isSesion() {
+        return Usuario.getUsuario() != null && Usuario.getUsuario().isSesion();
+    }
+
+    @Override
+    public void iniciarLayout() {
         BaseActivity.setFondoActivity(this,ivFondoPerfilD);
         BaseActivity.usarGlide(this, R.drawable.vercarta, ivCartaPerfilD);
         BaseActivity.usarGlide(this, R.drawable.apuntarme, ivApuntarmePerfilD);
@@ -261,6 +271,11 @@ public class EventoActivity extends BaseActivity {
         BaseActivity.usarGlide(this, R.drawable.ubicanos, ivMarkerDiscotecaPerfilD);
         BaseActivity.usarGlide(this,R.drawable.img_party, ivBigPerfilDiscoteca);
         BaseActivity.setToolbarSon(toolbar, this, icono_toolbar);
+    }
+
+    @Override
+    public void iniciarPDialog() {
+
     }
 
     @Override

@@ -47,7 +47,7 @@ public class Producto extends RealmObject {
             producto.setImagen_producto(arrayInt[i]);
             producto.setDescripcion_producto(array[i]);
             producto.setPuntos_allin(99);
-            producto.setPromocion(false);
+            producto.setPromocion(true);
             producto.setA_carrito(false);
             producto.setPrecio_allin(100);
             producto.setPrecio_normal(120);

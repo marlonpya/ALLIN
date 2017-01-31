@@ -2,6 +2,8 @@ package application.ucweb.proyectoallin;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,36 +21,46 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import application.ucweb.proyectoallin.adapter.EstablecimientoAdapter;
 import application.ucweb.proyectoallin.adapter.EstablecimientoRealmAdapter;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
+import application.ucweb.proyectoallin.interfaz.IActividad;
 import application.ucweb.proyectoallin.model.Establecimiento;
+import application.ucweb.proyectoallin.model.Usuario;
 import application.ucweb.proyectoallin.model.zona.Distrito;
+import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindView;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class ListaDiscotecasActivity extends BaseActivity {
+public class ListaDiscotecasActivity extends BaseActivity{
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
-    @BindView(R.id.lista_eventos)RealmRecyclerView lista_eventos;
+    @BindView(R.id.lista_eventos) RecyclerView lista_eventos;
     @BindView(R.id.tvDescripcionToolbar)TextView toolbarListadiscoteca;
     @BindView(R.id.idiv_layout_lista_discoteca)ImageView ivFondoListaDiscoteca;
     public static final String TAG = ListaDiscotecasActivity.class.getSimpleName();
-        private Realm realm;
-    private EstablecimientoRealmAdapter adapter;
-    private RealmResults<Establecimiento> listaEventos;
+    private EstablecimientoAdapter adapter;
+    private ArrayList<EstablecimientoSimple> tempList = new ArrayList<>();
+    private ArrayList<EstablecimientoSimple> listaLocales = new ArrayList<>();
     private ProgressDialog progressDialog;
-    private String nombreDistrito;
-    private Establecimiento establecimiento;
+        private String toolbarTitle;
+        private Establecimiento establecimiento;
     private int tipoLocal;
     private int tipoFiltro;
     private int tipoMusica;
+    private int diaSemana;
+    private Date dayEnd;
+    private Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,34 +73,83 @@ public class ListaDiscotecasActivity extends BaseActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.actualizando));
-        nombreDistrito=getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR);
+        toolbarTitle=getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR);
         tipoLocal=getIntent().getIntExtra(Constantes.TIPO_ESTABLECIMIENTO, -1);
         tipoFiltro=getIntent().getIntExtra(Constantes.FILTRO, -1);
         tipoMusica=getIntent().getIntExtra(Constantes.GENERO_MUSICA, -1);
-        toolbarListadiscoteca.setText(nombreDistrito);
-        vaciarLocalesRealm();
+        diaSemana = getIntent().getIntExtra("DIA", -1);/*
+        dayStart = new Date(getIntent().getLongExtra("START", -1));
+        dayEnd = new Date(getIntent().getLongExtra("END", -1));
+        date = new Date(getIntent().getLongExtra("DATE", -1));*/
+        //Log.v("Amd", dayStart.toString());
+        //Log.v("Amd", dayEnd.toString());
+        toolbarListadiscoteca.setText(toolbarTitle);
         switch (tipoFiltro){
             case Constantes.FILTRO_DISTRITO: requestLocalXCategoria();break;
             case Constantes.FILTRO_MUSICA: requestLocalXGenero();break;
+            case Constantes.FILTRO_CALENDARIO: requestLocalXCategoria();break;
         }
         //requestLocalXCategoria();
     }
 
-    private void cargarRealmListas() {
-        realm = Realm.getDefaultInstance();
-
+    private void cargarListas() {
         switch (tipoFiltro){
             case Constantes.FILTRO_DISTRITO:
-                listaEventos = realm.where(Establecimiento.class).equalTo("distrito", nombreDistrito).findAll(); break;
+                filtrarPorDistrito();
+                //listaEventos = realm.where(Establecimiento.class).equalTo("distrito", nombreDistrito).findAll(); break;
             case Constantes.FILTRO_MUSICA:
-                listaEventos = realm.where(Establecimiento.class).findAll(); break;
+                iniciarRV();
+                //listaEventos = realm.where(Establecimiento.class).findAll(); break;
+            case Constantes.FILTRO_CALENDARIO:
+                filtrarPorCalendario();
+                //getListaLocalesXCalendario();
+
         }
-        for (int i = 0; i < listaEventos.size() ; i++) {
+    }
+
+    private void filtrarPorCalendario(){
+        for (int i = 0; i < tempList.size(); i++) {
+            switch (diaSemana){
+                case 1: if (tempList.get(i).isDomingo()) listaLocales.add(tempList.get(i)); break;
+                case 2: if (tempList.get(i).isLunes()) listaLocales.add(tempList.get(i)); break;
+                case 3: if (tempList.get(i).isMartes()) listaLocales.add(tempList.get(i)); break;
+                case 4: if (tempList.get(i).isMiercoles()) listaLocales.add(tempList.get(i)); break;
+                case 5: if (tempList.get(i).isJueves()) listaLocales.add(tempList.get(i)); break;
+                case 6: if (tempList.get(i).isViernes()) listaLocales.add(tempList.get(i)); break;
+                case 7: if (tempList.get(i).isSabado()) listaLocales.add(tempList.get(i)); break;
+            }
         }
-        adapter = new EstablecimientoRealmAdapter(this, listaEventos);
+        iniciarRV();
+    }
+
+    private void filtrarPorDistrito(){
+        for (int i = 0; i < tempList.size(); i++) {
+            if (tempList.get(i).getDistrito().equals(toolbarTitle)){
+                listaLocales.add(tempList.get(i));
+            }
+        }
+        iniciarRV();
+    }
+    private void iniciarRV(){
+        adapter = new EstablecimientoAdapter(this, listaLocales);
+        lista_eventos.setHasFixedSize(true);
+        lista_eventos.setLayoutManager(new LinearLayoutManager(this));
         lista_eventos.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
+
+/*
+
+    private void getListaLocalesXCalendario(){
+        RealmResults<Establecimiento> tempList = realm.where(Establecimiento.class).findAll();
+        ArrayList<Establecimiento> listE = new ArrayList<>();
+        for (int i = 0; i < tempList.size(); i++) {
+            //TODO comparar fechas
+            listE.add(tempList.get(i));
+        }
+        //listaEventos=listE;
+    }
+*/
 
 
     private void requestLocalXCategoria() {
@@ -103,10 +164,8 @@ public class ListaDiscotecasActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jArray = jsonObject.getJSONArray("local");
-                            Realm realm = Realm.getDefaultInstance();
                             for (int i = 0; i < jArray.length(); i++) {
-                                realm.beginTransaction();
-                                Establecimiento local = realm.createObject(Establecimiento.class, Establecimiento.getUltimoId());
+                                EstablecimientoSimple local = new EstablecimientoSimple();
                                 local.setId_server(jArray.getJSONObject(i).getInt("LOC_ID"));
                                 local.setNombre(jArray.getJSONObject(i).getString("LOC_NOMBRE"));
                                 local.setDireccion(jArray.getJSONObject(i).getString("LOC_DIRECCION"));
@@ -126,13 +185,17 @@ public class ListaDiscotecasActivity extends BaseActivity {
                                 local.setEstado(jArray.getJSONObject(i).getInt("LOC_ESTADO") == 1);
                                 local.setRazon_social(jArray.getJSONObject(i).getString("LOC_RAZ_SOCIAL"));
                                 local.setRuc(jArray.getJSONObject(i).getString("LOC_RUC"));
-
-                                realm.copyToRealm(local);
-                                realm.commitTransaction();
+                                local.setLunes(jArray.getJSONObject(i).getInt("LOC_LUNES")== 1);
+                                local.setMartes(jArray.getJSONObject(i).getInt("LOC_MARTES")== 1);
+                                local.setMiercoles(jArray.getJSONObject(i).getInt("LOC_MIERCOLES")== 1);
+                                local.setJueves(jArray.getJSONObject(i).getInt("LOC_JUEVES")== 1);
+                                local.setViernes(jArray.getJSONObject(i).getInt("LOC_VIERNES")== 1);/*
+                                local.setSabado(jArray.getJSONObject(i).getInt("LOC_SABADO")== 1);
+                                local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);*/
+                                local.setPrecio(jArray.getJSONObject(i).getDouble("LOC_PRECIO"));
+                                tempList.add(local);
                             }
-                            realm.close();
-                            //agregarMakers();
-                            cargarRealmListas();
+                            cargarListas();
                             Log.d(TAG, jsonObject.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,10 +234,8 @@ public class ListaDiscotecasActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jArray = jsonObject.getJSONArray("local");
-                            Realm realm = Realm.getDefaultInstance();
                             for (int i = 0; i < jArray.length(); i++) {
-                                realm.beginTransaction();
-                                Establecimiento local = realm.createObject(Establecimiento.class, Establecimiento.getUltimoId());
+                                EstablecimientoSimple local = new EstablecimientoSimple();
                                 local.setId_server(jArray.getJSONObject(i).getInt("LOC_ID"));
                                 local.setNombre(jArray.getJSONObject(i).getString("LOC_NOMBRE"));
                                 local.setDireccion(jArray.getJSONObject(i).getString("LOC_DIRECCION"));
@@ -194,13 +255,17 @@ public class ListaDiscotecasActivity extends BaseActivity {
                                 local.setEstado(jArray.getJSONObject(i).getInt("LOC_ESTADO") == 1);
                                 local.setRazon_social(jArray.getJSONObject(i).getString("LOC_RAZ_SOCIAL"));
                                 local.setRuc(jArray.getJSONObject(i).getString("LOC_RUC"));
-
-                                realm.copyToRealm(local);
-                                realm.commitTransaction();
+                                local.setLunes(jArray.getJSONObject(i).getInt("LOC_LUNES")== 1);
+                                local.setMartes(jArray.getJSONObject(i).getInt("LOC_MARTES")== 1);
+                                local.setMiercoles(jArray.getJSONObject(i).getInt("LOC_MIERCOLES")== 1);
+                                local.setJueves(jArray.getJSONObject(i).getInt("LOC_JUEVES")== 1);
+                                local.setViernes(jArray.getJSONObject(i).getInt("LOC_VIERNES")== 1);/*
+                                local.setSabado(jArray.getJSONObject(i).getInt("LOC_SABADO")== 1);
+                                local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);*/
+                                local.setPrecio(jArray.getJSONObject(i).getDouble("LOC_PRECIO"));
+                                listaLocales.add(local);
                             }
-                            realm.close();
-                            //agregarMakers();
-                            cargarRealmListas();
+                            cargarListas();
                             Log.d(TAG, jsonObject.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -228,14 +293,6 @@ public class ListaDiscotecasActivity extends BaseActivity {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-    private void vaciarLocalesRealm() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Establecimiento> local_lista = realm.where(Establecimiento.class).findAll();
-        realm.beginTransaction();
-        local_lista.deleteAllFromRealm();
-        realm.commitTransaction();
-    }
-
     /*private void cargaDataEventosRealm() {
         realm = Realm.getDefaultInstance();
         String[] strArray = new String[]{"FIESTA BLACK", "SALSA VS REGUETON", "FIESTA DE PISCO", "FIESTA SEMÁFORO"};
@@ -259,11 +316,10 @@ public class ListaDiscotecasActivity extends BaseActivity {
         } Log.d(TAG, "cargaDataEventosRealm/");
     }*/
 
-    private void iniciarLayout() {
+    public void iniciarLayout() {
         setFondoActivity(this, ivFondoListaDiscoteca);
         setToolbarSon(toolbar, this, icono_toolbar);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackPressed();

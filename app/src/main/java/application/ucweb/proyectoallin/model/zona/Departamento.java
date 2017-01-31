@@ -64,4 +64,14 @@ public class Departamento extends RealmObject {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public static int getIdDepartamento(String nombre) {
+        int id = -1;
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Departamento> departamentos = realm.where(Departamento.class).findAll();
+        for (int i = 0; i < departamentos.size(); i++) {
+            if (departamentos.get(i).getNombre().equalsIgnoreCase(nombre)) id = (int) departamentos.get(i).getId();
+        }
+        return id;
+    }
 }

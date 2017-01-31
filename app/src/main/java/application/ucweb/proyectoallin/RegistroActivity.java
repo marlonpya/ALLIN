@@ -112,7 +112,7 @@ public class RegistroActivity extends BaseActivity {
         } else Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT).show();
     }
 
-    @OnClick(R.id.ivBtnImagenRegistro)
+    @OnClick(R.id.ivImagenRegistro)
     public void cargarImagen() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)

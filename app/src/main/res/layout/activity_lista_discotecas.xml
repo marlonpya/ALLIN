@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/lista_eventos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

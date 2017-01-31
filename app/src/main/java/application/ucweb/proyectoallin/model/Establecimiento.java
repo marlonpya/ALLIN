@@ -3,6 +3,9 @@ package application.ucweb.proyectoallin.model;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -11,7 +14,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by ucweb02 on 21/09/2016.
  */
-public class    Establecimiento extends RealmObject{
+public class Establecimiento extends RealmObject{
     private static final String TAG = Establecimiento.class.getSimpleName();
     public static final String ID                   = "id";
     public static final String TIPO_EVENTO          = "tipo";
@@ -44,6 +47,11 @@ public class    Establecimiento extends RealmObject{
     private boolean estado;
     private String razon_social;
     private String ruc;
+    private boolean lunes;
+    private boolean martes;
+    private boolean miercoles;
+    private boolean jueves;
+    private boolean viernes;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -285,5 +293,57 @@ public class    Establecimiento extends RealmObject{
 
     public void setRuc(String ruc) {
         this.ruc = ruc;
+    }
+
+    public Date getFechaFormato(){
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            d = sdf.parse(getFecha_inicio());
+
+        } catch (ParseException ex) {
+
+        }
+        return d;
+    }
+
+    public boolean isLunes() {
+        return lunes;
+    }
+
+    public void setLunes(boolean lunes) {
+        this.lunes = lunes;
+    }
+
+    public boolean isMartes() {
+        return martes;
+    }
+
+    public void setMartes(boolean martes) {
+        this.martes = martes;
+    }
+
+    public boolean isMiercoles() {
+        return miercoles;
+    }
+
+    public void setMiercoles(boolean miercoles) {
+        this.miercoles = miercoles;
+    }
+
+    public boolean isJueves() {
+        return jueves;
+    }
+
+    public void setJueves(boolean jueves) {
+        this.jueves = jueves;
+    }
+
+    public boolean isViernes() {
+        return viernes;
+    }
+
+    public void setViernes(boolean viernes) {
+        this.viernes = viernes;
     }
 }

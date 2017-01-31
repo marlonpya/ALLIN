@@ -51,7 +51,7 @@ public class DialogDepaProvDistAdapter extends ArrayAdapter<ItemSimple>{
     static class ViewHolder {
         @BindView(R.id.iv_row_dialog_adapter_imagen) ImageView imagen;
         @BindView(R.id.tv_row_dialog_adapter_texto) TextView texto;
-        public ViewHolder(View itemView) {
+                public ViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
         }
     }

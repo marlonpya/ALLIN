@@ -48,17 +48,10 @@ public class EstablecimientoRealmAdapter extends RealmBasedRecyclerViewAdapter<E
         BaseActivity.setImageConGlideCircular(getContext(), viewHolder.contorno, R.drawable.circulo_con_lineas);
         viewHolder.nombre.setText(item.getNombre());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            d = sdf.parse(item.getFecha_inicio());
-
-        } catch (ParseException ex) {
-
-        }
 /*
         viewHolder.fecha.setText("Fecha: "+item.getFecha_inicio());
         viewHolder.hora.setText("Hora: "+item.getFecha_fin());*/
-        viewHolder.fecha.setText("Fecha: " + d);
+        viewHolder.fecha.setText("Fecha: " + item.getFechaFormato());
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -356,7 +356,7 @@
     <string name="tarjeta_credito">Tarjeta de crédito/débito</string>
     <string name="medio_pago">MEDIO DE PAGO</string>
     <string name="cargando">Cargando..</string>
-    <string name="enviando_peticion" >Enviando petición..</string>
+    <string name="enviando_peticion">Enviando petición..</string>
     <string name="actualizando">Actualizando..</string>
     <string name="campos_vacios">Se requiere todos los campos</string>
     <string name="registrar_error">Ocurrió un error al registrar, vuelva a intentarlo.</string>
