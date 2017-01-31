@@ -22,6 +22,7 @@ public class Constantes {
     public static final String LOCALES_X_GENERO         = "http://uc-web.mobi/Allnight/api/listarLocalXGenero";
     public static final String GENERO_X_LOCAL           = "http://uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
     public static final String GENEROS                  = "http://uc-web.mobi/Allnight/api/generos";
+    public static final String EVENTOS                  = "http://www.uc-web.mobi/Allnight/api/getEventos";
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";
@@ -68,4 +69,9 @@ public class Constantes {
     public static final String GENERO_MUSICA = "GENERO_MUSICA";
 
     public static final String TIPO_MAPA = "TIPO_MAPA";
+    //EXTRAS DIALOGO DE EVENTO
+    public static final String I_EVENTO_DIALOG = "I_EVENTO_DIALOG";
+
+    //Extra Titulo toolbar
+    public static final String S_EVENTO_TOOLBAR = "S_EVENTO_TOOLBAR";
 }

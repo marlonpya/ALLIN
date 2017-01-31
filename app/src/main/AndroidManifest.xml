@@ -46,6 +46,7 @@
         <activity android:name=".CalendarioActivity" />
         <activity android:name=".ListaCompraActivity" />
         <activity android:name=".DetalleCompraActivity" />
+        <activity android:name=".Calendario2Activity" />
 
         <service android:name=".apis.firebase.FcmInstanceIdService">
             <intent-filter>
@@ -67,6 +68,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
     </application>
 
 </manifest>

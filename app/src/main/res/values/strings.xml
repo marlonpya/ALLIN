@@ -370,5 +370,7 @@
     <string name="lista_establecimiento_vacio">Usted no tiene ningún local o evento asignado</string>
     <string name="imagen_error">Imagen no soportada</string>
     <string name="fb_contra_error">Se requiere el permiso de correo para registrarse</string>
+    <string name="actualizacion_ok">Actualizado correctament</string>
+    <string name="eventos_not_found">No se encontraron eventos para esta categoría</string>
 
 </resources>

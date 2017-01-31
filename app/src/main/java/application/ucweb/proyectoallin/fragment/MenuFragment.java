@@ -10,13 +10,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.DefaultRetryPolicy;
@@ -47,17 +47,16 @@ import application.ucweb.proyectoallin.adapter.DialogDepaProvDistAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoDepartamentosAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoEventosAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoRecomendacionesAdapter;
-import application.ucweb.proyectoallin.adapter.DialogoTipoMusicaAdapter;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
 import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.model.ItemSimple;
-import application.ucweb.proyectoallin.model.MaterialSimpleListAdapter;
 import application.ucweb.proyectoallin.model.Usuario;
 import application.ucweb.proyectoallin.model.zona.Departamento;
 import application.ucweb.proyectoallin.model.zona.Distrito;
 import application.ucweb.proyectoallin.model.zona.Provincia;
+import application.ucweb.proyectoallin.modelparseable.EventoSimple;
 import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoallin.util.Constantes;
 import application.ucweb.proyectoallin.util.Preferencia;
@@ -200,39 +199,35 @@ public class MenuFragment extends Fragment implements IActividad{
 
     @OnClick(R.id.btnEventosEspeciales)
     public void dialogoListaEventosE() {
-        final DialogoEventosAdapter adapter = new DialogoEventosAdapter(getActivity(), new DialogoDepartamentosAdapter.Callback() {
-            @Override
-            public void onMaterialListItemSelected(MaterialDialog dialog, int index, ItemSimple item) {
-                dialog.dismiss();
-            }
-        });
-        adapter.add(new ItemSimple(getString(R.string.eventos_fiestas), R.drawable.busqueda_fiestas_64px));
-        adapter.add(new ItemSimple(getString(R.string.eventos_conciertos), R.drawable.busqueda_vip_pass_64px));
-        adapter.add(new ItemSimple(getString(R.string.eventos_otroseventos), R.drawable.busqueda_otros_eventos_64px));
-        adapter.add(new ItemSimple(getString(R.string.eventos_calendario), R.drawable.busquedad_calendario));
-        adapter.add(new ItemSimple(getString(R.string.eventos_vertodo), R.drawable.busqueda_ver_todo_64px));
-
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.elija_busquedad))
-                .adapter(adapter, null)
-                .show();
-    }
-
-    private void dialogoListaRepetida(int tipo) {
-        final MaterialSimpleListAdapter adapter = new MaterialSimpleListAdapter(getActivity(), new MaterialSimpleListAdapter.Callback() {
-            @Override
-            public void onMaterialListItemSelected(MaterialDialog dialog, int index, ItemSimple item) {
-                dialog.dismiss();
-            }
-        });
-        adapter.add(new ItemSimple(getString(R.string.busqueda_gps),          R.drawable.busqueda_por_gps_64px));
-        adapter.add(new ItemSimple(getString(R.string.busqueda_distrito),     R.drawable.busqueda_por_distritos_64px));
-        adapter.add(new ItemSimple(getString(R.string.busqueda_tipomusica),   R.drawable.busqueda_por_tipomusica_64px));
-        adapter.add(new ItemSimple(getString(R.string.busqueda_calendario),   R.drawable.busquedad_calendario));
-
-        new MaterialDialog.Builder(getActivity())
-                .title(elija_busquedad)
-                .adapter(adapter, null )
+        final ArrayList<ItemSimple> items = new ArrayList<>();
+        items.add(new ItemSimple(getString(R.string.eventos_fiestas), R.drawable.busqueda_fiestas_64px));
+        items.add(new ItemSimple(getString(R.string.eventos_conciertos), R.drawable.busqueda_vip_pass_64px));
+        items.add(new ItemSimple(getString(R.string.eventos_otroseventos), R.drawable.busqueda_otros_eventos_64px));
+        items.add(new ItemSimple(getString(R.string.eventos_calendario), R.drawable.busquedad_calendario));
+        items.add(new ItemSimple(getString(R.string.eventos_vertodo), R.drawable.busqueda_ver_todo_64px));
+        final DialogAdapter adapter = new DialogAdapter(getActivity(), items);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.busqueda_titulo)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (ConexionBroadcastReceiver.isConect()) {
+                            Intent intent = new Intent(getActivity(), ListaEventoActivity.class)
+                                    .putExtra(Constantes.S_EVENTO_TOOLBAR, "EVENTOS");
+                            switch (which) {
+                                case 0 : intent.putExtra(Constantes.I_EVENTO_DIALOG, EventoSimple.FIESTA) ; break;
+                                case 1 : intent.putExtra(Constantes.I_EVENTO_DIALOG, EventoSimple.CONCIERTO); break;
+                                case 2 : intent.putExtra(Constantes.I_EVENTO_DIALOG, EventoSimple.OTROS); break;
+                                case 3 : startActivity(new Intent(getActivity(), Calendario2Activity.class)
+                                        .putExtra(Constantes.TIPO_ESTABLECIMIENTO, Establecimiento.TIPO_EVENTO)); break;
+                                case 4 : intent.putExtra(Constantes.I_EVENTO_DIALOG, EventoSimple.TODOS); break;
+                            }
+                            if (which != 3) startActivity(intent);
+                        } else
+                            Toast.makeText(getActivity(), "Lo sentimos no cuenta con Iternet", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .show();
     }
 
@@ -242,64 +237,9 @@ public class MenuFragment extends Fragment implements IActividad{
     }
 
     private void dialogoCalendario(int tipo_local){
-/*
-
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
-        Bundle args = new Bundle();
-        Calendar cal = Calendar.getInstance();
-        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
-        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
-        caldroidFragment.setArguments(args);
-        caldroidFragment.setMinDate(new Date());
-
-        //ArrayList<Date> disableDates = new ArrayList<Date>();
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Establecimiento> local = realm.where(Establecimiento.class).findAll();
-        for (int i = 0; i < local.size(); i++){
-            if (new Date().before(local.get(i).getFechaFormato())){
-                caldroidFragment.setTextColorForDate(R.color.orange_dark, local.get(i).getFechaFormato());
-            }
-        }
-
-        //disableDates.add(d);
-        //caldroidFragment.setDisableDates(disableDates);
-        CaldroidListener cl = new CaldroidListener() {
-            @Override
-            public void onSelectDate(Date date, View view) {
-                Toast.makeText(getContext(), ""+date, Toast.LENGTH_SHORT).show();
-                Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH)+1;
-                int day = c.get(Calendar.DAY_OF_MONTH);
-
-                SimpleDateFormat y = new SimpleDateFormat("yyyy");
-                SimpleDateFormat m = new SimpleDateFormat("MM");
-                SimpleDateFormat d = new SimpleDateFormat("dd");
-                Log.v("Amd", y.format(date));
-                Log.v("Amd", m.format(date));
-                Log.v("Amd", d.format(date));
-
-*/
-/*
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                try {
-
-                     endDate = sdf.parse(year+"-"+month+"-"+day+" 23:59:59");
-                } catch (ParseException ex) {    }*//*
-
-            }
-
-        };
-        caldroidFragment.setCaldroidListener(cl);
-        android.support.v4.app.FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.layout_f_menu, caldroidFragment);
-        t.commit();
-*/
-        startActivity(new Intent(getActivity().getApplicationContext(), Calendario2Activity.class).putExtra(Constantes.TIPO_ESTABLECIMIENTO, tipo_local));
-
+        startActivity(new Intent(getActivity().getApplicationContext(), Calendario2Activity.class)
+                .putExtra(Constantes.TIPO_ESTABLECIMIENTO, tipo_local));
     }
-
-
 
     private void dialogoListaDepartamentos(final Context context, final int tipoLocal, final int filtro){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
@@ -361,26 +301,6 @@ public class MenuFragment extends Fragment implements IActividad{
                 .show();
     }
 
-    public static void dialogoListaDepartamentos2(final Context context) {
-        final DialogoDepartamentosAdapter adapter = new DialogoDepartamentosAdapter(context, new DialogoDepartamentosAdapter.Callback() {
-            @Override
-            public void onMaterialListItemSelected(MaterialDialog dialog, int index, ItemSimple item) {
-                dialog.dismiss();
-            }
-        });
-
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Departamento> departamento = realm.where(Departamento.class).findAll();
-        for (int i = 0; i < departamento.size(); i++){
-            adapter.add(new ItemSimple((int)departamento.get(i).getId(), departamento.get(i).getNombre(), 0, R.drawable.icono_linea));
-        }
-
-        new MaterialDialog.Builder(context)
-                .title(context.getString(R.string.elija_busquedad))
-                .adapter(adapter, null)
-                .show();
-    }
-
     private void dialogoGeneroMusica(final Context context, final int tipoLocal, final int filtro){
         final DialogAdapter adapter = new DialogAdapter(getActivity(), itemGenero);
         new AlertDialog.Builder(getActivity())
@@ -395,28 +315,6 @@ public class MenuFragment extends Fragment implements IActividad{
                     }
                 })
                 .show();
-    }
-
-    public static void dialogoTipoDeMusica2(Context context, String titulo) {
-        final ArrayList<ItemSimple> arrayList = new ArrayList<>();
-        arrayList.add(new ItemSimple("Pachanga", R.drawable.busqueda_pachanga_64px));
-        arrayList.add(new ItemSimple("Salsa", R.drawable.busqueda_salsa_64px));
-        arrayList.add(new ItemSimple("Electronica", R.drawable.busqueda_electronica_64px));
-        arrayList.add(new ItemSimple("Alternativa", R.drawable.busqueda_alternativa_64px));
-
-        final MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .title(titulo)
-                .adapter(new DialogoTipoMusicaAdapter(context,arrayList), null)
-                .build();
-
-        RecyclerView recyclerView = dialog.getRecyclerView();
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
     }
 
     public void intentAListaDRKER(String detalle_extra, Context context, int tipo, int filtro) {
@@ -442,69 +340,12 @@ public class MenuFragment extends Fragment implements IActividad{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        startActivity(new Intent(getActivity().getApplicationContext(), RegistroActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        startActivity(new Intent(getActivity().getApplicationContext(), RegistroActivity.class));
                     }
                 })
                 .setNegativeButton(R.string.cancelar, null)
                 .show();
     }
-
-    /*private void requestLocales() {
-        if (ConexionBroadcastReceiver.isConect()) {
-            BaseActivity.showDialog(pDialog);
-            StringRequest request = new StringRequest(
-                    Request.Method.POST,
-                    Constantes.LOCALES,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d(TAG, response);
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jLocales = jsonObject.getJSONArray("local");
-                                for (int i = 0; i < jLocales.length(); i++) {
-                                    Establecimiento establecimiento = new Establecimiento();
-                                    establecimiento.setId(Establecimiento.getUltimoId());
-                                    establecimiento.setId_server(jLocales.getJSONObject(i).getInt("LOC_ID"));
-                                    establecimiento.setImagen(""); //TODO: FALTA IMAGEN
-                                    establecimiento.setNombre(jLocales.getJSONObject(i).getString("LOC_NOMBRE"));
-                                    establecimiento.setDireccion(jLocales.getJSONObject(i).getString("LOC_DIRECCION"));
-                                    establecimiento.setLatitud(jLocales.getJSONObject(i).getDouble("LOC_LATITUD"));
-                                    establecimiento.setLongitud(jLocales.getJSONObject(i).getDouble("LOC_LONGITUD"));
-                                    establecimiento.setAforo(jLocales.getJSONObject(i).getInt("LOC_AFORO"));
-                                    establecimiento.setNosotros(jLocales.getJSONObject(i).getString("LOC_NOSOTROS"));
-                                    establecimiento.setUrl(jLocales.getJSONObject(i).getString("LOC_URL"));
-                                    establecimiento.setGay(jLocales.getJSONObject(i).getInt("LOC_GAY") == 1);
-                                    establecimiento.setFecha_inicio(jLocales.getJSONObject(i).getString("LOC_FEC_INICIO"));
-                                    establecimiento.setFecha_fin(jLocales.getJSONObject(i).getString("LOC_FEC_FIN"));
-                                    establecimiento.setDepartamento(jLocales.getJSONObject(i).getString("LOC_DEPARTAMENTO"));
-                                    establecimiento.setProvincia(jLocales.getJSONObject(i).getString("LOC_PROVINCIA"));
-                                    establecimiento.setDistrito(jLocales.getJSONObject(i).getString("LOC_DISTRITO"));
-                                    establecimiento.setPlus(jLocales.getJSONObject(i).getInt("LOC_PLUS") == 1);
-                                    establecimiento.setEstado(jLocales.getJSONObject(i).getInt("LOC_ESTADO") == 1);
-                                    Establecimiento.insertOrUpdate(establecimiento);
-                                }
-                                BaseActivity.hidepDialog(pDialog);
-                            } catch (JSONException e) {
-                                Log.e(TAG, e.toString(), e);
-                                BaseActivity.hidepDialog(pDialog);
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            VolleyLog.e(error.toString(), error);
-                            BaseActivity.errorConexion(getActivity());
-                            BaseActivity.hidepDialog(pDialog);
-                        }
-                    }
-            );
-            request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            Configuracion.getInstance().addToRequestQueue(request, TAG);
-        }
-    }*/
 
     private void movimientoBanner() {
         final Handler handler = new Handler();

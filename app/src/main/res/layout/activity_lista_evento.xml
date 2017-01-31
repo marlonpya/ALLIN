@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_activity_lista_evento"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -29,12 +30,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
-                android:id="@+id/lista_eventos"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_lista_eventos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@color/colorblanco"
-                app:rrvLayoutType="LinearLayout" />
+                android:layout_height="match_parent"
+                android:divider="@color/colorblanco" />
         </LinearLayout>
     </LinearLayout>
 

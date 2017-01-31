@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -205,7 +206,6 @@ public class EditarPerfilFragment extends Fragment implements IActividad {
                 ConexionBroadcastReceiver.showSnack(layout, getActivity());
         } else
             Toast.makeText(getActivity().getApplicationContext(), R.string.campos_vacios, Toast.LENGTH_SHORT).show();
-
     }
 
     @OnClick(R.id.ivImagenEditar)
@@ -258,6 +258,8 @@ public class EditarPerfilFragment extends Fragment implements IActividad {
         etCorreo.setText(usuario.getCorreo());
         BaseActivity.setGlide(getActivity(), usuario.getFoto(), ivImagen);
         if (usuario.isRecibir_oferta()) rbSiRecibir.setChecked(true); else rbNoRecibir.setChecked(true);
+        etFechaNac.setEnabled(false);
+        etCorreo.setEnabled(false);
     }
 
     @OnItemSelected(R.id.spDepartamentoEditar)
@@ -328,6 +330,7 @@ public class EditarPerfilFragment extends Fragment implements IActividad {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d(TAG, response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             int codigo = jsonObject.getInt("codigo");
@@ -356,6 +359,11 @@ public class EditarPerfilFragment extends Fragment implements IActividad {
                                 realm.commitTransaction();
                                 realm.close();
                                 hidepDialog(pDialog);
+                                new AlertDialog.Builder(getActivity())
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(getString(R.string.actualizacion_ok))
+                                        .setPositiveButton(R.string.aceptar, null)
+                                        .show();
                             } else if (codigo == 6) {
                                 hidepDialog(pDialog);
                                 new AlertDialog.Builder(getActivity())
@@ -409,6 +417,7 @@ public class EditarPerfilFragment extends Fragment implements IActividad {
                 return params;
             }
         };
+        request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
