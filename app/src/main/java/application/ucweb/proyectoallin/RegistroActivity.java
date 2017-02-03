@@ -32,16 +32,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import application.ucweb.proyectoallin.apis.FacebookApi;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.model.Usuario;
@@ -66,7 +69,7 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
     @BindView(R.id.tvDescripcionToolbar)TextView tvRegistroC;
     @BindView(R.id.idiv_layout_registro_cliente)ImageView ivFondoRegistroC;
-
+    @BindView(R.id.ivImagenRegistro) ImageView ivImagen;
     @BindView(R.id.etNombresRegistro) EditText etNombres;
     @BindView(R.id.etApellidoPRegistro) EditText etApellidoP;
     @BindView(R.id.etApellidoMRegistro) EditText etApellidoM;
@@ -88,6 +91,7 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.rbSiRecibirRegistro) RadioButton rbSi;
     private static int IMAGEN_VALOR = 1;
     private String imagen_code = "";
+    private String imagen_facebook = "";
     private ProgressDialog pDialog;
     public static final int WRITE_PERMISSION = 0x01;
     private Realm realm;
@@ -101,6 +105,24 @@ public class RegistroActivity extends BaseActivity {
         iniciarLayout();
         dpeRegistro.setManager(getSupportFragmentManager());
         requestDepartamentoTotal();
+
+        if (getIntent().hasExtra(Constantes.K_FOTO_FB)) {
+            imagen_facebook = getIntent().getStringExtra(Constantes.K_FOTO_FB);
+            String nombre = getIntent().getStringExtra(Constantes.K_NOMBRE_FB);
+            String apellido = getIntent().getStringExtra(Constantes.K_APELLIDO_FB);
+            String correo = getIntent().getStringExtra(Constantes.K_CORREO_FB);
+            String genero = getIntent().getStringExtra(Constantes.K_GENERO_FB);
+            String apellido_m = getIntent().getStringExtra(Constantes.K_APELLIDO_M_FB);
+            spSexo.setSelection(genero.equals("male") ? 0 : 1);
+            etNombres.setText(nombre);
+            etApellidoP.setText(apellido);
+            etApellidoM.setText(apellido_m);
+            tvAvatar.setText("HECHO");
+            tvAvatar.setTextColor(Color.GREEN);
+            etCorreo.setEnabled(false);
+            etCorreo.setText(correo);
+            usarGlide(this, imagen_facebook, ivImagen);
+        }
     }
 
     @OnClick(R.id.btnRegistroCliente)
@@ -108,8 +130,10 @@ public class RegistroActivity extends BaseActivity {
         if (camposVacios()) {
             if (ConexionBroadcastReceiver.isConect()) {
                 requestRegistrarUsuario();
-            } else ConexionBroadcastReceiver.showSnack(layout, this);
-        } else Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT).show();
+            } else
+                ConexionBroadcastReceiver.showSnack(layout, this);
+        } else
+            Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.ivImagenRegistro)
@@ -119,7 +143,8 @@ public class RegistroActivity extends BaseActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
              else
                 startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), IMAGEN_VALOR);
-        } else startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), IMAGEN_VALOR);
+        } else
+            startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), IMAGEN_VALOR);
     }
 
     @Override
@@ -137,13 +162,10 @@ public class RegistroActivity extends BaseActivity {
                 byte[] mi_bytes = stream.toByteArray();
                 String imagen_encode = Base64.encodeToString(mi_bytes, Base64.DEFAULT);
                 Log.d(TAG, imagen_encode);
-                imagen_code = imagen_encode;
-                tvAvatar.setText("HECHO");
-                tvAvatar.setTextColor(Color.GREEN);
-            } else {
-                tvAvatar.setText("ERROR");
-                tvAvatar.setTextColor(Color.RED);
-            }
+                this.imagen_code = imagen_encode;
+                Glide.with(this).load(new File(path)).into(ivImagen);
+            } else
+                Toast.makeText(this, R.string.imagen_error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -187,11 +209,13 @@ public class RegistroActivity extends BaseActivity {
                                 usuario.setApellido_p(apellido_p);
                                 usuario.setApellido_m(apellido_m);
                                 usuario.setFecha_nac(date);
+                                usuario.setDni(dni_carnet);
                                 usuario.setSexo(sexo);
                                 usuario.setEstado_civil(estado_civil);
                                 usuario.setDepartamento(departamento);
                                 usuario.setProvincia(provincia);
                                 usuario.setDistrito(distrito);
+                                usuario.setDireccion(direccion);
                                 usuario.setNum_movil(num_movil);
                                 usuario.setOperador_movil(num_operador);
                                 usuario.setTarjeta_credito(tarjeta);
@@ -229,6 +253,7 @@ public class RegistroActivity extends BaseActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hidepDialog(pDialog);
+                            errorConexion(RegistroActivity.this);
                         }
                     }
                 },
@@ -256,6 +281,7 @@ public class RegistroActivity extends BaseActivity {
                 params.put("correo", correo);
                 params.put("password", password);
                 params.put("imagen", imagen_code);
+                params.put("imagen_facebook", imagen_facebook);
                 params.put("rec_ofertas", rec_ofertas);
                 params.put("token", token);
                 params.put("dni_carnet", dni_carnet);
@@ -362,6 +388,8 @@ public class RegistroActivity extends BaseActivity {
                             }
                         }
                 );
+                request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                Configuracion.getInstance().addToRequestQueue(request, TAG);
             }
         }
     }
@@ -376,7 +404,7 @@ public class RegistroActivity extends BaseActivity {
                 !etDireccion.getText().toString().isEmpty() &&
                 !etNumeroMovil.getText().toString().isEmpty() &&
                 !etContrasenia.getText().toString().isEmpty() &&
-                !imagen_code.isEmpty() &&
+                (!imagen_code.isEmpty() || !imagen_facebook.isEmpty())&&
                 !dpeRegistro.getText().toString().isEmpty();
     }
 
@@ -390,5 +418,11 @@ public class RegistroActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (realm != null) realm.close();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (FacebookApi.conectado()) FacebookApi.cerrarSesion();
     }
 }
