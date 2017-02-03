@@ -159,13 +159,17 @@ public class MenuFragment extends Fragment implements IActividad{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        switch (which) {
-                            case 0 : startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
-                                    .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local).putExtra(Constantes.FILTRO, Constantes.FILTRO_GPS)); break;
-                            case 1 : dialogoListaDepartamentos(getContext(), tipo_local, Constantes.FILTRO_DISTRITO); break;
-                            case 2 : /*dialogoGeneroMusica(getContext(), tipo_local, Constantes.FILTRO_MUSICA); break;*/dialogoTipoDeMusica2(getContext(), getResources().getString(R.string.elija_genero), tipo_local, Constantes.FILTRO_MUSICA); break;
-                            case 3 : dialogoCalendario(tipo_local); break;
-                        }
+                        if (ConexionBroadcastReceiver.isConect()) {
+                            switch (which) {
+                                case 0: startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
+                                            .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local)
+                                            .putExtra(Constantes.FILTRO, Constantes.FILTRO_GPS)); break;
+                                case 1: dialogoListaDepartamentos(getContext(), tipo_local, Constantes.FILTRO_DISTRITO); break;
+                                case 2: dialogoTipoDeMusica2(getContext(), getResources().getString(R.string.elija_genero), tipo_local, Constantes.FILTRO_MUSICA); break;
+                                case 3: dialogoCalendario(tipo_local); break;
+                            }
+                        }else
+                            ConexionBroadcastReceiver.showSnack(layout, getContext());
                     }
                 })
                 .show();
@@ -227,7 +231,7 @@ public class MenuFragment extends Fragment implements IActividad{
                             }
                             if (which != 3) startActivity(intent);
                         } else
-                            Toast.makeText(getActivity(), "Lo sentimos no cuenta con Iternet", Toast.LENGTH_SHORT).show();
+                            ConexionBroadcastReceiver.showSnack(layout, getContext());
                     }
                 })
                 .show();

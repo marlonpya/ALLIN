@@ -60,7 +60,7 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage(getString(R.string.actualizando));
+        progressDialog.setMessage(getString(R.string.enviando_peticion));
 
         locManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         myLocationListener = new MyLocationListener();
@@ -85,24 +85,23 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                 }
             }
         }
+        else ConexionBroadcastReceiver.showSnack(findViewById(R.id.map), this);
         mGoogleMap.setMyLocationEnabled(true);
     }
 
     public void mostrarLocales(){
-            //vaciarLocalesRealm();
         requestLocalXCategoria();
     }
 
     public void addSingleMarker(){
         double lat, lon;
-        lat=getIntent().getDoubleExtra("LAT", -1);
-        lon=getIntent().getDoubleExtra("LON", -1);
-        LatLng latLngTda = new LatLng(lat, lon);
+        lat = getIntent().getDoubleExtra(Constantes.LATITUD, -1);
+        lon = getIntent().getDoubleExtra(Constantes.LONGITUD, -1);
+        LatLng latLng = new LatLng(lat, lon);
         mGoogleMap.addMarker(new MarkerOptions()
-                .position(latLngTda)
+                .position(latLng)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_allin)));
-        //fijarMapa();
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngTda, 17));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
     }
 
     private void requestLocalXCategoria() {
@@ -141,9 +140,9 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                                 local.setMartes(jArray.getJSONObject(i).getInt("LOC_MARTES")== 1);
                                 local.setMiercoles(jArray.getJSONObject(i).getInt("LOC_MIERCOLES")== 1);
                                 local.setJueves(jArray.getJSONObject(i).getInt("LOC_JUEVES")== 1);
-                                local.setViernes(jArray.getJSONObject(i).getInt("LOC_VIERNES")== 1);/*
+                                local.setViernes(jArray.getJSONObject(i).getInt("LOC_VIERNES")== 1);
                                 local.setSabado(jArray.getJSONObject(i).getInt("LOC_SABADO")== 1);
-                                local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);*/
+                                local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);
                                 local.setPrecio(jArray.getJSONObject(i).getDouble("LOC_PRECIO"));
                                 establecimientos.add(local);
                             }
@@ -181,9 +180,6 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
             case Establecimiento.RESTOBAR: idMarkerIcon=R.drawable.marker_restobar; break;
             case Establecimiento.KARAOKE: idMarkerIcon=R.drawable.marker_karaoke; break;
         }
-        //RealmResults<Establecimiento> local = realm.where(Establecimiento.class).findAll();
-
-
         for (int i = 0; i < establecimientos.size(); i++) {
             if (establecimientos.get(i).isEstado())
             {
@@ -200,7 +196,7 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                         Intent intent = new Intent(MapaActivity.this, EventoActivity.class);
                         intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, local.getNombre());
                         intent.putExtra(Constantes.K_L_ID_EVENTO, local.getId_server());
-                        intent.putExtra("LOCAL", local);
+                        intent.putExtra(Constantes.OBJ_S_ESTABLECIMIENTO, local);
                         startActivity(intent);
                         return false;
                     }

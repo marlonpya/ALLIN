@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/caldroid_black"
+    android:id="@+id/id_calendar"
     tools:context="application.ucweb.proyectoallin.Calendario2Activity">
 
     <LinearLayout

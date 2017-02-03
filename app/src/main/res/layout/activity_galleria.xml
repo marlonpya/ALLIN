@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:background="@drawable/fondo_allin"
     android:fitsSystemWindows="true"
+    android:id="@+id/id_gallery"
     tools:context=".GalleriaActivity">
 
     <ImageView
@@ -32,7 +33,7 @@
 
         </LinearLayout>
 
-        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rrv_lista_galleria"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -170,7 +170,7 @@ public class NavegadorFragment extends Fragment {
         Usuario usuario = Usuario.getUsuario();
         if (usuario != null ) {
             if (usuario.isSesion()) {
-                BaseActivity.setImageConGlideCircular(getActivity(), imagen_usuario, usuario.getFoto());
+                BaseActivity.setGlideCircular(getActivity(), usuario.getFoto(), imagen_usuario);
                 nombre_usuario.setText(usuario.getNombre() + " " + usuario.getApellido_p());
             }
         }

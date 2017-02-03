@@ -223,17 +223,17 @@ public class InicioActivity extends BaseActivity implements IActividad {
             id_fb = object.getString("id");
 
             try {
-                URL profile_pic = new URL("https://graph.facebook.com/" + id_fb + "/picture?width=200&height=150");
+                URL profile_pic = new URL("https://graph.facebook.com/" + id_fb + "/picture?width=200&height=200");
                 Log.i("profile_pic", profile_pic + "");
                 foto = profile_pic.toString();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             if (object.has("first_name")) nombre = object.getString("first_name");
-            if (object.has("last_name")) apellido_m = object.getString("last_name");
+            if (object.has("last_name")) apellido = object.getString("last_name");
             if (object.has("email")) correo = object.getString("email");
             if (object.has("gender")) genero = object.getString("gender");
-            if (object.has("middle_name")) apellido = object.getString("middle_name");
+            //if (object.has("middle_name")) apellido = object.getString("middle_name");
 
             if (!correo.isEmpty()) requestIniciarSesionFACEBOOK(correo, foto, nombre, apellido, genero, apellido_m);
             else new AlertDialog.Builder(this)
@@ -270,8 +270,8 @@ public class InicioActivity extends BaseActivity implements IActividad {
                             Log.d(TAG, response);
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-                                JSONObject jData = jsonObject.getJSONObject("data");
                                 if (jsonObject.getBoolean("status")) {
+                                    JSONObject jData = jsonObject.getJSONObject("data");
                                     JSONObject jUsuario = jData.getJSONObject("usuario");
                                     Usuario usuario = new Usuario();
                                     usuario.setId(Usuario.ID_DEFAULT);

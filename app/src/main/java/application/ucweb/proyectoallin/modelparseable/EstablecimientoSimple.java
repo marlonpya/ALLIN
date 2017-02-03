@@ -106,7 +106,7 @@ public class EstablecimientoSimple implements Serializable {
     }
 
     public String getImagen() {
-        return "http://www.uc-web.mobi/Allnight/uploads/locales/"+getId_server()+"/principal.jpg";
+            return "http://www.uc-web.mobi/Allnight/uploads/locales/"+getId_server()+"/principal.jpg";
     }
 
     public void setImagen(String imagen) {
@@ -329,11 +329,23 @@ public class EstablecimientoSimple implements Serializable {
         this.precio = precio;
     }
 
-    public Date getFechaFormato(){
+    public Date getDateInicio(){
         Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         try {
             d = sdf.parse(getFecha_inicio());
+
+        } catch (ParseException ex) {
+
+        }
+        return d;
+    }
+
+    public Date getDateFin(){
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        try {
+            d = sdf.parse(getFecha_fin());
 
         } catch (ParseException ex) {
 

@@ -18,11 +18,16 @@ public class Constantes {
     public static final String INICIAR_SESION_FACEBOOK  = "http://www.uc-web.mobi/Allnight/iniciarSesionFacebook"; //correo ,facbook
     public static final String DEPARTAMENTOS_TOTAL      = "http://www.uc-web.mobi/Allnight/api/obtenerTotalDepartamento";
     public static final String LOCALES                  = "http://www.uc-web.mobi/Allnight/api/locales";
-    public static final String LOCALES_X_CATEGORIA      = "http://uc-web.mobi/Allnight/api/listarLocalXCategoria";
-    public static final String LOCALES_X_GENERO         = "http://uc-web.mobi/Allnight/api/listarLocalXGenero";
-    public static final String GENERO_X_LOCAL           = "http://uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
-    public static final String GENEROS                  = "http://uc-web.mobi/Allnight/api/generos";
+    public static final String LOCALES_X_CATEGORIA      = "http://www.uc-web.mobi/Allnight/api/listarLocalXCategoria";
+    public static final String LOCALES_X_GENERO         = "http://www.uc-web.mobi/Allnight/api/listarLocalXGenero";
+    public static final String GENERO_X_LOCAL           = "http://www.uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
+    public static final String GENEROS                  = "http://www.uc-web.mobi/Allnight/api/generos";
     public static final String EVENTOS                  = "http://www.uc-web.mobi/Allnight/api/getEventos";
+    public static final String FECHAS                   = "http://www.uc-web.mobi/Allnight/api/getFechasEvento";
+    public static final String IMAGENES_LOCAL           = "http://www.uc-web.mobi/Allnight/api/getImagenesLocal";
+    public static final String IMAGENES_EVENTO          = "http://www.uc-web.mobi/Allnight/api/getImagenesEvento";
+    public static final String PRODUCTOS                = "http://www.uc-web.mobi/Allnight/api/getProductos";
+
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";
@@ -73,4 +78,16 @@ public class Constantes {
 
     //Extra Titulo toolbar
     public static final String S_EVENTO_TOOLBAR = "S_EVENTO_TOOLBAR";
+
+    //Extra Intent Serializable
+    public static final String OBJ_S_ESTABLECIMIENTO = "OBJ_S_ESTABLECIMIENTO";
+    public static final String OBJ_S_EVENTO = "OBJ_S_EVENTO";
+
+    //Identificadores putextra
+    public static final String DIA = "DIA";
+    public static final String FECHA = "FECHA";
+    public static final String ID_LOCAL = "ID_LOCAL";
+    public static final String ID_EVENTO = "ID_EVENTO";
+    public static final String LATITUD = "LATITUD";
+    public static final String LONGITUD = "LONGITUD";
 }

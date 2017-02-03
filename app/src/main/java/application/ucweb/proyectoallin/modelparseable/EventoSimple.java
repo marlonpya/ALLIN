@@ -24,6 +24,9 @@ public class EventoSimple implements Serializable {
     private int tipo;
     private int id_local;
     private String nombre_local;
+    private String direccion;
+    private String descripcion;
+    private int aforo;
 
     public int getId_server() {
         return id_server;
@@ -42,7 +45,7 @@ public class EventoSimple implements Serializable {
     }
 
     public String getImagen() {
-        return imagen;
+        return "http://www.uc-web.mobi/Allnight/uploads/eventos/"+getId_server()+"/principal.jpg";
     }
 
     public void setImagen(String imagen) {
@@ -103,6 +106,30 @@ public class EventoSimple implements Serializable {
 
     public void setNombre_local(String nombre_local) {
         this.nombre_local = nombre_local;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public int getAforo() {
+        return aforo;
+    }
+
+    public void setAforo(int aforo) {
+        this.aforo = aforo;
     }
 
     @Override

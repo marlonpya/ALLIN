@@ -30,6 +30,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -92,18 +93,32 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
                             if (jsonObject.getBoolean("status")) {
                                 JSONArray jEventos = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < jEventos.length(); i++) {
-
                                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("es", "pe"));
                                     EventoSimple evento = new EventoSimple();
                                     evento.setId_server(jEventos.getJSONObject(i).getInt("EVE_ID"));
                                     evento.setNombre(jEventos.getJSONObject(i).getString("EVE_NOMBRE"));
                                     evento.setImagen("");
-                                    evento.setPrecio(Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_PRECIO")));
+                                    evento.setPrecio(Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_PRECIO")));/*
                                     evento.setLatitud(jEventos.getJSONObject(i).getString("EVE_LATITUD").isEmpty() ? 0 : Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LATITUD")));
                                     evento.setLongitud(jEventos.getJSONObject(i).getString("EVE_LONGITUD").isEmpty() ? 0 : Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LONGITUD")));
+                                    */
                                     evento.setTipo(jEventos.getJSONObject(i).getInt("EVE_TIPO"));
                                     evento.setId_local(jEventos.getJSONObject(i).getInt("LOC_ID"));
-                                    evento.setNombre_local("");
+                                    evento.setDescripcion(jEventos.getJSONObject(i).getString("EVE_DESCRIPCION"));
+                                    if (evento.getId_local()!=0){
+                                        evento.setNombre_local(jEventos.getJSONObject(i).getString("LOC_NOMBRE"));
+                                        evento.setDireccion(jEventos.getJSONObject(i).getString("LOC_DIRECCION"));
+                                        evento.setAforo(jEventos.getJSONObject(i).getInt("LOC_AFORO"));
+                                        evento.setLatitud(Double.parseDouble(jEventos.getJSONObject(i).getString("LOC_LATITUD")));
+                                        evento.setLongitud(Double.parseDouble(jEventos.getJSONObject(i).getString("LOC_LONGITUD")));
+                                    }
+                                    else {
+                                        evento.setNombre_local("");
+                                        evento.setDireccion("");
+                                        evento.setAforo(0);
+                                        evento.setLatitud(Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LATITUD")));
+                                        evento.setLongitud(Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LONGITUD")));
+                                    }
                                     try {
                                         evento.setFecha_inicio(sdf.parse(jEventos.getJSONObject(i).getString("EVE_FEC_INICIO")));
                                     } catch (ParseException e) {
@@ -153,7 +168,29 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
     }
 
     private void iniciarRV() {
-        adapter = new EventoAdapter(ListaEventoActivity.this, lista_eventos);
+        if (getIntent().getIntExtra(Constantes.FILTRO, -1)==Constantes.FILTRO_CALENDARIO)
+        {
+            Date fechaSeleccionada = new Date();
+            fechaSeleccionada.setTime(getIntent().getLongExtra(Constantes.FECHA, -1));
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", new Locale("es", "pe"));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("es", "pe"));
+            try {
+                Date fechaFinDia = sdf.parse(f.format(fechaSeleccionada)+ " 23:59:59");
+                ArrayList<EventoSimple> lista_eventos_fecha = new ArrayList<>();
+                for (int i = 0; i < lista_eventos.size(); i++) {
+                    if (lista_eventos.get(i).getFecha_inicio().after(fechaSeleccionada) && lista_eventos.get(i).getFecha_inicio().before(fechaFinDia)){
+                        lista_eventos_fecha.add(lista_eventos.get(i));
+                    }
+                }
+                adapter = new EventoAdapter(ListaEventoActivity.this, lista_eventos_fecha);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            getIntent().removeExtra(Constantes.FECHA);
+        }
+        else{
+            adapter = new EventoAdapter(ListaEventoActivity.this, lista_eventos);
+        }
         realmRecyclerView.setHasFixedSize(true);
         realmRecyclerView.setLayoutManager(new LinearLayoutManager(ListaEventoActivity.this));
         realmRecyclerView.setAdapter(adapter);

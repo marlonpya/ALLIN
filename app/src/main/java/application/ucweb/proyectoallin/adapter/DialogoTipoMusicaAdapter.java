@@ -41,15 +41,16 @@ public class DialogoTipoMusicaAdapter extends RecyclerView.Adapter<DialogoTipoMu
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final ItemSimple item = lista.get(position);
         BaseActivity.usarGlide(context, item.getIcono(), holder.imagen);
         holder.titulo.setText(item.getTitulo());
         holder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("Amd", "DialogTipoMusicAdap");
+                Log.v("Amd", "DialogTipoMusicAdap " + position);
                 //intentAListaDRKER(item.getTitulo(), context, -1, -1);
+
             }
         });
     }

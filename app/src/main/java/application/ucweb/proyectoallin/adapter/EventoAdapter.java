@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import application.ucweb.proyectoallin.EstablecimientoActivity;
+import application.ucweb.proyectoallin.EventoActivity;
 import application.ucweb.proyectoallin.R;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.modelparseable.EventoSimple;
@@ -49,20 +51,36 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
         final EventoSimple item = eventos.get(position);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' yyyy ", new Locale("es", "pe"));
+        SimpleDateFormat sdfHora = new SimpleDateFormat("hh:mm a", new Locale("es", "pe"));
 
         BaseActivity.setImageConGlideCircular(context, viewHolder.imagen_evento, item.getImagen());
         BaseActivity.setImageConGlideCircular(context, viewHolder.contorno, R.drawable.circulo_con_lineas);
         viewHolder.nombre.setText(item.getNombre());
         Date fecha = item.getFecha_inicio();
+        String s_fecha;
+
         viewHolder.fecha.setText("Fecha: " + (fecha == null ? "" : sdf.format(fecha)));
-        viewHolder.hora.setText("Hora: " + (fecha == null ? "" : (fecha.getHours() + " : " + fecha.getMinutes()) + " : " + (fecha.getSeconds() >= 10 ? fecha.getSeconds() : "0" + fecha.getSeconds())));
+        //viewHolder.hora.setText("Hora: " + (fecha == null ? "" : (fecha.getHours() + " : " + (fecha.getMinutes() >= 10 ? fecha.getMinutes() : "0"+fecha.getMinutes())) + " : " + (fecha.getSeconds() >= 10 ? fecha.getSeconds() : "0" + fecha.getSeconds())));
+
+        if (fecha!=null){
+            viewHolder.hora.setText("Hora: " + sdfHora.format(fecha));
+        }
         viewHolder.discoteca.setText(getNombreLocal(item.getNombre_local()));
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EstablecimientoActivity.class);
-                intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
-                context.startActivity(intent);
+                if (item.getPrecio()>0){
+                    Intent intent = new Intent(context, EstablecimientoActivity.class);
+                    intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
+                    intent.putExtra(Constantes.OBJ_S_EVENTO, item);
+                    context.startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(context, EventoActivity.class);
+                    intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
+                    intent.putExtra(Constantes.OBJ_S_EVENTO, item);
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -87,6 +105,6 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
     }
 
     private static String getNombreLocal(String local) {
-        return local == null || local.equalsIgnoreCase("null") || local.isEmpty() ? "Local: Desconocido" : local;
+        return local == null || local.equalsIgnoreCase("null") || local.isEmpty() ? "Local: Desconocido" : "Local: "+ local;
     }
 }
