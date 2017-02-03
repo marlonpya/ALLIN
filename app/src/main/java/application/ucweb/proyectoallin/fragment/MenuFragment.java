@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ import application.ucweb.proyectoallin.adapter.DialogDepaProvDistAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoDepartamentosAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoEventosAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoRecomendacionesAdapter;
+import application.ucweb.proyectoallin.adapter.DialogoTipoMusicaAdapter;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
@@ -108,7 +110,7 @@ public class MenuFragment extends Fragment implements IActividad{
         iniciarViewPager();
         if (!isSesion()) usuarioNoRegistrado();
         //requestLocales();
-        requestGeneros();
+        //requestGeneros();
         return view;
     }
 
@@ -161,7 +163,7 @@ public class MenuFragment extends Fragment implements IActividad{
                             case 0 : startActivity(new Intent(getActivity().getApplicationContext(), MapaActivity.class)
                                     .putExtra(Constantes.I_TIP_ESTABLECIMIENTO_MAPA, tipo_local).putExtra(Constantes.FILTRO, Constantes.FILTRO_GPS)); break;
                             case 1 : dialogoListaDepartamentos(getContext(), tipo_local, Constantes.FILTRO_DISTRITO); break;
-                            case 2 : dialogoGeneroMusica(getContext(), tipo_local, Constantes.FILTRO_MUSICA); break;//dialogoTipoDeMusica2(getContext(), "Sample"); break;
+                            case 2 : /*dialogoGeneroMusica(getContext(), tipo_local, Constantes.FILTRO_MUSICA); break;*/dialogoTipoDeMusica2(getContext(), getResources().getString(R.string.elija_genero), tipo_local, Constantes.FILTRO_MUSICA); break;
                             case 3 : dialogoCalendario(tipo_local); break;
                         }
                     }
@@ -241,6 +243,27 @@ public class MenuFragment extends Fragment implements IActividad{
                 .putExtra(Constantes.TIPO_ESTABLECIMIENTO, tipo_local));
     }
 
+    private void dialogoTipoDeMusica2(final Context context, final String titulo, final int tipoLocal, final int filtro ) {
+        final ArrayList<ItemSimple> arrayList = new ArrayList<>();
+        arrayList.add(new ItemSimple("Pachanga", R.drawable.busqueda_pachanga_64px));
+        arrayList.add(new ItemSimple("Salsa", R.drawable.busqueda_salsa_64px));
+        arrayList.add(new ItemSimple("Electrónica", R.drawable.busqueda_electronica_64px));
+        arrayList.add(new ItemSimple("Alternativa", R.drawable.busqueda_alternativa_64px));
+
+        final DialogAdapter adapter = new DialogAdapter(getActivity(), arrayList);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.elija_genero)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        idGenero=which+1;
+                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context, tipoLocal, filtro);
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
     private void dialogoListaDepartamentos(final Context context, final int tipoLocal, final int filtro){
         final ArrayList<ItemSimple> itemSimples = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
@@ -309,7 +332,7 @@ public class MenuFragment extends Fragment implements IActividad{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Toast.makeText(context, itemGenero.get(which).getTitulo(), Toast.LENGTH_SHORT).show();
-                        idGenero=itemGenero.get(which).getId();
+                        //idGenero=itemGenero.get(which).getId();
                         intentAListaDRKER(adapter.getItem(which).getTitulo(), context, tipoLocal, filtro);
                         dialog.dismiss();
                     }
