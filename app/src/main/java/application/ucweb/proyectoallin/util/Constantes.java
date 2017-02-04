@@ -23,6 +23,8 @@ public class Constantes {
     public static final String GENERO_X_LOCAL           = "http://uc-web.mobi/Allnight/api/listarGeneroMusicaXLocal";
     public static final String GENEROS                  = "http://uc-web.mobi/Allnight/api/generos";
     public static final String EVENTOS                  = "http://www.uc-web.mobi/Allnight/api/getEventos";
+    public static final String BANNERS                  = "http://www.uc-web.mobi/Allnight/api/getBanner";
+    public static final String ACTUALIZAR_TOKEN         = "http://www.uc-web.mobi/Allnight/editarToken";
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";
@@ -49,7 +51,6 @@ public class Constantes {
     public static final int I_RECOMENDADOS = 5;
 
     public static final String B_MOSTRAR_PROMOCION = "B_MOSTRAR_PROMOCION";
-    public static final String ACTUALIZAR_TOKEN = "http://www.uc-web.mobi/Allnight/editarToken";
 
     //EXTRAS REGISTRO DE FACEBOOK
     public static final String K_FOTO_FB = "K_FOTO_FB";
@@ -73,4 +74,7 @@ public class Constantes {
 
     //Extra Titulo toolbar
     public static final String S_EVENTO_TOOLBAR = "S_EVENTO_TOOLBAR";
+
+    //Extra de ruta_imagen recibiendo notificacion
+    public static final String EXTRA_S_RUTA_IMAGEN = "EXTRA_S_RUTA_IMAGEN";
 }

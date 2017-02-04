@@ -270,8 +270,8 @@ public class InicioActivity extends BaseActivity implements IActividad {
                             Log.d(TAG, response);
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
-                                JSONObject jData = jsonObject.getJSONObject("data");
                                 if (jsonObject.getBoolean("status")) {
+                                    JSONObject jData = jsonObject.getJSONObject("data");
                                     JSONObject jUsuario = jData.getJSONObject("usuario");
                                     Usuario usuario = new Usuario();
                                     usuario.setId(Usuario.ID_DEFAULT);
@@ -423,7 +423,7 @@ public class InicioActivity extends BaseActivity implements IActividad {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.mnUsuario) {
+        if (item.getItemId() == R.id.mn_usuario) {
             startActivity(new Intent(this, InicioCorporativoActivity.class));
             finish();
         }
@@ -432,7 +432,7 @@ public class InicioActivity extends BaseActivity implements IActividad {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_usuario, menu);
         return true;
     }
 }

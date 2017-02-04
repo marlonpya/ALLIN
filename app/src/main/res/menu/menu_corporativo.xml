@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_corporativo_cerrar"
+        android:id="@+id/mn_corporativo"
         android:orderInCategory="3"
-        android:title="@string/Cerrar"
+        android:title="USUARIO ALLIN"
         app:showAsAction="never"/>
 </menu>
