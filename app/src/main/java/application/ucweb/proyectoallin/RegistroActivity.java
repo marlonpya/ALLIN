@@ -33,6 +33,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,11 +42,12 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import application.ucweb.proyectoallin.apis.FacebookApi;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.model.Usuario;
@@ -69,7 +72,7 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
     @BindView(R.id.tvDescripcionToolbar)TextView tvRegistroC;
     @BindView(R.id.idiv_layout_registro_cliente)ImageView ivFondoRegistroC;
-    @BindView(R.id.ivImagenRegistro) ImageView ivImagen;
+
     @BindView(R.id.etNombresRegistro) EditText etNombres;
     @BindView(R.id.etApellidoPRegistro) EditText etApellidoP;
     @BindView(R.id.etApellidoMRegistro) EditText etApellidoM;
@@ -89,6 +92,7 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.etContraseniaRegistro) EditText etContrasenia;
     @BindView(R.id.tvAvatarRegistro) TextView tvAvatar;
     @BindView(R.id.rbSiRecibirRegistro) RadioButton rbSi;
+    @BindView(R.id.ivImagenRegistro) ImageView ivImagen;
     private static int IMAGEN_VALOR = 1;
     private String imagen_code = "";
     private String imagen_facebook = "";
@@ -105,7 +109,6 @@ public class RegistroActivity extends BaseActivity {
         iniciarLayout();
         dpeRegistro.setManager(getSupportFragmentManager());
         requestDepartamentoTotal();
-
         if (getIntent().hasExtra(Constantes.K_FOTO_FB)) {
             imagen_facebook = getIntent().getStringExtra(Constantes.K_FOTO_FB);
             String nombre = getIntent().getStringExtra(Constantes.K_NOMBRE_FB);
@@ -130,21 +133,20 @@ public class RegistroActivity extends BaseActivity {
         if (camposVacios()) {
             if (ConexionBroadcastReceiver.isConect()) {
                 requestRegistrarUsuario();
-            } else
-                ConexionBroadcastReceiver.showSnack(layout, this);
-        } else
-            Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT).show();
+            } else ConexionBroadcastReceiver.showSnack(layout, this);
+        } else Toast.makeText(this, R.string.campos_vacios, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.ivImagenRegistro)
     public void cargarImagen() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
-             else
-                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), IMAGEN_VALOR);
-        } else
-            startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), IMAGEN_VALOR);
+        if (!getIntent().hasExtra(Constantes.K_FOTO_FB)) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
+                else
+                    startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), IMAGEN_VALOR);
+            } else startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), IMAGEN_VALOR);
+        }
     }
 
     @Override
@@ -162,10 +164,13 @@ public class RegistroActivity extends BaseActivity {
                 byte[] mi_bytes = stream.toByteArray();
                 String imagen_encode = Base64.encodeToString(mi_bytes, Base64.DEFAULT);
                 Log.d(TAG, imagen_encode);
-                this.imagen_code = imagen_encode;
-                Glide.with(this).load(new File(path)).into(ivImagen);
-            } else
-                Toast.makeText(this, R.string.imagen_error, Toast.LENGTH_SHORT).show();
+                imagen_code = imagen_encode;
+                tvAvatar.setText("HECHO");
+                tvAvatar.setTextColor(Color.GREEN);
+            } else {
+                tvAvatar.setText("ERROR");
+                tvAvatar.setTextColor(Color.RED);
+            }
         }
     }
 
@@ -388,8 +393,6 @@ public class RegistroActivity extends BaseActivity {
                             }
                         }
                 );
-                request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                Configuracion.getInstance().addToRequestQueue(request, TAG);
             }
         }
     }
@@ -404,7 +407,7 @@ public class RegistroActivity extends BaseActivity {
                 !etDireccion.getText().toString().isEmpty() &&
                 !etNumeroMovil.getText().toString().isEmpty() &&
                 !etContrasenia.getText().toString().isEmpty() &&
-                (!imagen_code.isEmpty() || !imagen_facebook.isEmpty())&&
+                !imagen_code.isEmpty() || !imagen_facebook.isEmpty() &&
                 !dpeRegistro.getText().toString().isEmpty();
     }
 
@@ -418,11 +421,5 @@ public class RegistroActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (realm != null) realm.close();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (FacebookApi.conectado()) FacebookApi.cerrarSesion();
     }
 }

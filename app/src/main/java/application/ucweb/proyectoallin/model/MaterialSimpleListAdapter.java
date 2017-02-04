@@ -107,9 +107,7 @@ public class MaterialSimpleListAdapter extends RecyclerView.Adapter<MaterialSimp
                 adapter.mCallback.onMaterialListItemSelected(adapter.dialog, getAdapterPosition(), adapter.getItem(getAdapterPosition()));
                 ItemSimple item = adapter.getItem(getAdapterPosition());
                 if (item.getTitulo().equals(b_distrito)) {
-                    MenuFragment.dialogoListaDepartamentos2(context);
                 } else if (item.getTitulo().equals(b_tipo_musica)) {
-                    MenuFragment.dialogoTipoDeMusica2(context, context.getString(R.string.elija_busquedad));
                 } else if(item.getTitulo().equals(b_calendario)) {
                     context.startActivity(new Intent(context, CalendarioActivity.class)
                     .putExtra(Constantes.BUSQUEDA_CALENDARIO, Constantes.I_DISCOTECAS));

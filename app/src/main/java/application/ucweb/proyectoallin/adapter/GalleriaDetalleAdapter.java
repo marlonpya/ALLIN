@@ -22,7 +22,8 @@ public class GalleriaDetalleAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return GalleriaDetalleActivity.PlaceholderFragment.newInstance(position, data.get(position).getName(), data.get(position).getUrl());
+        return GalleriaDetalleActivity.PlaceholderFragment
+                .newInstance(position, data.get(position).getName(), data.get(position).getUrl());
     }
 
     @Override

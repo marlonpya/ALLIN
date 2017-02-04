@@ -9,7 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
 import application.ucweb.proyectoallin.EventoActivity;
 import application.ucweb.proyectoallin.R;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
@@ -41,18 +46,23 @@ public class EstablecimientoAdapter extends RecyclerView.Adapter<Establecimiento
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final EstablecimientoSimple item = this.establecimientoSimples.get(position);
-
         BaseActivity.setImageConGlideCircular(context, holder.imagen, item.getImagen());
         BaseActivity.setImageConGlideCircular(context, holder.contorno, R.drawable.circulo_con_lineas);
         holder.nombre.setText(item.getNombre());
-        holder.fecha.setText("Fecha: " + item.getFechaFormato());
+        Date horaInicio = item.getDateInicio();
+        Date horaFin = item.getDateFin();
+        SimpleDateFormat sdfHora = new SimpleDateFormat("hh:mm a", new Locale("es", "pe"));
+        if (horaInicio!=null) {
+            holder.hora.setText("Hora: " + sdfHora.format(horaInicio) + " - " + sdfHora.format(horaFin));
+        }
+        if (!item.isGay()) holder.gay.setVisibility(View.GONE);
         holder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EventoActivity.class);
                 intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
                 intent.putExtra(Constantes.K_L_ID_EVENTO, item.getId_server());
-                intent.putExtra("LOCAL", item);
+                intent.putExtra(Constantes.OBJ_S_ESTABLECIMIENTO, item);
                 context.startActivity(intent);
             }
         });
@@ -64,8 +74,8 @@ public class EstablecimientoAdapter extends RecyclerView.Adapter<Establecimiento
         @BindView(R.id.row_tv_establecimiento_nombre) TextView nombre;
         @BindView(R.id.row_tv_establecimiento_fecha) TextView fecha;
         @BindView(R.id.row_tv_establecimiento_hora) TextView hora;
-        @BindView(R.id.row_btnEstablecimiento)
-        LinearLayout boton;
+        @BindView(R.id.row_btnEstablecimiento) LinearLayout boton;
+        @BindView(R.id.ivGay) ImageView gay;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

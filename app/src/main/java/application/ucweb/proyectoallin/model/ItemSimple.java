@@ -10,6 +10,8 @@ public class ItemSimple {
     private int id;
     private int tipo;
 
+    public ItemSimple(){}
+
     public ItemSimple(String titulo, int icono) {
         this.titulo = titulo;
         this.icono = icono;

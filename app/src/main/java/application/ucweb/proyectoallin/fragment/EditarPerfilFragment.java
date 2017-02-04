@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -257,6 +260,24 @@ public class EditarPerfilFragment extends Fragment implements IActividad {
         rbMastercard.setChecked(usuario.getTarjeta_credito().equalsIgnoreCase("mastercard"));
         etCorreo.setText(usuario.getCorreo());
         BaseActivity.setGlide(getActivity(), usuario.getFoto(), ivImagen);
+
+        Glide.with(this).load(usuario.getFoto()).asBitmap().into(new SimpleTarget<Bitmap>(200, 200) {
+            @Override
+            public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                if (bitmap != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    //bitmap.recycle();
+                    byte[] mi_bytes = stream.toByteArray();
+                    String imagen_encode = Base64.encodeToString(mi_bytes, Base64.DEFAULT);
+                    Log.d(TAG, imagen_encode);
+                    imagen_code = imagen_encode;
+                    tvAvatar.setText("HECHO");
+                    tvAvatar.setTextColor(Color.GREEN);
+                }
+            }
+        });
+
         if (usuario.isRecibir_oferta()) rbSiRecibir.setChecked(true); else rbNoRecibir.setChecked(true);
         etFechaNac.setEnabled(false);
         etCorreo.setEnabled(false);

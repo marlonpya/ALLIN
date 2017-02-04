@@ -1,21 +1,40 @@
 package application.ucweb.proyectoallin;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
+
+import java.util.concurrent.ExecutionException;
+
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.dialogo.ImagenGrandeDialogo;
+import application.ucweb.proyectoallin.interfaz.IActividad;
+import application.ucweb.proyectoallin.model.Usuario;
+import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
+import application.ucweb.proyectoallin.modelparseable.EventoSimple;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EstablecimientoActivity extends BaseActivity {
+public class        EstablecimientoActivity extends BaseActivity implements IActividad{
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
     @BindView(R.id.tvDescripcionToolbar) TextView toolbarEvento;
@@ -28,6 +47,13 @@ public class EstablecimientoActivity extends BaseActivity {
     @BindView(R.id.iv_ic_compartirPerfilE)ImageView iv_ic_compartirPerfilE;
     @BindView(R.id.iv_ic_fotosPerfilE)ImageView iv_ic_fotosPerfilE;
     @BindView(R.id.ivMarkerDiscotecaPerfilE)ImageView ivMarkerDiscotecaPerfilE;
+    @BindView(R.id.txtDireccionDiscoteca) TextView txtDireccionDiscoteca;
+    @BindView(R.id.txtAforoDiscoteca) TextView txtAforoDiscoteca;
+    @BindView(R.id.txtDescripcionDiscoteca) TextView txtDescripcionDiscoteca;
+    @BindView(R.id.txtUbicanos) TextView txtUbicanos;
+    @BindView(R.id.btnMarkerEvento) FrameLayout btnMarkerEvento;
+
+    private EventoSimple evento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +61,30 @@ public class EstablecimientoActivity extends BaseActivity {
         setContentView(R.layout.activity_establecimiento);
         iniciarLayout();
         toolbarEvento.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
+        evento = (EventoSimple) getIntent().getSerializableExtra(Constantes.OBJ_S_EVENTO);
+        Glide.with(this).load(evento.getImagen()).into(ivBigPerfilEvento);
+        txtDescripcionDiscoteca.setText(evento.getDescripcion());
+        if (evento.getId_local()==0){
+            txtDireccionDiscoteca.setText(getString(R.string.no_especificado));
+            txtAforoDiscoteca.setText(getString(R.string.no_especificado));
+            //btnMarkerEvento.setEnabled(false);
+            //ivMarkerDiscotecaPerfilE.setColorFilter(getResources().getColor(R.color.colorgreyBotonDark));
+            //txtUbicanos.setTextColor(getResources().getColor(R.color.colorgreyBotonDark));
+
+        }else {
+            txtDireccionDiscoteca.setText(evento.getDireccion());
+            txtAforoDiscoteca.setText(String.valueOf(evento.getAforo()));
+        }
+
+        if (!isSesion()){
+            BaseActivity.usarGlide(this, R.drawable.copablack, ivCartaPerfilE);
+            ivCartaPerfilE.setEnabled(false);
+            BaseActivity.usarGlide(this, R.drawable.iconoticketblack, ivApuntarmePerfilE);
+            ivApuntarmePerfilE.setEnabled(false);
+            BaseActivity.usarGlide(this, R.drawable.iconomapablack, ivMapaEventosPerfilE);
+            ivMapaEventosPerfilE.setEnabled(false);
+        }
+
     }
 
     @OnClick(R.id.ivCartaPerfilE)
@@ -48,35 +98,53 @@ public class EstablecimientoActivity extends BaseActivity {
     //VER MAPA DE EVENTO
     @OnClick(R.id.ivMapaEventosPerfilE)
     public void irAProximosEventos() {
-        ImagenGrandeDialogo.dialogoEvento(this, R.drawable.escenario);
+        String url_imagen = "http://www.uc-web.mobi/Allnight/uploads/eventos/" + evento.getId_server() + "/mapa.jpg";
+        ImagenGrandeDialogo.dialogoEvento(this, url_imagen);
+        //ImagenGrandeDialogo.dialogoEvento(this, R.drawable.escenario);
     }
 
     @OnClick(R.id.btnFotos)
     public void openGallery(){
-        startActivity(new Intent(this, GalleriaActivity.class));
+        Intent intent=new Intent(this, GalleriaActivity.class).putExtra(Constantes.ID_EVENTO, evento.getId_server());
+        startActivity(intent);
     }
 
     @OnClick(R.id.btnCompartir)
     public void goCompartir(){
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, "@ALLINIGHT ");
-        startActivity(Intent.createChooser(intent, "Compartir con"));
+        String texto = evento.getNombre().toUpperCase();
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentTitle(getString(R.string.app_name))
+                .setContentUrl(Uri.parse("http://www.uc-web.mobi/All-in-night/index.php"))
+                .setContentDescription(texto)
+                .setImageUrl(Uri.parse(evento.getImagen()))
+                .build();
+        ShareDialog.show(this, content);
     }
 
     @OnClick(R.id.btnverWeb)
     public void openWeb(){
         Uri uriUrl = Uri.parse("http://www.uc-web.mobi/All-in-night/index.php");
+        //Uri uriUrl = Uri.parse("http://"+evento.get());
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
         startActivity(launchBrowser);
     }
 
-    @OnClick(R.id.ivMarkerDiscotecaPerfilE)
+    @OnClick(R.id.btnMarkerEvento)
     public void eventoEnMapa() {
-        startActivity(new Intent(this, MapaActivity.class));
+        //startActivity(new Intent(this, MapaActivity.class));
+        startActivity(new Intent(this, MapaActivity.class)
+                .putExtra(Constantes.LATITUD, evento.getLatitud())
+                .putExtra(Constantes.LONGITUD, evento.getLongitud())
+                .putExtra(Constantes.FILTRO, 2));
     }
 
-    private void iniciarLayout() {
+    @Override
+    public boolean isSesion() {
+        return Usuario.getUsuario() != null && Usuario.getUsuario().isSesion();
+    }
+
+    @Override
+    public void iniciarLayout() {
         BaseActivity.setFondoActivity(this, ivFondoPerfilE);
         BaseActivity.usarGlide(this, R.drawable.img_party, ivBigPerfilEvento);
         BaseActivity.usarGlide(this, R.drawable.copa, ivCartaPerfilE);
@@ -87,6 +155,11 @@ public class EstablecimientoActivity extends BaseActivity {
         BaseActivity.usarGlide(this, R.drawable.fotos,iv_ic_fotosPerfilE);
         BaseActivity.usarGlide(this, R.drawable.ubicanos, ivMarkerDiscotecaPerfilE);
         BaseActivity.setToolbarSon(toolbar, this, icono_toolbar);
+    }
+
+    @Override
+    public void iniciarPDialog() {
+
     }
 
     @Override
