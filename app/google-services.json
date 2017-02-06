@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "668041049083-1gehot1jm7bruvjcm7he3vo5cf0534da.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "application.ucweb.proyectoallin",
-            "certificate_hash": "65ED51BB7312CA3C45DB2521C65EBA063892723F"
-          }
-        },
-        {
           "client_id": "668041049083-5tmfaa0u8n503prob7j6av7g3r8jckf9.apps.googleusercontent.com",
           "client_type": 3
         }

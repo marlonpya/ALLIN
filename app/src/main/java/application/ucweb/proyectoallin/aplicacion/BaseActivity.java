@@ -58,21 +58,6 @@ public class BaseActivity extends AppCompatActivity {
         realm.close();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.mnAcerca:
-                break;
-            case R.id.mnUsuario:
-                break;
-            case R.id.mnSugerencia:
-                break;
-            case R.id.mnCerrar:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public static void setToolbarSon(Toolbar toolbar, AppCompatActivity activity, ImageView imageView) {
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -190,19 +175,5 @@ public class BaseActivity extends AppCompatActivity {
                     .into(imageView);
         else
             usarGlide(context, ruta, imageView);
-
     }
-
-    public static void setGlideCircular(Context context, String ruta, ImageView imageView) {
-        if (ConexionBroadcastReceiver.isConect())
-            Glide.with(context)
-                    .load(ruta)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .transform(new CircleTransform(context))
-                    .skipMemoryCache(true)
-                    .into(imageView);
-        else
-            usarGlide(context, ruta, imageView);
-    }
-
 }

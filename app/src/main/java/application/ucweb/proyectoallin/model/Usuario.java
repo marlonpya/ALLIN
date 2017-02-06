@@ -5,6 +5,7 @@ import android.util.Log;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by ucweb02 on 27/10/2016.
@@ -17,22 +18,22 @@ public class Usuario extends RealmObject {
     @PrimaryKey
     private long id;
     private int id_server;
-    private String nombre;
-    private String apellido_p;
-    private String apellido_m;
-    private String fecha_nac;
-    private String dni;
-    private String sexo;
-    private String estado_civil;
-    private String departamento;
-    private String provincia;
-    private String distrito;
-    private String direccion;
-    private String num_movil;
-    private String operador_movil;
-    private String tarjeta_credito;
-    private String correo;
-    private String foto;
+    @Required private String nombre;
+    @Required private String apellido_p;
+    @Required private String apellido_m;
+    @Required private String fecha_nac;
+    @Required private String dni;
+    @Required private String sexo;
+    @Required private String estado_civil;
+    @Required private String departamento;
+    @Required private String provincia;
+    @Required private String distrito;
+    @Required private String direccion;
+    @Required private String num_movil;
+    @Required private String operador_movil;
+    @Required private String tarjeta_credito;
+    @Required private String correo;
+    @Required private String foto;
     private boolean recibir_oferta;
     private int puntos;
     private boolean sesion;

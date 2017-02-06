@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,12 +48,11 @@ import application.ucweb.proyectoallin.adapter.BannerAdapter;
 import application.ucweb.proyectoallin.adapter.DialogAdapter;
 import application.ucweb.proyectoallin.adapter.DialogDepaProvDistAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoDepartamentosAdapter;
-import application.ucweb.proyectoallin.adapter.DialogoEventosAdapter;
 import application.ucweb.proyectoallin.adapter.DialogoRecomendacionesAdapter;
-import application.ucweb.proyectoallin.adapter.DialogoTipoMusicaAdapter;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
+import application.ucweb.proyectoallin.model.Banner;
 import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.model.ItemSimple;
 import application.ucweb.proyectoallin.model.Usuario;
@@ -111,23 +112,26 @@ public class MenuFragment extends Fragment implements IActividad{
         if (!isSesion()) usuarioNoRegistrado();
         //requestLocales();
         //requestGeneros();
+        if (ConexionBroadcastReceiver.isConect()) requestBanner();
         return view;
     }
 
     private void iniciarViewPager() {
-        bannerAdapter = new BannerAdapter(getFragmentManager());
-        viewPager.setAdapter(bannerAdapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+        if (!Banner.getBanners().isEmpty()) {
+            bannerAdapter = new BannerAdapter(getFragmentManager(), new ArrayList<>(Banner.getBanners()));
+            viewPager.setAdapter(bannerAdapter);
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
-            @Override
-            public void onPageSelected(int position) { index_banner = position; }
+                @Override
+                public void onPageSelected(int position) { index_banner = position; }
 
-            @Override
-            public void onPageScrollStateChanged(int state) { }
-        });
-        movimientoBanner();
+                @Override
+                public void onPageScrollStateChanged(int state) { }
+            });
+            movimientoBanner();
+        }
     }
 
     private void usuarioNoRegistrado() {
@@ -376,11 +380,10 @@ public class MenuFragment extends Fragment implements IActividad{
 
     private void movimientoBanner() {
         final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
+        final Runnable update = new Runnable() {
             public void run() {
-                if (index_banner == bannerAdapter.getCount()) {
+                if (index_banner == bannerAdapter.getCount())
                     index_banner = 0;
-                }
                 viewPager.setCurrentItem(index_banner++, true);
             }
         };
@@ -389,7 +392,7 @@ public class MenuFragment extends Fragment implements IActividad{
         swipeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                handler.post(Update);
+                handler.post(update);
             }
         }, 3000, 3000);
     }
@@ -451,5 +454,51 @@ public class MenuFragment extends Fragment implements IActividad{
             request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Configuracion.getInstance().addToRequestQueue(request, TAG);
         }
+    }
+
+    private void requestBanner() {
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.BANNERS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getBoolean("status")) {
+                                JSONArray jBanner = jsonObject.getJSONArray("data");
+                                ArrayList<Banner> banners = new ArrayList<>();
+                                for (int i = 0 ; i < jBanner.length(); i++) {
+                                    Banner banner = new Banner();
+                                    banner.setId(jBanner.getJSONObject(i).getInt("BAN_ID"));
+                                    banner.setUrl(jBanner.getJSONObject(i).getString("BAN_IMAGEN"));
+                                    banners.add(banner);
+                                }
+                                if (!banners.isEmpty()) {
+                                    Banner.insertOrUpdate(banners);
+                                    iniciarViewPager();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString(), e);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e(TAG, error.toString(), error);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("banner", "banner");
+                return params;
+            }
+        };
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 }

@@ -1,10 +1,15 @@
 package application.ucweb.proyectoallin.util;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -12,6 +17,8 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -21,6 +28,26 @@ import application.ucweb.proyectoallin.R;
  * Created by ucweb02 on 07/11/2016.
  */
 public class Util {
+    public static final String TAG = Util.class.getSimpleName();
+    private static final String PACKAGE = "application.ucweb.proyectoallin";
+
+    public static void generateHashkey(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    PACKAGE,
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+
+                Log.d("Hash key", "" + Base64.encodeToString(md.digest(), Base64.NO_WRAP));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, e.getMessage(), e);
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+    }
 
     public static String getPath(Uri uri, Context context) {
         String result = null;

@@ -26,7 +26,6 @@ import application.ucweb.proyectoallin.model.ItemSimple;
 import application.ucweb.proyectoallin.model.Usuario;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 
 /**
  * Created by ucweb02 on 21/09/2016.

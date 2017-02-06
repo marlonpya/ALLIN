@@ -1,14 +1,19 @@
 package application.ucweb.proyectoallin;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -17,12 +22,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.List;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
+import application.ucweb.proyectoallin.model.Corporativo;
 import application.ucweb.proyectoallin.util.MaterialInputsDialog;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MenuCorporativo extends BaseActivity {
-    public static final String TAG = MenuCorporativo.class.getSimpleName();
+    private static final String TAG = MenuCorporativo.class.getSimpleName();
     @BindView(R.id.idiv_layout_usuario_administrado) ImageView fondo;
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
@@ -31,12 +37,14 @@ public class MenuCorporativo extends BaseActivity {
     @BindView(R.id.btnAdministradorLista)ImageView btnAdministradorLista;
     @BindView(R.id.btnAdministradorCodigo)ImageView btnAdministradorCodigo;
     @BindView(R.id.rl_menu_corporativo) RelativeLayout layout;
+    @BindView(R.id.tvNombreEstablecimiento) TextView tvNombreEstablecimiento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_corporativo);
         iniciarLayout();
+        tvNombreEstablecimiento.setText(Corporativo.getCorporativo().getLoc_nombre());
     }
 
     @OnClick(R.id.btnAdministradorVentas)
@@ -132,5 +140,31 @@ public class MenuCorporativo extends BaseActivity {
         usarGlide(this, R.drawable.iconoventas, btnAdministradorVentas);
         usarGlide(this, R.drawable.iconolista, btnAdministradorLista);
         usarGlide(this, R.drawable.iconocodigo, btnAdministradorCodigo);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_corporativo_cerrar) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.app_name)
+                    .setMessage(getString(R.string.cerrar_sesion))
+                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Corporativo.cerrarSesion();
+                            startActivity(new Intent(MenuCorporativo.this, InicioActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        }
+                    })
+                    .setNegativeButton(R.string.cancelar, null)
+                    .show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -22,15 +23,17 @@ public class FcmMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        Log.d(TAG, remoteMessage.getData() == null ? "ERROR" : remoteMessage.getData().toString());
         if (remoteMessage != null) {
-            notificacion();
+            String ruta_imagen = remoteMessage.getData().get("rutaImagen") == null ? "null_" : remoteMessage.getData().get("rutaImagen");
+            notificacion(ruta_imagen);
         }
     }
 
-    private void notificacion() {
+    private void notificacion(String ruta_imagen) {
         Intent i = new Intent(this, PrincipalActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.putExtra(Constantes.B_MOSTRAR_PROMOCION, true);
+        i.putExtra(Constantes.EXTRA_S_RUTA_IMAGEN, ruta_imagen);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
