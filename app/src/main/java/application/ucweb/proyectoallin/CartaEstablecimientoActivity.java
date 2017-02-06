@@ -68,6 +68,7 @@ public class CartaEstablecimientoActivity extends BaseActivity implements IActiv
     private ArrayList<ProductoSimple> lista_productos = new ArrayList<>();
     private ArrayList<ProductoSimple> lista_filtrada = new ArrayList<>();
     private int idLocal;
+    private int count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,36 +107,32 @@ public class CartaEstablecimientoActivity extends BaseActivity implements IActiv
     }
 
     private void iniciarRV() {
-        adapter = new ProductoAdapter(this, lista_productos);
-        rvlista_puntos.setHasFixedSize(true);
-        rvlista_puntos.setLayoutManager(new GridLayoutManager(CartaEstablecimientoActivity.this, 2));
-        rvlista_puntos.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void iniciarRV2() {
         adapter = new ProductoAdapter(this, lista_filtrada);
         rvlista_puntos.setHasFixedSize(true);
         rvlista_puntos.setLayoutManager(new GridLayoutManager(CartaEstablecimientoActivity.this, 2));
         rvlista_puntos.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        tvResultadoCartaDiscoteca.setText(count + " resultados");
     }
+
 
     @OnItemSelected(R.id.spCarta)
     public void spCartaSeeleccion(int position) {
-        Log.v("Amd", (position-1)+"");
         int tipo=position-1;
         if (tipo==-1){
-            iniciarRV();
+            lista_filtrada.clear();
+            lista_filtrada.addAll(lista_productos);
         }
         else {
+            lista_filtrada.clear();
             for (int i = 0; i < lista_productos.size(); i++) {
                 if (lista_productos.get(i).getTipo()==tipo){
                     lista_filtrada.add(lista_productos.get(i));
                 }
             }
-            iniciarRV2();
         }
+        count = lista_filtrada.size();
+        iniciarRV();
     }
 
     private void requestProductos() {
@@ -175,7 +172,7 @@ public class CartaEstablecimientoActivity extends BaseActivity implements IActiv
                                     lista_productos.add(producto);
                                 }
                                 Log.d(TAG, lista_productos.toString());
-                                iniciarRV();
+                                spCartaSeeleccion(0);
                             }else {
                                 new AlertDialog.Builder(CartaEstablecimientoActivity.this)
                                         .setTitle(R.string.app_name)

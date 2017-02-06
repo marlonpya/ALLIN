@@ -241,9 +241,9 @@
     <string-array name="arrayCarta">
         <item>Todos</item>
         <item>Bebidas y tragos</item>
-        <item>Promociones</item>
         <item>Piqueos</item>
         <item>Comidas</item>
+        <item>Varios</item>
     </string-array>
     <string-array name="arrayEstadoCivil">
         <item>Soltero</item>
