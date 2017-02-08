@@ -15,7 +15,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.load.engine.Resource;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,8 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
@@ -39,8 +41,6 @@ import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoallin.util.Constantes;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
     public static final String TAG = MapaActivity.class.getSimpleName();
@@ -116,6 +116,7 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jArray = jsonObject.getJSONArray("local");
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", new Locale("es", "pe"));
                             for (int i = 0; i < jArray.length(); i++) {
                                 EstablecimientoSimple local = new EstablecimientoSimple();
                                 local.setId_server(jArray.getJSONObject(i).getInt("LOC_ID"));
@@ -127,8 +128,13 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                                 local.setNosotros(jArray.getJSONObject(i).getString("LOC_NOSOTROS"));
                                 local.setUrl(jArray.getJSONObject(i).getString("LOC_URL"));
                                 local.setGay(jArray.getJSONObject(i).getInt("LOC_GAY") == 1);
-                                local.setFecha_inicio(jArray.getJSONObject(i).getString("LOC_FEC_INICIO"));
-                                local.setFecha_fin(jArray.getJSONObject(i).getString("LOC_FEC_FIN"));
+                                try {
+                                    local.setFecha_inicio(sdf.parse(jArray.getJSONObject(i).getString("LOC_FEC_INICIO")));
+                                    local.setFecha_fin(sdf.parse(jArray.getJSONObject(i).getString("LOC_FEC_FIN")));
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                                 local.setDistrito(jArray.getJSONObject(i).getString("LOC_DISTRITO"));
                                 local.setProvincia(jArray.getJSONObject(i).getString("LOC_PROVINCIA"));
                                 local.setDepartamento(jArray.getJSONObject(i).getString("LOC_DEPARTAMENTO"));
@@ -144,6 +150,7 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                                 local.setSabado(jArray.getJSONObject(i).getInt("LOC_SABADO")== 1);
                                 local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);
                                 local.setPrecio(jArray.getJSONObject(i).getDouble("LOC_PRECIO"));
+                                local.setImagen(jArray.getJSONObject(i).getString("LOC_IMAGEN"));
                                 establecimientos.add(local);
                             }
                             agregarMakers();
@@ -193,7 +200,7 @@ public class MapaActivity extends BaseActivity implements OnMapReadyCallback {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         final EstablecimientoSimple local = ((EstablecimientoSimple) marker.getTag());
-                        Intent intent = new Intent(MapaActivity.this, EventoActivity.class);
+                        Intent intent = new Intent(MapaActivity.this, EstablecimientoSinEntradaActivity.class);
                         intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, local.getNombre());
                         intent.putExtra(Constantes.K_L_ID_EVENTO, local.getId_server());
                         intent.putExtra(Constantes.OBJ_S_ESTABLECIMIENTO, local);

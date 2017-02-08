@@ -1,5 +1,9 @@
 package application.ucweb.proyectoallin.util;
 
+import java.util.ArrayList;
+
+import application.ucweb.proyectoallin.modelparseable.ItemCarrito;
+
 /**
  * Created by ucweb02 on 21/09/2016.
  */
@@ -25,6 +29,12 @@ public class Constantes {
     public static final String EVENTOS                  = "http://www.uc-web.mobi/Allnight/api/getEventos";
     public static final String BANNERS                  = "http://www.uc-web.mobi/Allnight/api/getBanner";
     public static final String ACTUALIZAR_TOKEN         = "http://www.uc-web.mobi/Allnight/editarToken";
+    public static final String FECHAS                   = "http://www.uc-web.mobi/Allnight/api/getFechasEvento";
+    public static final String IMAGENES_LOCAL           = "http://www.uc-web.mobi/Allnight/api/getImagenesLocal";
+    public static final String IMAGENES_EVENTO          = "http://www.uc-web.mobi/Allnight/api/getImagenesEvento";
+    public static final String PRODUCTOS                = "http://www.uc-web.mobi/Allnight/api/getProductos";
+    public static final String PROMOCIONES              = "http://www.uc-web.mobi/Allnight/api/getPromociones";
+    public static final String REGISTRAR_VENTA          = "http://www.uc-web.mobi/Allnight/api/registrarVenta";
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";
@@ -68,7 +78,6 @@ public class Constantes {
     public static final int FILTRO_MUSICA = 3;
     public static final int FILTRO_CALENDARIO = 4;
     public static final String GENERO_MUSICA = "GENERO_MUSICA";
-    public static final String DIA = "DIA";
     public static final String TIPO_MAPA = "TIPO_MAPA";
     //EXTRAS DIALOGO DE EVENTO
     public static final String I_EVENTO_DIALOG = "I_EVENTO_DIALOG";
@@ -78,4 +87,17 @@ public class Constantes {
 
     //Extra de ruta_imagen recibiendo notificacion
     public static final String EXTRA_S_RUTA_IMAGEN = "EXTRA_S_RUTA_IMAGEN";
+
+    //Extra Intent Serializable
+    public static final String OBJ_S_ESTABLECIMIENTO = "OBJ_S_ESTABLECIMIENTO";
+    public static final String OBJ_S_EVENTO = "OBJ_S_EVENTO";
+    public static final String ARRAY_S_CARRITO = "ARRAY_S_CARRITO";
+
+    //Identificadores putextra
+    public static final String DIA = "DIA";
+    public static final String FECHA = "FECHA";
+    public static final String ID_LOCAL = "ID_LOCAL";
+    public static final String ID_EVENTO = "ID_EVENTO";
+    public static final String LATITUD = "LATITUD";
+    public static final String LONGITUD = "LONGITUD";
 }

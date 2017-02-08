@@ -22,6 +22,21 @@ public class ProductoSimple implements Serializable{
     private String imagen;
     private int tipo;
     private boolean estado;
+    private int cantidad;
+
+    public ProductoSimple() {
+    }
+
+    public ProductoSimple(int idServer, String nombre, double precio_normal, double precio_allin, int precio_puntos, int idLocal, int idEvento, int cantidad) {
+        this.idServer = idServer;
+        this.nombre = nombre;
+        this.precio_normal = precio_normal;
+        this.precio_allin = precio_allin;
+        this.precio_puntos = precio_puntos;
+        this.idLocal = idLocal;
+        this.idEvento = idEvento;
+        this.cantidad = cantidad;
+    }
 
     public int getIdServer() {
         return idServer;
@@ -133,5 +148,13 @@ public class ProductoSimple implements Serializable{
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }

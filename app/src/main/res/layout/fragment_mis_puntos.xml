@@ -96,7 +96,7 @@
                 android:textColor="@color/colorblanco"
                 android:textSize="@dimen/size_letter6"
                 android:textStyle="bold"
-                tools:text="14" />
+                tools:text="0" />
 
         </RelativeLayout>
 
@@ -132,7 +132,7 @@
         android:background="@color/colorblanco"
         android:orientation="vertical">
 
-        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/lista_puntos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

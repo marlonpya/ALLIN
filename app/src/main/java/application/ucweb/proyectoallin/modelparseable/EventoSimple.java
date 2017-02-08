@@ -45,7 +45,7 @@ public class EventoSimple implements Serializable {
     }
 
     public String getImagen() {
-        return "http://www.uc-web.mobi/Allnight/uploads/eventos/"+getId_server()+"/principal.jpg";
+        return imagen;
     }
 
     public void setImagen(String imagen) {

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
     <TextView
-        android:id="@+id/item_promocion"
+        android:id="@+id/tv_promocion_nombre"
         tools:text="@string/row_promocion"
         android:textColor="@color/colorblanco"
         android:textSize="@dimen/size_letter6"
@@ -16,16 +16,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
     <TextView
-        android:id="@+id/item_punto_consumo"
-        tools:text="99 pts"
-        android:textColor="@color/colorblanco"
-        android:textSize="@dimen/size_letter6"
-        android:gravity="center"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
-    <TextView
-        android:id="@+id/item_punto_interaccion"
+        android:id="@+id/tv_puntos_costo"
         tools:text="45 pts"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/size_letter6"

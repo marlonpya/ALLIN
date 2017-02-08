@@ -24,9 +24,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import application.ucweb.proyectoallin.adapter.EstablecimientoAdapter;
@@ -166,6 +169,7 @@ public class ListaDiscotecasActivity extends BaseActivity{
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("status")) {
                                 JSONArray jArray = jsonObject.getJSONArray("local");
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", new Locale("es", "pe"));
                                 for (int i = 0; i < jArray.length(); i++) {
                                     EstablecimientoSimple local = new EstablecimientoSimple();
                                     local.setId_server(jArray.getJSONObject(i).getInt("LOC_ID"));
@@ -177,8 +181,13 @@ public class ListaDiscotecasActivity extends BaseActivity{
                                     local.setNosotros(jArray.getJSONObject(i).getString("LOC_NOSOTROS"));
                                     local.setUrl(jArray.getJSONObject(i).getString("LOC_URL"));
                                     local.setGay(jArray.getJSONObject(i).getInt("LOC_GAY") == 1);
-                                    local.setFecha_inicio(jArray.getJSONObject(i).getString("LOC_FEC_INICIO"));
-                                    local.setFecha_fin(jArray.getJSONObject(i).getString("LOC_FEC_FIN"));
+                                    try {
+                                        local.setFecha_inicio(sdf.parse(jArray.getJSONObject(i).getString("LOC_FEC_INICIO")));
+                                        local.setFecha_fin(sdf.parse(jArray.getJSONObject(i).getString("LOC_FEC_FIN")));
+
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                     local.setDistrito(jArray.getJSONObject(i).getString("LOC_DISTRITO"));
                                     local.setProvincia(jArray.getJSONObject(i).getString("LOC_PROVINCIA"));
                                     local.setDepartamento(jArray.getJSONObject(i).getString("LOC_DEPARTAMENTO"));
@@ -194,6 +203,7 @@ public class ListaDiscotecasActivity extends BaseActivity{
                                     local.setSabado(jArray.getJSONObject(i).getInt("LOC_SABADO")== 1);
                                     local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);
                                     local.setPrecio(jArray.getJSONObject(i).getDouble("LOC_PRECIO"));
+                                    local.setImagen(jArray.getJSONObject(i).getString("LOC_IMAGEN"));
                                     tempList.add(local);
                                 }
                                 cargarListas();
@@ -238,6 +248,7 @@ public class ListaDiscotecasActivity extends BaseActivity{
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jArray = jsonObject.getJSONArray("local");
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", new Locale("es", "pe"));
                             for (int i = 0; i < jArray.length(); i++) {
                                 EstablecimientoSimple local = new EstablecimientoSimple();
                                 local.setId_server(jArray.getJSONObject(i).getInt("LOC_ID"));
@@ -249,8 +260,13 @@ public class ListaDiscotecasActivity extends BaseActivity{
                                 local.setNosotros(jArray.getJSONObject(i).getString("LOC_NOSOTROS"));
                                 local.setUrl(jArray.getJSONObject(i).getString("LOC_URL"));
                                 local.setGay(jArray.getJSONObject(i).getInt("LOC_GAY") == 1);
-                                local.setFecha_inicio(jArray.getJSONObject(i).getString("LOC_FEC_INICIO"));
-                                local.setFecha_fin(jArray.getJSONObject(i).getString("LOC_FEC_FIN"));
+                                try {
+                                    local.setFecha_inicio(sdf.parse(jArray.getJSONObject(i).getString("LOC_FEC_INICIO")));
+                                    local.setFecha_fin(sdf.parse(jArray.getJSONObject(i).getString("LOC_FEC_FIN")));
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                                 local.setDistrito(jArray.getJSONObject(i).getString("LOC_DISTRITO"));
                                 local.setProvincia(jArray.getJSONObject(i).getString("LOC_PROVINCIA"));
                                 local.setDepartamento(jArray.getJSONObject(i).getString("LOC_DEPARTAMENTO"));
@@ -266,6 +282,7 @@ public class ListaDiscotecasActivity extends BaseActivity{
                                 local.setSabado(jArray.getJSONObject(i).getInt("LOC_SABADO")== 1);
                                 local.setDomingo(jArray.getJSONObject(i).getInt("LOC_DOMINGO")== 1);
                                 local.setPrecio(jArray.getJSONObject(i).getDouble("LOC_PRECIO"));
+                                local.setImagen(jArray.getJSONObject(i).getString("LOC_IMAGEN"));
                                 listaLocales.add(local);
                             }
                             cargarListas();

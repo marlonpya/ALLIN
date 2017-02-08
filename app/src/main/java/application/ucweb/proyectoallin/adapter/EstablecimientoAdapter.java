@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import application.ucweb.proyectoallin.EventoActivity;
+import application.ucweb.proyectoallin.EstablecimientoSinEntradaActivity;
 import application.ucweb.proyectoallin.R;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
@@ -49,8 +49,8 @@ public class EstablecimientoAdapter extends RecyclerView.Adapter<Establecimiento
         BaseActivity.setImageConGlideCircular(context, holder.imagen, item.getImagen());
         BaseActivity.setImageConGlideCircular(context, holder.contorno, R.drawable.circulo_con_lineas);
         holder.nombre.setText(item.getNombre());
-        Date horaInicio = item.getDateInicio();
-        Date horaFin = item.getDateFin();
+        Date horaInicio = item.getFecha_inicio();
+        Date horaFin = item.getFecha_fin();
         SimpleDateFormat sdfHora = new SimpleDateFormat("hh:mm a", new Locale("es", "pe"));
         if (horaInicio!=null) {
             holder.hora.setText("Hora: " + sdfHora.format(horaInicio) + " - " + sdfHora.format(horaFin));
@@ -59,7 +59,7 @@ public class EstablecimientoAdapter extends RecyclerView.Adapter<Establecimiento
         holder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EventoActivity.class);
+                Intent intent = new Intent(context, EstablecimientoSinEntradaActivity.class);
                 intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
                 intent.putExtra(Constantes.K_L_ID_EVENTO, item.getId_server());
                 intent.putExtra(Constantes.OBJ_S_ESTABLECIMIENTO, item);

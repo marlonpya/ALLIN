@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="@drawable/fondo_allin"
-    tools:context=".EventoActivity">
+    tools:context=".EstablecimientoConEntradaActivity">
 
     <ImageView
-        android:id="@+id/idiv_layout_perfil_discoteca"
+        android:id="@+id/idiv_layout_perfil_evento"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerInParent="true"
@@ -18,15 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/container_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/son_toolbar" />
-
-        </LinearLayout>
+        <include layout="@layout/son_toolbar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +57,7 @@
                     android:weightSum="1">
 
                     <ImageView
-                        android:id="@+id/iv_big_perfil_discoteca"
+                        android:id="@+id/iv_big_perfil_evento"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
                         android:layout_gravity="center"
@@ -146,32 +138,15 @@
                         android:textAlignment="textEnd"
                         android:textColor="@color/colorblanco"
                         android:textSize="@dimen/size_letter7" />
-
-                    <TextView
-                        android:id="@+id/textView14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginTop="@dimen/espacio_registro"
-                        android:text="@string/discoteca_tipomusica"
-                        android:textColor="@color/colorblanco"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtTipoMusicaDiscoteca"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:text="Salsa / Regueton "
-                        android:textColor="@color/colorblanco"
-                        android:textSize="@dimen/size_letter7" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/width_images_perfil_extras"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -183,10 +158,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ivCartaPerfilD"
+                        android:id="@+id/ivCartaPerfilE"
                         android:layout_width="@dimen/width_images_perfil"
                         android:layout_height="@dimen/width_images_perfil"
-                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_gravity="center"
                         android:layout_margin="10dp"
                         android:background="@drawable/efecto_circular_transparente"
                         android:clickable="true"
@@ -195,7 +170,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="center|bottom"
                         android:gravity="center"
                         android:text="@string/ver_carta"
                         android:textColor="@color/colorblanco"
@@ -204,83 +179,56 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight=".25"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ivApuntarmePerfilD"
+                        android:id="@+id/ivApuntarmePerfilE"
                         android:layout_width="@dimen/width_images_perfil"
                         android:layout_height="@dimen/width_images_perfil"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
                         android:background="@drawable/efecto_circular_transparente"
                         android:clickable="true"
-                        tools:background="@drawable/apuntarme" />
+                        tools:background="@drawable/iconoticket" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center"
-                        android:text="@string/apuntarme_lista"
+                        android:text="@string/comprar_entrada"
                         android:textColor="@color/colorblanco"
                         android:textSize="@dimen/size_letter8" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btnProximos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".25"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ivEventosPerfilD"
+                        android:id="@+id/ivMapaEventosPerfilE"
                         android:layout_width="@dimen/width_images_perfil"
                         android:layout_height="@dimen/width_images_perfil"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
                         android:background="@drawable/efecto_circular_transparente"
                         android:clickable="true"
-                        tools:background="@drawable/proximoseventos" />
+                        tools:background="@drawable/iconomapa" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center"
-                        android:text="@string/proximos_eventos"
+                        android:text="@string/ver_mapa_evento"
                         android:textColor="@color/colorblanco"
                         android:textSize="@dimen/size_letter8" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/btnListaRapida"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".25"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/ivAgregarPerfilD"
-                        android:layout_width="@dimen/width_images_perfil"
-                        android:layout_height="@dimen/width_images_perfil"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/efecto_circular_transparente"
-                        android:clickable="true"
-                        tools:background="@drawable/lista" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|bottom"
-                        android:gravity="center"
-                        android:text="@string/agregar_a_lista_rapida"
-                        android:textColor="@color/colorblanco"
-                        android:textSize="@dimen/size_letter8" />
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -325,10 +273,11 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/iv_ic_webPerfilD"
+                            android:id="@+id/iv_ic_webPerfilE"
                             android:layout_width="@dimen/width_images_perfil_extras"
                             android:layout_height="@dimen/width_images_perfil_extras"
-                            tools:background="@drawable/verweb" />
+                            android:layout_gravity="center"
+                            android:src="@drawable/verweb" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -355,11 +304,11 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/iv_ic_compartirPerfilD"
+                            android:id="@+id/iv_ic_compartirPerfilE"
                             android:layout_width="@dimen/width_images_perfil_extras"
                             android:layout_height="@dimen/width_images_perfil_extras"
                             android:layout_gravity="center"
-                            tools:background="@drawable/compartir" />
+                            android:background="@drawable/compartir" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -386,11 +335,11 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/iv_ic_fotosPerfilD"
+                            android:id="@+id/iv_ic_fotosPerfilE"
                             android:layout_width="@dimen/width_images_perfil_extras"
                             android:layout_height="@dimen/width_images_perfil_extras"
                             android:layout_gravity="center"
-                            tools:background="@drawable/fotos" />
+                            android:background="@drawable/fotos" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -402,7 +351,7 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/btnUbicanos"
+                    android:id="@+id/btnMarkerEvento"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight=".25"
@@ -417,13 +366,14 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/ivMarkerDiscotecaPerfilD"
+                            android:id="@+id/ivMarkerDiscotecaPerfilE"
                             android:layout_width="@dimen/width_images_perfil_extras"
                             android:layout_height="@dimen/width_images_perfil_extras"
                             android:layout_gravity="center"
-                            tools:background="@drawable/ubicanos" />
+                            android:background="@drawable/ubicanos" />
 
                         <TextView
+                            android:id="@+id/txtUbicanos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/perfil_discoteca_ubicanos"

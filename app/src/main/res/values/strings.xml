@@ -115,6 +115,7 @@
     <string name="registro_recontrasenia">Repita su contraseña</string>
     <string name="row_condiciones">CONDICIONES</string>
     <string name="row_agregar">AGREGAR A CARRITO</string>
+    <string name="row_remover">REMOVER DE CARRITO</string>
     <string name="row_canjear">CANJEAR</string>
 
     <!-- FRAGMENT EDITAR PERFIL DE USUARIO-->
@@ -124,6 +125,7 @@
     <string name="mis_puntos">MIS PUNTOS ALLIN</string>
     <string name="puntos_consumo">PUNTOS CONSUMO:</string>
     <string name="puntos_interaccion">PUNTOS INTERACCIÓN:</string>
+    <string name="puntos">PUNTOS</string>
     <!-- DISTRITOS-->
     <string-array name="DISTRITOS">
         <item>ANCÓN</item>
@@ -303,6 +305,7 @@
     <string name="registro_cliente">REGISTRO</string>
     <string name="carta_discoteca">CARTA DE DISCOTECA</string>
     <string name="codigo">CÓDIGO</string>
+    <string name="condiciones">CONDICIONES</string>
 
     <!-- ACTIVIDAD PRODUCTOS POR RECOGER-->
     <string name="productos_por_recoger">PRODUCTOS POR RECOGER</string>

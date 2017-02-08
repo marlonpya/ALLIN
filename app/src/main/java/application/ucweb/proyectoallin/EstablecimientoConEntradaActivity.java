@@ -1,40 +1,29 @@
 package application.ucweb.proyectoallin;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
-
-import java.util.concurrent.ExecutionException;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.dialogo.ImagenGrandeDialogo;
 import application.ucweb.proyectoallin.interfaz.IActividad;
 import application.ucweb.proyectoallin.model.Usuario;
-import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.modelparseable.EventoSimple;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class        EstablecimientoActivity extends BaseActivity implements IActividad{
+public class EstablecimientoConEntradaActivity extends BaseActivity implements IActividad{
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
     @BindView(R.id.tvDescripcionToolbar) TextView toolbarEvento;
@@ -58,7 +47,7 @@ public class        EstablecimientoActivity extends BaseActivity implements IAct
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_establecimiento);
+        setContentView(R.layout.activity_establecimiento_con_entrada);
         iniciarLayout();
         toolbarEvento.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
         evento = (EventoSimple) getIntent().getSerializableExtra(Constantes.OBJ_S_EVENTO);

@@ -2,35 +2,43 @@ package application.ucweb.proyectoallin;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import application.ucweb.proyectoallin.adapter.DetalleCompraAdapter;
+import application.ucweb.proyectoallin.adapter.DetalleCompraAdapter2;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.model.Producto;
+import application.ucweb.proyectoallin.modelparseable.ItemCarrito;
+import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindView;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class DetalleCompraActivity extends BaseActivity {
-    @BindView(R.id.rrv_lista_detalle_compra) RealmRecyclerView realmRecyclerView;
+    @BindView(R.id.rrv_lista_detalle_compra) RecyclerView recyclerView;
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
     @BindView(R.id.tv_aceptar_terminos_compra) TextView aceptar_terminos;
     @BindView(R.id.fondo_detalle_compra) ImageView fondo;
     @BindView(R.id.tvDescripcionToolbar) TextView toolbar_descripcion;
     @BindView(R.id.tv_total_compra_detalle) TextView total_compra;
-    private Realm realm;
-    private DetalleCompraAdapter adapter;
-    private RealmResults<Producto> productos;
+    private DetalleCompraAdapter2 adapter;
+    private ArrayList<ItemCarrito> productos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_compra);
+        productos = (ArrayList<ItemCarrito>)getIntent().getSerializableExtra(Constantes.ARRAY_S_CARRITO);
         inciarLayout();
         iniciarRRV();
     }
@@ -43,16 +51,17 @@ public class DetalleCompraActivity extends BaseActivity {
     }
 
     private void iniciarRRV() {
-        realm = Realm.getDefaultInstance();
-        productos = realm.where(Producto.class).equalTo(Producto.A_CARRITO, true).findAll();
-        adapter = new DetalleCompraAdapter(this, productos, true, true);
-        realmRecyclerView.setAdapter(adapter);
+        adapter = new DetalleCompraAdapter2(this, productos);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        double cantidad = 0.0;
-        for (Producto producto : productos){
-            cantidad =+ (producto.getPrecio_allin() * producto.getCantidad());
+        double total = 0;
+        for (int i = 0; i < productos.size(); i++) {
+            double subtotal = productos.get(i).getPrecio_allin() * productos.get(i).getCantidad();
+            total += subtotal;
         }
-        total_compra.setText("S/. "+String.valueOf(cantidad - 15.00));
+        total_compra.setText("S/. "+String.valueOf(total + 15.00));
     }
 
     @Override

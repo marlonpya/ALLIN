@@ -1,12 +1,15 @@
 package application.ucweb.proyectoallin.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -44,8 +47,8 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ProductoSimple item = productos.get(position);
         holder.nombre_promocion.setText(item.getNombre());
-        holder.precio_normal.setText("S/."+ String.valueOf(item.getPrecio_normal()));
-        holder.precio_allin.setText("S/."+ String.valueOf(item.getPrecio_allin()));
+        holder.precio_normal.setText("S/. "+ String.format("%.2f",(item.getPrecio_normal())));
+        holder.precio_allin.setText("S/. "+ String.format("%.2f",(item.getPrecio_allin())));
         Glide.with(context).load(item.getImagen()).into(holder.iv_row_imagen_canje);
         BaseActivity.usarGlide(context, R.drawable.iv_row_ic_condicion, holder.iv_row_ic_condiciones);
         BaseActivity.usarGlide(context, R.drawable.iv_row_ic_agregar, holder.iv_row_ic_agregar_a_carrito);
@@ -53,20 +56,30 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         holder.iv_row_ic_condiciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //holderOptions("Condiciones");
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getString(R.string.condiciones))
+                        .setMessage("producto.getCondiciones()")
+                        .setIcon(R.drawable.iconoalertafucsia)
+                        .setPositiveButton(context.getString(R.string.aceptar), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         holder.iv_row_ic_agregar_a_carrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //holderOptions("Agregar a carrito");
+                Toast.makeText(context, "ItemCarrito", Toast.LENGTH_SHORT).show();
             }
         });
         holder.iv_row_ic_canjear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //getContext().startActivity(new Intent(getContext().getApplicationContext(), CanjearPuntosActivity.class));
-                //holderOptions("Comprar");
+                Toast.makeText(context, "Canjear", Toast.LENGTH_SHORT).show();
             }
         });
     }

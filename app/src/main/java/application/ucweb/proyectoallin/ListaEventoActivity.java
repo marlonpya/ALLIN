@@ -42,6 +42,7 @@ import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
 import application.ucweb.proyectoallin.model.Establecimiento;
+import application.ucweb.proyectoallin.model.Usuario;
 import application.ucweb.proyectoallin.modelparseable.EventoSimple;
 import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoallin.util.Constantes;
@@ -97,7 +98,6 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
                                     EventoSimple evento = new EventoSimple();
                                     evento.setId_server(jEventos.getJSONObject(i).getInt("EVE_ID"));
                                     evento.setNombre(jEventos.getJSONObject(i).getString("EVE_NOMBRE"));
-                                    evento.setImagen("");
                                     evento.setPrecio(Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_PRECIO")));/*
                                     evento.setLatitud(jEventos.getJSONObject(i).getString("EVE_LATITUD").isEmpty() ? 0 : Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LATITUD")));
                                     evento.setLongitud(jEventos.getJSONObject(i).getString("EVE_LONGITUD").isEmpty() ? 0 : Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LONGITUD")));
@@ -105,6 +105,7 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
                                     evento.setTipo(jEventos.getJSONObject(i).getInt("EVE_TIPO"));
                                     evento.setId_local(jEventos.getJSONObject(i).getInt("LOC_ID"));
                                     evento.setDescripcion(jEventos.getJSONObject(i).getString("EVE_DESCRIPCION"));
+                                    evento.setImagen(jEventos.getJSONObject(i).getString("EVE_IMAGEN"));
                                     if (evento.getId_local()!=0){
                                         evento.setNombre_local(jEventos.getJSONObject(i).getString("LOC_NOMBRE"));
                                         evento.setDireccion(jEventos.getJSONObject(i).getString("LOC_DIRECCION"));
@@ -168,8 +169,7 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
     }
 
     private void iniciarRV() {
-        if (getIntent().getIntExtra(Constantes.FILTRO, -1)==Constantes.FILTRO_CALENDARIO)
-        {
+        if (getIntent().getIntExtra(Constantes.FILTRO, -1)==Constantes.FILTRO_CALENDARIO) {
             Date fechaSeleccionada = new Date();
             fechaSeleccionada.setTime(getIntent().getLongExtra(Constantes.FECHA, -1));
             SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", new Locale("es", "pe"));
@@ -198,7 +198,7 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
 
     @Override
     public boolean isSesion() {
-        return false;
+        return Usuario.getUsuario() != null && Usuario.getUsuario().isSesion();
     }
 
     @Override

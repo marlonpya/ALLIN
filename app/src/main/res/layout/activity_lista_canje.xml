@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/fondo_allin_desenfoquev3"
+    tools:context=".ListaCanjeActivity">
+
+
+    <ImageView
+        android:id="@+id/idiv_layout_canje"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <include layout="@layout/son_toolbar" />
+
+        <LinearLayout
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_marginBottom="10dp"
+                android:text="@string/canjear_ahora"
+                android:gravity="end"
+                android:textColor="@color/colorblanco"
+                android:textSize="@dimen/size_letter3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+                <TextView
+                    android:text="@string/concepto"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/size_letter5"
+                    android:gravity="center|left"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:text="@string/puntos"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/size_letter5"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_lista_promociones"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".75"
+                app:rrvLayoutType="LinearLayout" />
+
+            <View
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/caldroid_white"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".05"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="TOTAL:"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:id="@+id/tv_total_canje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/colorAccent"
+                    tools:text="200 pts" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".15"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnCanjear"
+                    style="@style/boton_allin_oscuro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/canjear_ahora" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

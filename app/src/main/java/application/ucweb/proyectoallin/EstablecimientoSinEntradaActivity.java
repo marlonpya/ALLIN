@@ -11,10 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -40,7 +38,6 @@ import java.util.Map;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
-import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.model.Usuario;
 import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.modelparseable.EventoSimple;
@@ -48,9 +45,8 @@ import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.realm.Realm;
 
-public class EventoActivity extends BaseActivity implements IActividad {
+public class EstablecimientoSinEntradaActivity extends BaseActivity implements IActividad {
     @BindView(R.id.drawer_layout) RelativeLayout layout_PerfilDiscoteca;
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
@@ -74,7 +70,7 @@ public class EventoActivity extends BaseActivity implements IActividad {
     @BindView(R.id.txtAforoDiscoteca) TextView txtAforoDiscoteca;
     @BindView(R.id.txtDescripcionDiscoteca) TextView txtDescripcionDiscoteca;
     @BindView(R.id.txtTipoMusicaDiscoteca) TextView txtTipoMusicaDiscoteca;
-    public static final String TAG = EventoActivity.class.getSimpleName();
+    public static final String TAG = EstablecimientoSinEntradaActivity.class.getSimpleName();
     private ProgressDialog progressDialog;
     private String generoMusica = "";
     private EstablecimientoSimple local;
@@ -85,7 +81,7 @@ public class EventoActivity extends BaseActivity implements IActividad {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evento);
+        setContentView(R.layout.activity_establecimiento_sin_entrada);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.enviando_peticion));

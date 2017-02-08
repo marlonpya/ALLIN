@@ -34,7 +34,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rrv_lista_compra"
             android:layout_width="match_parent"
             android:layout_height="0dp"

@@ -9,16 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import application.ucweb.proyectoallin.EstablecimientoActivity;
-import application.ucweb.proyectoallin.EventoActivity;
+import application.ucweb.proyectoallin.EstablecimientoConEntradaActivity;
+import application.ucweb.proyectoallin.EstablecimientoSinEntradaActivity;
 import application.ucweb.proyectoallin.R;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.modelparseable.EventoSimple;
@@ -70,13 +68,13 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 if (item.getPrecio()>0){
-                    Intent intent = new Intent(context, EstablecimientoActivity.class);
+                    Intent intent = new Intent(context, EstablecimientoConEntradaActivity.class);
                     intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
                     intent.putExtra(Constantes.OBJ_S_EVENTO, item);
                     context.startActivity(intent);
                 }
                 else {
-                    Intent intent = new Intent(context, EventoActivity.class);
+                    Intent intent = new Intent(context, EstablecimientoSinEntradaActivity.class);
                     intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());
                     intent.putExtra(Constantes.OBJ_S_EVENTO, item);
                     context.startActivity(intent);

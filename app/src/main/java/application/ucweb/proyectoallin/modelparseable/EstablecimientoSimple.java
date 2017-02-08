@@ -33,8 +33,8 @@ public class EstablecimientoSimple implements Serializable {
     private String nosotros;
     private String url;
     private boolean gay;
-    private String fecha_inicio;
-    private String fecha_fin;
+    private Date fecha_inicio;
+    private Date fecha_fin;
     private String departamento;
     private String provincia;
     private String distrito;
@@ -56,7 +56,7 @@ public class EstablecimientoSimple implements Serializable {
 
 //    private RealmList<Establecimiento> listaEventos2 =new RealmList<Establecimiento>();
 
-    public EstablecimientoSimple(long id, int id_server, String imagen, String nombre, String nombre_evento, String direccion, double latitud, double longitud, int aforo, String nosotros, String url, boolean gay, String fecha_inicio, String fecha_fin, String departamento, String provincia, String distrito, int tipo, boolean plus, boolean estado, String razon_social, String ruc, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes, boolean sabado, boolean domingo, double precio) {
+    public EstablecimientoSimple(long id, int id_server, String imagen, String nombre, String nombre_evento, String direccion, double latitud, double longitud, int aforo, String nosotros, String url, boolean gay, Date fecha_inicio, Date fecha_fin, String departamento, String provincia, String distrito, int tipo, boolean plus, boolean estado, String razon_social, String ruc, boolean lunes, boolean martes, boolean miercoles, boolean jueves, boolean viernes, boolean sabado, boolean domingo, double precio) {
         this.id = id;
         this.id_server = id_server;
         this.imagen = imagen;
@@ -106,7 +106,7 @@ public class EstablecimientoSimple implements Serializable {
     }
 
     public String getImagen() {
-            return "http://www.uc-web.mobi/Allnight/uploads/locales/"+getId_server()+"/principal.jpg";
+            return imagen;
     }
 
     public void setImagen(String imagen) {
@@ -185,19 +185,19 @@ public class EstablecimientoSimple implements Serializable {
         this.gay = gay;
     }
 
-    public String getFecha_inicio() {
+    public Date getFecha_inicio() {
         return fecha_inicio;
     }
 
-    public void setFecha_inicio(String fecha_inicio) {
+    public void setFecha_inicio(Date fecha_inicio) {
         this.fecha_inicio = fecha_inicio;
     }
 
-    public String getFecha_fin() {
+    public Date getFecha_fin() {
         return fecha_fin;
     }
 
-    public void setFecha_fin(String fecha_fin) {
+    public void setFecha_fin(Date fecha_fin) {
         this.fecha_fin = fecha_fin;
     }
 
@@ -329,7 +329,7 @@ public class EstablecimientoSimple implements Serializable {
         this.precio = precio;
     }
 
-    public Date getDateInicio(){
+    /*public Date getDateInicio(){
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         try {
@@ -351,5 +351,5 @@ public class EstablecimientoSimple implements Serializable {
 
         }
         return d;
-    }
+    }*/
 }

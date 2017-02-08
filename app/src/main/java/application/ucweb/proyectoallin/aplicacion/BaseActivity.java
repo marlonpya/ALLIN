@@ -176,4 +176,16 @@ public class BaseActivity extends AppCompatActivity {
         else
             usarGlide(context, ruta, imageView);
     }
+
+    public static void setGlideCircular(Context context, String ruta, ImageView imageView){
+        if (ConexionBroadcastReceiver.isConect())
+            Glide.with(context)
+                    .load(ruta)
+                    .transform(new CircleTransform(context))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageView);
+        else
+            usarGlide(context, ruta, imageView);
+    }
 }

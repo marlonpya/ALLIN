@@ -42,13 +42,36 @@
                     android:textColor="@color/colorgreyBoton"
                     android:textSize="@dimen/size_letter5" />
 
-                <ImageView
+                <RelativeLayout
+                    android:id="@+id/iv_ir_a_carrito_puntos"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="5dp"
                     android:layout_weight=".15"
-                    android:src="@drawable/icono_carrito" />
+                    android:background="@drawable/efecto_item_lista_transparente"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight=".15"
+                        android:src="@drawable/icono_carrito" />
+
+                    <TextView
+                        android:id="@+id/tv_cantidad_productos_carrito"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="3dp"
+                        android:textColor="@color/colorblanco"
+                        android:textSize="@dimen/size_letter6"
+                        android:textStyle="bold"
+                        tools:text="0" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="1dp"

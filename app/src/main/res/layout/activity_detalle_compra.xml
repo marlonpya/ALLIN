@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ScrollView
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -81,11 +81,10 @@
                         android:textSize="@dimen/size_letter5"
                         tools:text="@string/tarjeta_credito" />
 
-                    <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+                    <android.support.v7.widget.RecyclerView
                         android:id="@+id/rrv_lista_detalle_compra"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        app:rrvLayoutType="LinearLayout" />
+                        android:layout_height="120dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -291,7 +290,7 @@
 
                 </LinearLayout>
 
-            </ScrollView>
+            </android.support.v4.widget.NestedScrollView>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -117,8 +117,9 @@ public class MenuFragment extends Fragment implements IActividad{
     }
 
     private void iniciarViewPager() {
-        if (!Banner.getBanners().isEmpty()) {
-            bannerAdapter = new BannerAdapter(getFragmentManager(), new ArrayList<>(Banner.getBanners()));
+        ArrayList<Banner> banners = new ArrayList<>(Banner.getBanners());
+        if (!banners.isEmpty() || banners != null) {
+            bannerAdapter = new BannerAdapter(getFragmentManager(), banners);
             viewPager.setAdapter(bannerAdapter);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
