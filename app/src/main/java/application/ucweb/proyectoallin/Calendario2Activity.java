@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,6 +40,7 @@ import java.util.Map;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
+import application.ucweb.proyectoallin.model.Usuario;
 import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.modelparseable.EventoSimple;
 import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
@@ -50,11 +52,15 @@ public class Calendario2Activity extends BaseActivity implements IActividad{
 
     @BindView(R.id.sontoolbar) Toolbar toolbar;
     @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
+    @BindView(R.id.tvDescripcionToolbar) TextView tvDescripcionToolbar;
     private ProgressDialog pDialog;
     //private ArrayList<EventoSimple> lista_eventos = new ArrayList<>();
     private ArrayList<Date> lista_fechas = new ArrayList<>();
     private boolean isLocal = false;
     private int tipoLocal;
+
+    private EstablecimientoSimple local;
+    private String strFecha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +68,22 @@ public class Calendario2Activity extends BaseActivity implements IActividad{
         setContentView(R.layout.activity_calendario2);
         iniciarPDialog();
         setToolbarSon(toolbar, this, icono_toolbar);
-        tipoLocal = getIntent().getIntExtra(Constantes.TIPO_ESTABLECIMIENTO, -1);
-        isLocal = tipoLocal != -1;
-        if (!isLocal) {
-            if (ConexionBroadcastReceiver.isConect()) {
-                requestFechas();
+        tvDescripcionToolbar.setText(getString(R.string.seleccione_fecha));
+
+        if (getIntent().hasExtra(Constantes.CALENDARIO_APUNTAR_LISTA)){
+            local=(EstablecimientoSimple)getIntent().getSerializableExtra(Constantes.OBJ_S_ESTABLECIMIENTO);
+            setCalendarApuntarEnLista();
+            getIntent().removeExtra(Constantes.CALENDARIO_APUNTAR_LISTA);
+        }else {
+            tipoLocal = getIntent().getIntExtra(Constantes.TIPO_ESTABLECIMIENTO, -1);
+            isLocal = tipoLocal != -1;
+            if (!isLocal) {
+                if (ConexionBroadcastReceiver.isConect()) {
+                    requestFechas();
+                }
             }
+            else setCalendar();
         }
-        else setCalendar();
     }
 
     private void setCalendar(){
@@ -118,6 +132,81 @@ public class Calendario2Activity extends BaseActivity implements IActividad{
         t.commit();
     }
 
+    private void setCalendarApuntarEnLista(){
+        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        Bundle args = new Bundle();
+        Calendar cal = Calendar.getInstance();
+        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+        caldroidFragment.setArguments(args);
+        caldroidFragment.setMinDate(cal.getTime());
+        Calendar maxDate = Calendar.getInstance();
+        maxDate.set(Calendar.DAY_OF_MONTH, maxDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+        caldroidFragment.setMaxDate(maxDate.getTime());
+
+        CaldroidListener cl = new CaldroidListener() {
+            @Override
+            public void onSelectDate(Date date, View view) {
+
+                SimpleDateFormat sfdSimpleDate = new SimpleDateFormat("yyyy-MM-dd", new Locale("es", "pe"));
+                strFecha=sfdSimpleDate.format(date) + " 00:00:00";
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                int diaSemana = c.get(Calendar.DAY_OF_WEEK);
+                switch (diaSemana){
+                    case 1: if (local.isDomingo()) showDialogApuntarFecha(date); else showDialogNoDisponible(); break;
+                    case 2: if (local.isLunes()) showDialogApuntarFecha(date); else showDialogNoDisponible(); break;
+                    case 3: if (local.isMartes()) showDialogApuntarFecha(date); else showDialogNoDisponible(); break;
+                    case 4: if (local.isMiercoles()) showDialogApuntarFecha(date); else showDialogNoDisponible(); break;
+                    case 5: if (local.isJueves()) showDialogApuntarFecha(date); else showDialogNoDisponible(); break;
+                    case 6: if (local.isViernes()) showDialogApuntarFecha(date); else showDialogNoDisponible(); break;
+                    case 7: if (local.isSabado()) showDialogApuntarFecha(date); else showDialogNoDisponible(); break;
+                }
+            }
+        };
+        caldroidFragment.setCaldroidListener(cl);
+        caldroidFragment.refreshView();
+        android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.activity_calendario2, caldroidFragment);
+        t.commit();
+    }
+
+    private void showDialogApuntarFecha(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d 'de' MMMM, yyyy", new Locale("es", "pe"));
+        new AlertDialog.Builder(Calendario2Activity.this)
+                .setTitle(R.string.fecha_select)
+                .setMessage(sdf.format(date) + getString(R.string.es_correcto))
+                .setCancelable(false)
+                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        requestRegistrarEnLista();
+                    }
+                })
+                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void showDialogNoDisponible(){
+        new AlertDialog.Builder(Calendario2Activity.this)
+                .setTitle(R.string.app_name)
+                .setMessage(R.string.fecha_no_disponible)
+                .setCancelable(true)
+                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
     private void mostrarListaEventos(Date fecha,  String s_fecha){
         Intent intent = new Intent(this, ListaEventoActivity.class);
         intent.putExtra(Constantes.I_EVENTO_DIALOG, 3);
@@ -150,6 +239,75 @@ public class Calendario2Activity extends BaseActivity implements IActividad{
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage(getString(R.string.enviando_peticion));
+    }
+
+    private void requestRegistrarEnLista() {
+        showDialog(pDialog);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.REGISTRAR_EN_LISTA,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String mensaje=jsonObject.getString("message");
+                            if (jsonObject.getBoolean("status")) {
+                                new AlertDialog.Builder(Calendario2Activity.this)
+                                        .setTitle(R.string.ya_estas_en_lista_titulo_si)
+                                        .setMessage(getString(R.string.ya_estas_en_lista_mensaje_si))
+                                        .setIcon(R.drawable.iconobuenarosa)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                onBackPressed();
+                                            }
+                                        })
+                                        .show();
+
+                            }else {
+                                new AlertDialog.Builder(Calendario2Activity.this)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(mensaje)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                onBackPressed();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString(), e);
+                        }
+                        hidepDialog(pDialog);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e(error.toString(), error);
+                        hidepDialog(pDialog);
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("loc_id", String.valueOf(local.getId_server()));
+                params.put("usu_id", String.valueOf(Usuario.getUsuario().getId_server()));
+                params.put("fecha", strFecha);
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
     private void requestFechas() {

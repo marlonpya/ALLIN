@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import application.ucweb.proyectoallin.R;
-import application.ucweb.proyectoallin.modelparseable.ItemCarrito;
 import application.ucweb.proyectoallin.modelparseable.ProductoSimple;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,10 +23,10 @@ import butterknife.ButterKnife;
 public class DetalleCompraAdapter2 extends RecyclerView.Adapter<DetalleCompraAdapter2.ViewHolder>{
 
     private Context context;
-    private ArrayList<ItemCarrito> productos;
+    private ArrayList<ProductoSimple> productos;
     private LayoutInflater inflater;
 
-    public DetalleCompraAdapter2(Context context, ArrayList<ItemCarrito> productos) {
+    public DetalleCompraAdapter2(Context context, ArrayList<ProductoSimple> productos) {
         this.context = context;
         this.productos = productos;
         this.inflater = LayoutInflater.from(context);
@@ -39,9 +39,9 @@ public class DetalleCompraAdapter2 extends RecyclerView.Adapter<DetalleCompraAda
 
     @Override
     public void onBindViewHolder(DetalleCompraAdapter2.ViewHolder holder, int position) {
-        final ItemCarrito item = productos.get(position);
+        final ProductoSimple item = productos.get(position);
         //if (item.isA_carrito()) {
-            holder.precio.setText("S/. " + String.valueOf(item.getPrecio_allin()*item.getCantidad()));
+            holder.precio.setText("S/. " + String.format("%.2f",(item.getPrecio_allin().multiply(new BigDecimal(item.getCantidad())))));
             holder.cantidad.setText("("+String.valueOf(item.getCantidad())+") ");
             holder.producto.setText(item.getNombre());
         //}

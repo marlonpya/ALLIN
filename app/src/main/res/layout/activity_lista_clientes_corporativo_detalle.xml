@@ -22,7 +22,7 @@
 
         <include layout="@layout/son_toolbar" />
 
-        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rrv_clientes_corporativo_detalle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

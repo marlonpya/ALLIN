@@ -162,7 +162,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="Salsa / Regueton "
                         android:textColor="@color/colorblanco"
                         android:textSize="@dimen/size_letter7" />
                 </LinearLayout>
@@ -273,6 +272,7 @@
                         tools:background="@drawable/lista" />
 
                     <TextView
+                        android:id="@+id/tv_listarapida"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"

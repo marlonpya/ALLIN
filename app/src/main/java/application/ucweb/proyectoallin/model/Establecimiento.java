@@ -37,8 +37,8 @@ public class Establecimiento extends RealmObject{
     private String nosotros;
     private String url;
     private boolean gay;
-    private String fecha_inicio;
-    private String fecha_fin;
+    private Date fecha_inicio;
+    private Date fecha_fin;
     private String departamento;
     private String provincia;
     private String distrito;
@@ -52,6 +52,10 @@ public class Establecimiento extends RealmObject{
     private boolean miercoles;
     private boolean jueves;
     private boolean viernes;
+    private boolean sabado;
+    private boolean domingo;
+    private double precio;
+    private Date fechaAdded;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -82,7 +86,7 @@ public class Establecimiento extends RealmObject{
             insert_establecimiento.setUrl(establecimiento.getUrl());
             insert_establecimiento.setGay(establecimiento.isGay());
             insert_establecimiento.setFecha_inicio(establecimiento.getFecha_inicio());
-            insert_establecimiento.setFecha_inicio(establecimiento.getFecha_fin());
+            insert_establecimiento.setFecha_fin(establecimiento.getFecha_fin());
             insert_establecimiento.setDepartamento(establecimiento.getDepartamento());
             insert_establecimiento.setProvincia(establecimiento.getProvincia());
             insert_establecimiento.setDistrito(establecimiento.getDistrito());
@@ -90,6 +94,15 @@ public class Establecimiento extends RealmObject{
             insert_establecimiento.setEstado(establecimiento.isEstado());
             insert_establecimiento.setRazon_social(establecimiento.getRazon_social());
             insert_establecimiento.setRuc(establecimiento.getRuc());
+            insert_establecimiento.setLunes(establecimiento.isLunes());
+            insert_establecimiento.setMartes(establecimiento.isMartes());
+            insert_establecimiento.setMiercoles(establecimiento.isMiercoles());
+            insert_establecimiento.setJueves(establecimiento.isJueves());
+            insert_establecimiento.setViernes(establecimiento.isViernes());
+            insert_establecimiento.setSabado(establecimiento.isSabado());
+            insert_establecimiento.setDomingo(establecimiento.isDomingo());
+            insert_establecimiento.setPrecio(establecimiento.getPrecio());
+            insert_establecimiento.setFechaAdded(establecimiento.getFechaAdded());
             realm.copyToRealm(insert_establecimiento);
             Log.d(TAG, insert_establecimiento.toString());
         } else {
@@ -104,7 +117,7 @@ public class Establecimiento extends RealmObject{
             select_establecimiento.setUrl(establecimiento.getUrl());
             select_establecimiento.setGay(establecimiento.isGay());
             select_establecimiento.setFecha_inicio(establecimiento.getFecha_inicio());
-            select_establecimiento.setFecha_inicio(establecimiento.getFecha_fin());
+            select_establecimiento.setFecha_fin(establecimiento.getFecha_fin());
             select_establecimiento.setDepartamento(establecimiento.getDepartamento());
             select_establecimiento.setProvincia(establecimiento.getProvincia());
             select_establecimiento.setDistrito(establecimiento.getDistrito());
@@ -112,6 +125,15 @@ public class Establecimiento extends RealmObject{
             select_establecimiento.setEstado(establecimiento.isEstado());
             select_establecimiento.setRazon_social(establecimiento.getRazon_social());
             select_establecimiento.setRuc(establecimiento.getRuc());
+            select_establecimiento.setLunes(establecimiento.isLunes());
+            select_establecimiento.setMartes(establecimiento.isMartes());
+            select_establecimiento.setMiercoles(establecimiento.isMiercoles());
+            select_establecimiento.setJueves(establecimiento.isJueves());
+            select_establecimiento.setViernes(establecimiento.isViernes());
+            select_establecimiento.setSabado(establecimiento.isSabado());
+            select_establecimiento.setDomingo(establecimiento.isDomingo());
+            select_establecimiento.setPrecio(establecimiento.getPrecio());
+            select_establecimiento.setFechaAdded(establecimiento.getFechaAdded());
             Log.d(TAG, select_establecimiento.toString());
         }
         realm.commitTransaction();
@@ -215,19 +237,19 @@ public class Establecimiento extends RealmObject{
         this.gay = gay;
     }
 
-    public String getFecha_inicio() {
+    public Date getFecha_inicio() {
         return fecha_inicio;
     }
 
-    public void setFecha_inicio(String fecha_inicio) {
+    public void setFecha_inicio(Date fecha_inicio) {
         this.fecha_inicio = fecha_inicio;
     }
 
-    public String getFecha_fin() {
+    public Date getFecha_fin() {
         return fecha_fin;
     }
 
-    public void setFecha_fin(String fecha_fin) {
+    public void setFecha_fin(Date fecha_fin) {
         this.fecha_fin = fecha_fin;
     }
 
@@ -295,7 +317,7 @@ public class Establecimiento extends RealmObject{
         this.ruc = ruc;
     }
 
-    public Date getFechaFormato(){
+    /*public Date getFechaFormato(){
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -305,7 +327,7 @@ public class Establecimiento extends RealmObject{
 
         }
         return d;
-    }
+    }*/
 
     public boolean isLunes() {
         return lunes;
@@ -345,5 +367,37 @@ public class Establecimiento extends RealmObject{
 
     public void setViernes(boolean viernes) {
         this.viernes = viernes;
+    }
+
+    public Date getFechaAdded() {
+        return fechaAdded;
+    }
+
+    public void setFechaAdded(Date fechaAdded) {
+        this.fechaAdded = fechaAdded;
+    }
+
+    public boolean isSabado() {
+        return sabado;
+    }
+
+    public void setSabado(boolean sabado) {
+        this.sabado = sabado;
+    }
+
+    public boolean isDomingo() {
+        return domingo;
+    }
+
+    public void setDomingo(boolean domingo) {
+        this.domingo = domingo;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 }

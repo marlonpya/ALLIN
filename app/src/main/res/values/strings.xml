@@ -19,9 +19,11 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
-
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="refrescar">Refrescar</string>
+    <string name="remover">Remover</string>
+    <string name="mantener">Mantener</string>
 
     <!-- Activity Main -->
     <string name="usuario_corporativo">USUARIO CORPORATIVO</string>
@@ -267,11 +269,14 @@
     <string name="encuesta">ENCUESTA</string>
     <string name="respondido_todo">HE RESPONDIDO TODO</string>
     <string name="discoteca_nightlife">DISCOTECA NIGHT LIFE</string>
+    <string name="por_favor_responda_todo">Por favor responda todas las preguntas</string>
     <!-- CARTA -->
     <string name="carta_bebidas">carta de bebidas y más</string>
     <string name="dialogo_antes_de_canjear">Para validar tus puntos y canjear \n una variedad de productos, primero \n queremos conocerte.</string>
     <string name="total">TOTAL:</string>
     <string name="canjear_ahora">CANJEAR AHORA</string>
+    <string name="encuesta_envio_error">Hubo un error al enviar la encuesta</string>
+    <string name="encuesta_envio_exito">Encuesta enviada satisfactoriamente. ¡Gracias por participar!</string>
 
     <!-- ROW de CANJEAR OBJETO-->
     <string name="row_promocion">Promocion : \n %d</string>
@@ -288,6 +293,14 @@
     <string name="dni">DNI</string>
     <string name="buscar">Buscar</string>
     <string name="buscar_persona">Buscar Persona</string>
+    <string name="canje_exito">Canje realizado con éxito</string>
+    <string name="no_agrego_items">No ha agregado items</string>
+    <string name="canje_preguntar">¿Desea realizar el canje?</string>
+    <string name="canje_no_stock">Se ha agotado el stock de uno o más items</string>
+    <string name="item_no_stock">Item no procesado por falta de stock</string>
+    <string name="no_suficiente_puntos">Ud. no tiene suficientes puntos</string>
+    <string name="carrito_vacio">Carrito vacío!</string>
+    <string name="advertencia_carrito">Si sale de esta pantalla perderá los items que ha agregado a su carrito.\n¿ Está seguro que desea salir ?</string>
     <!-- PERFIL DISCOTECA-->
     <string name="perfil_discoteca_ver_web">VER WEB</string>
     <string name="perfil_discoteca_compartir">COMPARTIR</string>
@@ -326,6 +339,7 @@
     <!-- ACTIVIDAD CALENDARIO -->
     <string name="calendario">CALENDARIO</string>
     <string name="galeria">GALERIA</string>
+    <string name="seleccione_fecha">SELECCIONE UNA FECHA</string>
     <string name="administrador_de_ventas">Administrador de preventas y\nlistas</string>
     <string name="titulo_antes_canjear">ANTES DE CANJEAR</string>
     <string name="elija_entradas">Elija las entradas que desea adquirir:</string>
@@ -337,8 +351,12 @@
 
     <!-- AVISO AGREGADO A LISTA RÁPIDA -->
     <string name="agregado_a_lista_rapida_titulo">AGREGADO CON ÉXITO</string>
-    <string name="agregado_a_lista_rapida_mensaje">Ha sido agregado correctamente a su lista rápida. Para más detalles puede ir al menú principal y ver sus demás eventos.</string>
-
+    <string name="agregado_a_lista_rapida_mensaje">Ha sido agregado correctamente a su lista rápida. Para más detalles puede ir al menú principal y ver sus demás establecimientos.</string>
+    <string name="ya_existe_lista_rapida_mensaje">¡ Ya se ecuentra en su lista rápida !\n¿ Desea remover o mantener este establecimiento ?</string>
+    <string name="no_hay_lista_rapida">¡ Aún no ha agregado establecimientos !</string>
+    <string name="fecha_no_disponible">Esta fecha no está disponible.</string>
+    <string name="fecha_select">Has elegido la siguiente fecha.</string>
+    <string name="es_correcto">\n\n¿ Es correcto ?</string>
     <!-- AVISO YA ESTÁS EN LISTA -->
     <string name="ya_estas_en_lista_titulo">¿ DESEAS ESTAR EN LISTA ?</string>
     <string name="ya_estas_en_lista_mensaje">Aceptas estar en lista.</string>
@@ -346,6 +364,7 @@
     <!-- AVISO YA ESTÁS EN LISTA - RESULTADO SI-->
     <string name="ya_estas_en_lista_titulo_si">¡ YA ESTÁS EN LISTA !</string>
     <string name="ya_estas_en_lista_mensaje_si">Presentar DNI(OBLIGATORIO)\nCierre de lista - 11:30pm\nNo polos no zapatillas\nMayores de 24 años</string>
+    <string name="registrar_en_lista_error">Hubo un error al apuntarse.</string>
 
     <!-- AVISO ELIMINAR COMPRA CARRITO -->
     <string name="aviso_eliminar_compra_carrito_mensaje">Si acepta se eliminarán todos los productos de carrito</string>
@@ -374,11 +393,14 @@
     <string name="lista_establecimiento_vacio">Usted no tiene ningún local o evento asignado</string>
     <string name="imagen_error">Imagen no soportada</string>
     <string name="fb_contra_error">Se requiere el permiso de correo para registrarse</string>
-    <string name="actualizacion_ok">Actualizado correctament</string>
-    <string name="eventos_not_found">No se encontraron eventos para esta categoría</string>
-    <string name="establecimientos_not_found">No se encontraron establecimientos para esta categoría</string>
+    <string name="actualizacion_ok">Actualizado correctamente</string>
+    <string name="eventos_not_found">No se encontraron eventos para esta búsqueda</string>
+    <string name="establecimientos_not_found">No se encontraron establecimientos para esta búsqueda</string>
+    <string name="usuarios_not_found">No se encontraron clientes para este evento</string>
+    <string name="fechas_not_found">No se encontraron fechas para este local</string>
     <string name="imagenes_not_found">No se encontraron imágenes</string>
     <string name="productos_not_found">No se encontraron productos</string>
+    <string name="preguntas_not_found">No se pudo cargar la encuesta</string>
     <string name="no_especificado">No especificado</string>
 
 </resources>

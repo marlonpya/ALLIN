@@ -31,8 +31,8 @@
             android:weightSum="1">
 
             <TextView
+                android:id="@+id/tvPuntos"
                 android:layout_marginBottom="10dp"
-                android:text="@string/canjear_ahora"
                 android:gravity="end"
                 android:textColor="@color/colorblanco"
                 android:textSize="@dimen/size_letter3"

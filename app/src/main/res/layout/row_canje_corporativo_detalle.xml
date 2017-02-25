@@ -10,7 +10,7 @@
     tools:background="@android:color/darker_gray">
 
     <TextView
-        android:id="@+id/row_clientes_tv_nombre"
+        android:id="@+id/tv_nombre_producto"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginStart="15dp"
@@ -18,10 +18,18 @@
         android:gravity="center|start"
         android:textSize="@dimen/size_letter5"
         android:textStyle="bold"
-        android:textColor="@color/colorblanco"
+        android:textColor="@color/colorgreyLightBlack"
         tools:text="El joven mas naita" />
 
-    <TextView
+    <Button
+        android:id="@+id/btn_claim"
+        android:enabled="false"
+        android:textColor="@color/colorblanco"
+        android:layout_width="0dp"
+        android:layout_weight=".3"
+        android:layout_height="match_parent" />
+
+    <!--<TextView
         android:id="@+id/row_clientes_tv_dni"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -30,6 +38,6 @@
         android:textSize="@dimen/size_letter5"
         android:textStyle="bold"
         android:textColor="@color/colorblanco"
-        tools:text="48123451" />
+        tools:text="48123451" />-->
 
 </LinearLayout>

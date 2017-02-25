@@ -3,25 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="50dp">
+
     <TextView
-        android:id="@+id/tv_promocion_nombre"
-        tools:text="@string/row_promocion"
+        android:id="@+id/tv_tipo"
+        android:text="Test"
         android:textColor="@color/colorblanco"
         android:textSize="@dimen/size_letter6"
-        android:gravity="center|left"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
-    <TextView
-        android:id="@+id/tv_puntos_costo"
-        tools:text="45 pts"
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/size_letter6"
-        android:gravity="center"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_promocion_nombre"
+            tools:text="@string/row_promocion"
+            android:textColor="@color/colorblanco"
+            android:textSize="@dimen/size_letter6"
+            android:gravity="center|left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_puntos_costo"
+            tools:text="45 pts"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/size_letter6"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
 </LinearLayout>

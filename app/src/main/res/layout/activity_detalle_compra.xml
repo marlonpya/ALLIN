@@ -45,6 +45,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_nombre"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="RAINBOW PARTY"
@@ -52,6 +53,7 @@
                             android:textSize="@dimen/size_letter5" />
 
                         <TextView
+                            android:id="@+id/tv_direccion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Chacarilla 412 - Surco"
@@ -59,6 +61,7 @@
                             android:textSize="@dimen/size_letter6" />
 
                         <TextView
+                            android:id="@+id/tv_fecha"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Oct. 26 2016 08:00 pm"

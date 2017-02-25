@@ -1,6 +1,7 @@
 package application.ucweb.proyectoallin.modelparseable;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -10,8 +11,8 @@ import java.util.Date;
 public class ProductoSimple implements Serializable{
     private int idServer;
     private String nombre;
-    private double precio_normal;
-    private double precio_allin;
+    private BigDecimal precio_normal;
+    private BigDecimal precio_allin;
     private int precio_puntos;
     private int stock;
     private int idLocal;
@@ -24,10 +25,14 @@ public class ProductoSimple implements Serializable{
     private boolean estado;
     private int cantidad;
 
+    private String nombre_evento;
+    private String nombre_local;
+    private String condiciones;
+
     public ProductoSimple() {
     }
 
-    public ProductoSimple(int idServer, String nombre, double precio_normal, double precio_allin, int precio_puntos, int idLocal, int idEvento, int cantidad) {
+    public ProductoSimple(int idServer, String nombre, BigDecimal precio_normal, BigDecimal precio_allin, int precio_puntos, int idLocal, int idEvento, int cantidad) {
         this.idServer = idServer;
         this.nombre = nombre;
         this.precio_normal = precio_normal;
@@ -54,19 +59,19 @@ public class ProductoSimple implements Serializable{
         this.nombre = nombre;
     }
 
-    public double getPrecio_normal() {
+    public BigDecimal getPrecio_normal() {
         return precio_normal;
     }
 
-    public void setPrecio_normal(double precio_normal) {
+    public void setPrecio_normal(BigDecimal precio_normal) {
         this.precio_normal = precio_normal;
     }
 
-    public double getPrecio_allin() {
+    public BigDecimal getPrecio_allin() {
         return precio_allin;
     }
 
-    public void setPrecio_allin(double precio_allin) {
+    public void setPrecio_allin(BigDecimal precio_allin) {
         this.precio_allin = precio_allin;
     }
 
@@ -156,5 +161,29 @@ public class ProductoSimple implements Serializable{
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getNombre_evento() {
+        return nombre_evento;
+    }
+
+    public void setNombre_evento(String nombre_evento) {
+        this.nombre_evento = nombre_evento;
+    }
+
+    public String getNombre_local() {
+        return nombre_local;
+    }
+
+    public void setNombre_local(String nombre_local) {
+        this.nombre_local = nombre_local;
+    }
+
+    public String getCondiciones() {
+        return condiciones;
+    }
+
+    public void setCondiciones(String condiciones) {
+        this.condiciones = condiciones;
     }
 }

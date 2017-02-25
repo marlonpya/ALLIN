@@ -9,6 +9,7 @@ public class ItemSimple {
     private int icono;
     private int id;
     private int tipo;
+    private boolean status;
 
     public ItemSimple(){}
 
@@ -55,5 +56,13 @@ public class ItemSimple {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

@@ -2,8 +2,10 @@ package application.ucweb.proyectoallin;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,61 +28,66 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import application.ucweb.proyectoallin.adapter.ListaClientesCorporativoAdapter;
-import application.ucweb.proyectoallin.adapter.ListaClientesCorporativoRAdapter;
+import application.ucweb.proyectoallin.adapter.ListaCanjeCorporativoAdapter;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
 import application.ucweb.proyectoallin.model.Corporativo;
-import application.ucweb.proyectoallin.model.EnLista;
 import application.ucweb.proyectoallin.model.ItemSimple;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindView;
-import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
-import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.Sort;
+import butterknife.OnClick;
 
-public class ListaClientesCorporativoActivity extends BaseActivity implements IActividad{
-    public static final String TAG = ListaClientesCorporativoActivity.class.getSimpleName();
+public class ListaCanjeCorporativo extends BaseActivity implements IActividad {
+    public static final String TAG =  ListaClientesCorporativoActivity.class.getSimpleName();
 
-    @BindView(R.id.rrv_clientes_corporativo) RecyclerView recyclerView;
+    @BindView(R.id.fondo_lista_canje_corporativo_detalle) ImageView fondo;
+    @BindView(R.id.rv_canje_corporativo_detalle) RecyclerView recyclerView;
     @BindView(R.id.sontoolbar) Toolbar toolbar;
-    @BindView(R.id.tvTituloSonToolbar) ImageView icono_toolbar;
-    @BindView(R.id.fondo_lista_clientes_corporativo) ImageView fondo;
-    //private Realm realm;
-    //private ListaClientesCorporativoRAdapter adapter;
-    //private RealmResults<EnLista> fechas;
     private ProgressDialog pDialog;
-    private ArrayList<ItemSimple> fechas = new ArrayList<>();
-    private ListaClientesCorporativoAdapter adapter;
+    private ArrayList<ItemSimple> detalles = new ArrayList<>();
+    private ListaCanjeCorporativoAdapter adapter;
+    private String codigo;
+    private String dni;
+    public static ArrayList<Integer> id_detalle_a_canjear = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_clientes_corporativo);
+        setContentView(R.layout.activity_lista_canje_corporativo);
         iniciarLayout();
-        iniciarPDialog();
-        requestFechasLocal();
-        //iniciarRRV();
-        //if (EnLista.getUltimoId() == 0) EnLista.cargarData();
+        if (getIntent().hasExtra(Constantes.CODIGO) && getIntent().hasExtra(Constantes.DNI)){
+            codigo=getIntent().getStringExtra(Constantes.CODIGO);
+            dni = getIntent().getStringExtra(Constantes.DNI);
+            getIntent().removeExtra(Constantes.CODIGO);
+            getIntent().removeExtra(Constantes.DNI);
+            requestDetalleVentaLocal();
+        }
     }
 
-    private void iniciarRV() {
-        //realm = Realm.getDefaultInstance();
-        //fechas = realm.where(EnLista.class).findAll().sort(EnLista.ID, Sort.DESCENDING);
-        adapter = new ListaClientesCorporativoAdapter(this, fechas);
+    @OnClick(R.id.btnTest)
+    public void test(){
+        try {
+            crearDetalle();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void iniciarRV(){
+        adapter = new ListaCanjeCorporativoAdapter(this, detalles);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
-    private void requestFechasLocal() {
+    private void requestDetalleVentaLocal() {
         showDialog(pDialog);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                Constantes.FECHAS_LOCAL,
+                Constantes.DETALLE_VENTA_LOCAL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -90,16 +97,19 @@ public class ListaClientesCorporativoActivity extends BaseActivity implements IA
                             if (jsonObject.getBoolean("status")){
                                 JSONArray jArray = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < jArray.length(); i++) {
-                                    ItemSimple fecha = new ItemSimple();
-                                    fecha.setId(jArray.getJSONObject(i).getInt("LIS_LOC_ID"));
-                                    fecha.setTitulo(jArray.getJSONObject(i).getString("LIS_LOC_FECHA"));
-                                    fechas.add(fecha);
+                                    ItemSimple detalle = new ItemSimple();
+                                    detalle.setId(jArray.getJSONObject(i).getInt("VENPRO_ID"));
+                                    detalle.setTitulo(jArray.getJSONObject(i).getString("PRO_NOMBRE"));
+                                    detalle.setTipo(jArray.getJSONObject(i).getInt("VENPRO_ESTADO"));
+                                    detalles.add(detalle);
                                 }
                                 iniciarRV();
-                            }else {
-                                new AlertDialog.Builder(ListaClientesCorporativoActivity.this)
-                                        .setTitle(R.string.app_name)
-                                        .setMessage(getString(R.string.usuarios_not_found))
+                                /*startActivity(new Intent(MenuCorporativo.this, ListaCanjeCorporativo.class)
+                                        .putExtra(Constantes.ARRAY_S_DETALLE_CANJE_CORPORATIVO, detalles));*/
+                            }else{
+                                new AlertDialog.Builder(ListaCanjeCorporativo.this)
+                                        .setTitle(getString(R.string.app_name))
+                                        .setMessage(jsonObject.getString("message"))
                                         .setCancelable(false)
                                         .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                                             @Override
@@ -130,17 +140,30 @@ public class ListaClientesCorporativoActivity extends BaseActivity implements IA
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id", String.valueOf(Corporativo.getCorporativo().getId_local()));
+                params.put("codigo", codigo.toUpperCase().trim());
+                params.put("dni", String.valueOf(dni).trim());
+                params.put("loc_id", String.valueOf(Corporativo.getCorporativo().getId_local()));
                 return params;
             }
         };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) onBackPressed();
-        return super.onOptionsItemSelected(item);
+    private Map<String, String> crearDetalle() throws JSONException {
+        final String data = "data";
+        final String idDetalle = "detalle";
+
+        Map<String, String> params = new HashMap<>();
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < id_detalle_a_canjear.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(idDetalle, String.valueOf(id_detalle_a_canjear.get(i)));
+            jsonArray.put(jsonObject);
+            params.put(data, jsonArray.toString());
+            Log.d(TAG, "size/a_" + String.valueOf(id_detalle_a_canjear.size()));
+            Log.d(TAG, "params_" + params.toString());
+        }
+        return params;
     }
 
     @Override
@@ -150,7 +173,7 @@ public class ListaClientesCorporativoActivity extends BaseActivity implements IA
 
     @Override
     public void iniciarLayout() {
-        setToolbarSon(toolbar, this, icono_toolbar);
+        setToolbarSon(toolbar, this);
         setFondoActivity(this, fondo);
     }
 
@@ -159,5 +182,11 @@ public class ListaClientesCorporativoActivity extends BaseActivity implements IA
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage(getString(R.string.enviando_peticion));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 }

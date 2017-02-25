@@ -110,8 +110,6 @@ public class MenuFragment extends Fragment implements IActividad{
         iniciarPDialog();
         iniciarViewPager();
         if (!isSesion()) usuarioNoRegistrado();
-        //requestLocales();
-        //requestGeneros();
         if (ConexionBroadcastReceiver.isConect()) requestBanner();
         return view;
     }
@@ -194,17 +192,34 @@ public class MenuFragment extends Fragment implements IActividad{
 
     @OnClick(R.id.btnRecomendamos)
     public void dialogoListaRecomendaciones() {
-        final DialogoRecomendacionesAdapter adapter = new DialogoRecomendacionesAdapter(getActivity(), new DialogoDepartamentosAdapter.Callback() {
-            @Override
-            public void onMaterialListItemSelected(MaterialDialog dialog, int index, ItemSimple item) {
-                dialog.dismiss();
-            }
-        });
-        adapter.add(new ItemSimple(getString(R.string.recomendados_lugar),        R.drawable.busqueda_bebida));
-        adapter.add(new ItemSimple(getString(R.string.recomendados_eventosespec), R.drawable.busqueda_musica));
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.elija_busquedad))
-                .adapter(adapter, null)
+        ArrayList<ItemSimple> itemSimples = new ArrayList<>();
+
+        itemSimples.add(new ItemSimple(getString(R.string.recomendados_lugar),        R.drawable.busqueda_bebida));
+        itemSimples.add(new ItemSimple(getString(R.string.recomendados_eventosespec), R.drawable.busqueda_musica));
+
+        DialogAdapter adapter = new DialogAdapter(getActivity(), itemSimples);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(elija_busquedad)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (ConexionBroadcastReceiver.isConect()) {
+                            switch (which) {
+                                case 0: Intent intent = new Intent(getActivity(), ListaDiscotecasActivity.class);
+                                    intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, getString(R.string.recomendados_lugar));
+                                    intent.putExtra(Constantes.TIPO_ESTABLECIMIENTO, Constantes.I_RECOMENDADOS);
+                                    intent.putExtra(Constantes.FILTRO, Constantes.FILTRO_RECOMENDADO);
+                                    startActivity(intent); break;
+                                case 1:  Intent intent2 = new Intent(getActivity(), ListaEventoActivity.class);
+                                    intent2.putExtra(Constantes.S_EVENTO_TOOLBAR, getString(R.string.recomendados_eventosespec));
+                                    intent2.putExtra(Constantes.FILTRO_EVENTO_ESPECIAL, Constantes.FILTRO_RECOMENDADO);
+                                    startActivity(intent2);break;
+                            }
+                        }else
+                            ConexionBroadcastReceiver.showSnack(layout, getContext());
+                    }
+                })
                 .show();
     }
 
@@ -333,22 +348,6 @@ public class MenuFragment extends Fragment implements IActividad{
                 .show();
     }
 
-    private void dialogoGeneroMusica(final Context context, final int tipoLocal, final int filtro){
-        final DialogAdapter adapter = new DialogAdapter(getActivity(), itemGenero);
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.elija_genero)
-                .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Toast.makeText(context, itemGenero.get(which).getTitulo(), Toast.LENGTH_SHORT).show();
-                        //idGenero=itemGenero.get(which).getId();
-                        intentAListaDRKER(adapter.getItem(which).getTitulo(), context, tipoLocal, filtro);
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
-
     public void intentAListaDRKER(String detalle_extra, Context context, int tipo, int filtro) {
         Intent intent = new Intent(context, ListaDiscotecasActivity.class);
         intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, detalle_extra);
@@ -418,43 +417,6 @@ public class MenuFragment extends Fragment implements IActividad{
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
         pDialog.setMessage(getString(R.string.actualizando));
-    }
-
-    private void requestGeneros() {
-        if (ConexionBroadcastReceiver.isConect()) {
-            BaseActivity.showDialog(pDialog);
-            StringRequest request = new StringRequest(
-                    Request.Method.POST,
-                    Constantes.GENEROS,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d(TAG, response);
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jGeneros = jsonObject.getJSONArray("categoria");
-                                for (int i = 0; i < jGeneros.length(); i++) {
-                                    itemGenero.add(new ItemSimple(jGeneros.getJSONObject(i).getInt("GEN_ID"), jGeneros.getJSONObject(i).getString("GEN_NOMBRE"), -1, R.drawable.busqueda_alternativa_64px));
-                                }
-                                BaseActivity.hidepDialog(pDialog);
-                            } catch (JSONException e) {
-                                Log.e(TAG, e.toString(), e);
-                                BaseActivity.hidepDialog(pDialog);
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            VolleyLog.e(error.toString(), error);
-                            BaseActivity.errorConexion(getActivity());
-                            BaseActivity.hidepDialog(pDialog);
-                        }
-                    }
-            );
-            request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            Configuracion.getInstance().addToRequestQueue(request, TAG);
-        }
     }
 
     private void requestBanner() {

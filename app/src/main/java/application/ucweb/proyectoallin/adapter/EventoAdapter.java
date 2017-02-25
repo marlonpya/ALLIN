@@ -3,6 +3,7 @@ package application.ucweb.proyectoallin.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final EventoSimple item = eventos.get(position);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' yyyy ", new Locale("es", "pe"));
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' MMMM yyyy ", new Locale("es", "pe"));
         SimpleDateFormat sdfHora = new SimpleDateFormat("hh:mm a", new Locale("es", "pe"));
 
         BaseActivity.setImageConGlideCircular(context, viewHolder.imagen_evento, item.getImagen());
@@ -67,6 +68,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.ViewHolder
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.v("Amd", item.getImagen());
                 if (item.getPrecio()>0){
                     Intent intent = new Intent(context, EstablecimientoConEntradaActivity.class);
                     intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getNombre());

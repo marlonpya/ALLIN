@@ -36,6 +36,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.IllegalFormatCodePointException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -51,7 +52,6 @@ import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
 import application.ucweb.proyectoallin.model.Producto;
 import application.ucweb.proyectoallin.model.Usuario;
-import application.ucweb.proyectoallin.modelparseable.ItemCarrito;
 import application.ucweb.proyectoallin.modelparseable.ProductoSimple;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindString;
@@ -59,6 +59,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import io.realm.Realm;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,13 +71,15 @@ public class MisPuntosFragment extends Fragment implements IActividad {
     @BindView(R.id.tvResultadoCarta)TextView tvResultadoCarta;
     @BindView(R.id.tvDescripcionToolbar)TextView tvTituloCanjearPF;
     @BindView(R.id.tv_cantidad_productos_carrito) TextView cantidad_productos_carrito;
+    @BindView(R.id.tvPuntos) TextView tvPuntos;
     @BindString(R.string.dialogo_antes_de_canjear) String texto_canje;
     private ProgressDialog pDialog;
     private CartaEstablecimientoAdapter adapter;
     private ArrayList<ProductoSimple> lista_productos = new ArrayList<>();
     private ArrayList<ProductoSimple> lista_filtrada = new ArrayList<>();
-    public static ArrayList<ItemCarrito> lista_carrito = new ArrayList<>();
-    //private int count=0;
+    //public static ArrayList<ItemCarrito> lista_carrito = new ArrayList<>();
+    public static ArrayList<ProductoSimple> lista_carrito = new ArrayList<>();
+    public static boolean refrescarVista=false;
 
     public MisPuntosFragment() { }
 
@@ -88,27 +91,29 @@ public class MisPuntosFragment extends Fragment implements IActividad {
         cantidad_productos_carrito.setText(String.valueOf(0));
         iniciarLayout();
         iniciarPDialog();
-        requestPromociones();
-        dialogoAntesCanjear();
-
+        requestMisPuntos();
+        //dialogoAntesCanjear();
         return view;
     }
 
     @OnClick(R.id.iv_ir_a_carrito_puntos)
     public void irACarritoPuntos() {
-        startActivity(new Intent(getActivity().getApplicationContext(), ListaCanjeActivity.class).putExtra(Constantes.ARRAY_S_CARRITO, lista_carrito));
-
+        if (lista_carrito.size()>0) {
+            startActivity(new Intent(getActivity().getApplicationContext(), ListaCanjeActivity.class).putExtra(Constantes.ARRAY_S_CARRITO, lista_carrito));
+        }
+        else {
+            Toast.makeText(getActivity(), getString(R.string.carrito_vacio), Toast.LENGTH_SHORT).show();
+        }
     }
 
-
     private void dialogoAntesCanjear() {
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.titulo_antes_canjear))
-                .content(getString(R.string.dialogo_antes_de_canjear))
-                .positiveText(getString(R.string.aceptar))
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.titulo_antes_canjear)
+                .setMessage(R.string.dialogo_antes_de_canjear)
+                .setCancelable(true)
+                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(getActivity().getApplicationContext(), EncuestaActivity.class));
                     }
                 })
@@ -116,7 +121,7 @@ public class MisPuntosFragment extends Fragment implements IActividad {
     }
 
     private void iniciarRV() {
-        adapter = new CartaEstablecimientoAdapter(getActivity(), lista_filtrada, cantidad_productos_carrito);
+        adapter = new CartaEstablecimientoAdapter(getActivity(), lista_filtrada, cantidad_productos_carrito, MisPuntosFragment.this);
         int cantidad_encontrados = lista_filtrada.size();
         tvResultadoCarta.setText(String.valueOf(cantidad_encontrados + " encontrados"));
         rvlista_puntos.setHasFixedSize(true);
@@ -157,7 +162,7 @@ public class MisPuntosFragment extends Fragment implements IActividad {
     }
 
     private void requestPromociones() {
-        BaseActivity.showDialog(pDialog);
+        //BaseActivity.showDialog(pDialog);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 Constantes.PROMOCIONES,
@@ -174,13 +179,20 @@ public class MisPuntosFragment extends Fragment implements IActividad {
                                     ProductoSimple producto = new ProductoSimple();
                                     producto.setIdServer(jEventos.getJSONObject(i).getInt("PRO_ID"));
                                     producto.setNombre(jEventos.getJSONObject(i).getString("PRO_NOMBRE"));
-                                    producto.setPrecio_normal(Double.parseDouble(jEventos.getJSONObject(i).getString("PRO_PRECIO_NORMAL")));
-                                    producto.setPrecio_allin(Double.parseDouble(jEventos.getJSONObject(i).getString("PRO_PRECIO_ALLIN")));
+                                    //producto.setPrecio_normal(Double.parseDouble(jEventos.getJSONObject(i).getString("PRO_PRECIO_NORMAL")));
+                                    //producto.setPrecio_allin(Double.parseDouble(jEventos.getJSONObject(i).getString("PRO_PRECIO_ALLIN")));
                                     producto.setPrecio_puntos(jEventos.getJSONObject(i).getInt("PRO_PRECIO_PUNTOS"));
                                     producto.setStock(jEventos.getJSONObject(i).getInt("PRO_STOCK"));
                                     producto.setIdLocal(jEventos.getJSONObject(i).getInt("LOC_ID"));
                                     producto.setIdEvento(jEventos.getJSONObject(i).getInt("EVE_ID"));
                                     producto.setPromocion(jEventos.getJSONObject(i).getString("PRO_PROMOCION"));
+                                    producto.setNombre_local(jEventos.getJSONObject(i).getString("LOC_NOMBRE"));
+                                    producto.setNombre_evento(jEventos.getJSONObject(i).getString("EVE_NOMBRE"));
+                                    if (!jEventos.getJSONObject(i).getString("PRO_CONDICIONES").trim().equals("null") && !jEventos.getJSONObject(i).getString("PRO_CONDICIONES").trim().isEmpty()){
+                                        producto.setCondiciones(jEventos.getJSONObject(i).getString("PRO_CONDICIONES"));
+                                    }else {
+                                        producto.setCondiciones("No hay condiciones");
+                                    }
                                     try {
                                         producto.setFecha_inicio(sdf.parse(jEventos.getJSONObject(i).getString("PRO_FEC_INICIO")));
                                         producto.setFecha_fin(sdf.parse(jEventos.getJSONObject(i).getString("PRO_FEC_FIN")));
@@ -196,6 +208,7 @@ public class MisPuntosFragment extends Fragment implements IActividad {
                                 //iniciarRV();
                                 spCartaSeeleccion(0);
                             }else {
+                                spCartaSeeleccion(0);
                                 new AlertDialog.Builder(getContext())
                                         .setTitle(R.string.app_name)
                                         .setMessage(getString(R.string.productos_not_found))
@@ -204,7 +217,7 @@ public class MisPuntosFragment extends Fragment implements IActividad {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
-                                                getActivity().onBackPressed();
+                                                //getActivity().onBackPressed();
                                             }
                                         })
                                         .show();
@@ -220,11 +233,56 @@ public class MisPuntosFragment extends Fragment implements IActividad {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.e(error.toString(), error);
+                        BaseActivity.errorConexion(getContext());
                         BaseActivity.hidepDialog(pDialog);
                     }
                 }
         );
         request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
+    }
+
+    public void requestMisPuntos() {
+        BaseActivity.showDialog(pDialog);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.MIS_PUNTOS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            Realm realm = Realm.getDefaultInstance();
+                            realm.beginTransaction();
+                            Usuario.getUsuario().setPuntos(jsonObject.getInt("puntos"));
+                            realm.commitTransaction();
+                            tvPuntos.setText(getString(R.string.puntos_consumo) + " " + Usuario.getUsuario().getPuntos());
+                            requestPromociones();
+                            Log.d(TAG, jsonObject.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString(), e);
+                        }
+                        //BaseActivity.hidepDialog(pDialog);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e(error.toString(), error);
+                        BaseActivity.hidepDialog(pDialog);
+                        BaseActivity.errorConexion(getContext());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", String.valueOf(Usuario.getUsuario().getId_server()));
+                return params;
+            }
+        };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
@@ -239,6 +297,21 @@ public class MisPuntosFragment extends Fragment implements IActividad {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "destroy!");
+        clearLists();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (refrescarVista){
+            clearLists();
+            requestMisPuntos();
+            refrescarVista = false;
+        }
+    }
+
+    public void clearLists(){
+        lista_productos.clear();
         lista_filtrada.clear();
         lista_carrito.clear();
     }

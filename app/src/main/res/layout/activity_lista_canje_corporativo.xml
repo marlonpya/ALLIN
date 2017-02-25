@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_lista_canje_corporativo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="application.ucweb.proyectoallin.ListaClientesCorporativoActivity">
+    tools:context="application.ucweb.proyectoallin.ListaCanjeCorporativo">
 
     <ImageView
-        android:id="@+id/fondo_lista_clientes_corporativo"
+        android:id="@+id/fondo_lista_canje_corporativo_detalle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
@@ -23,11 +23,18 @@
         <include layout="@layout/son_toolbar" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rrv_clientes_corporativo"
+            android:id="@+id/rv_canje_corporativo_detalle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:rrvLayoutType="LinearLayout" />
     </LinearLayout>
-
+    <Button
+        android:id="@+id/btnTest"
+        android:background="@color/colorAccent"
+        android:text="TEST"
+        android:textColor="@color/colorblanco"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

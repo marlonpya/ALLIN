@@ -77,13 +77,13 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.etApellidoPRegistro) EditText etApellidoP;
     @BindView(R.id.etApellidoMRegistro) EditText etApellidoM;
     @BindView(R.id.dpRegistro) DatePickerEditText dpeRegistro;
-    @BindView(R.id.etDireccionRegistro) EditText tvDni;
+    @BindView(R.id.etDniRegistro) EditText tvDni;
     @BindView(R.id.spSexoRegistro) Spinner spSexo;
     @BindView(R.id.spEstadoCivilRegistro) Spinner spEstadoCivil;
     @BindView(R.id.spDepartamentoRegistro) Spinner spDepartamento;
     @BindView(R.id.spProvinciaRegistro) Spinner spProvincia;
     @BindView(R.id.spDistritoRegistro) Spinner spDistrito;
-    @BindView(R.id.etDniRegistro) EditText etDireccion;
+    @BindView(R.id.etDireccionRegistro) EditText etDireccion;
     @BindView(R.id.etNumeroMovilRegistro) EditText etNumeroMovil;
     @BindView(R.id.spOperadorRegistro) Spinner spOperador;
     @BindView(R.id.rbVisaRegistro) RadioButton rbVisa;

@@ -19,6 +19,7 @@ public class EventoSimple implements Serializable {
     private String imagen;
     private double precio;
     private Date fecha_inicio;
+    private Date fecha_fin;
     private double latitud;
     private double longitud;
     private int tipo;
@@ -27,6 +28,8 @@ public class EventoSimple implements Serializable {
     private String direccion;
     private String descripcion;
     private int aforo;
+    private boolean recomendado;
+    private String mapa;
 
     public int getId_server() {
         return id_server;
@@ -66,6 +69,14 @@ public class EventoSimple implements Serializable {
 
     public void setFecha_inicio(Date fecha_inicio) {
         this.fecha_inicio = fecha_inicio;
+    }
+
+    public Date getFecha_fin() {
+        return fecha_fin;
+    }
+
+    public void setFecha_fin(Date fecha_fin) {
+        this.fecha_fin = fecha_fin;
     }
 
     public double getLatitud() {
@@ -130,6 +141,22 @@ public class EventoSimple implements Serializable {
 
     public void setAforo(int aforo) {
         this.aforo = aforo;
+    }
+
+    public boolean isRecomendado() {
+        return recomendado;
+    }
+
+    public void setRecomendado(boolean recomendado) {
+        this.recomendado = recomendado;
+    }
+
+    public String getMapa() {
+        return mapa;
+    }
+
+    public void setMapa(String mapa) {
+        this.mapa = mapa;
     }
 
     @Override

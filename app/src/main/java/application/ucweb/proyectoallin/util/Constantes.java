@@ -1,8 +1,5 @@
 package application.ucweb.proyectoallin.util;
 
-import java.util.ArrayList;
-
-import application.ucweb.proyectoallin.modelparseable.ItemCarrito;
 
 /**
  * Created by ucweb02 on 21/09/2016.
@@ -18,7 +15,7 @@ public class Constantes {
     public static final String PROVINCIAS               = "http://www.uc-web.mobi/Allnight/obtenerProvincias"; //dep_id
     public static final String DISTRITOS                = "http://www.uc-web.mobi/Allnight/obtenerDistritos"; //pro_id
     public static final String INICIAR_SESION           = "http://www.uc-web.mobi/Allnight/iniciarSesion";
-    public static final String INICIAR_SESION_CORPORATIVO = "http://www.uc-web.mobi/Allnight/iniciarSesionContacto"; //correo, password
+    public static final String INICIAR_SESION_CORPORATIVO = "http://www.uc-web.mobi/Allnight/api/iniciarSesionContacto"; //correo, password
     public static final String INICIAR_SESION_FACEBOOK  = "http://www.uc-web.mobi/Allnight/iniciarSesionFacebook"; //correo ,facbook
     public static final String DEPARTAMENTOS_TOTAL      = "http://www.uc-web.mobi/Allnight/api/obtenerTotalDepartamento";
     public static final String LOCALES                  = "http://www.uc-web.mobi/Allnight/api/locales";
@@ -32,9 +29,23 @@ public class Constantes {
     public static final String FECHAS                   = "http://www.uc-web.mobi/Allnight/api/getFechasEvento";
     public static final String IMAGENES_LOCAL           = "http://www.uc-web.mobi/Allnight/api/getImagenesLocal";
     public static final String IMAGENES_EVENTO          = "http://www.uc-web.mobi/Allnight/api/getImagenesEvento";
-    public static final String PRODUCTOS                = "http://www.uc-web.mobi/Allnight/api/getProductos";
+    public static final String PRODUCTOS_X_LOCAL        = "http://www.uc-web.mobi/Allnight/api/getProductosXLocal";
+    public static final String PRODUCTOS_X_EVENTO       = "http://www.uc-web.mobi/Allnight/api/getProductosXEvento";
     public static final String PROMOCIONES              = "http://www.uc-web.mobi/Allnight/api/getPromociones";
-    public static final String REGISTRAR_VENTA          = "http://www.uc-web.mobi/Allnight/api/registrarVenta";
+    public static final String MIS_PUNTOS               = "http://www.uc-web.mobi/Allnight/getPuntos";
+    public static final String REGISTRAR_CANJE          = "http://www.uc-web.mobi/Allnight/api/registrarCanje";
+    public static final String EVENTOS_X_LOCAL          = "http://www.uc-web.mobi/Allnight/api/listarEventoXLocal";
+    public static final String PREGUNTA_X_ENCUESTA      = "http://www.uc-web.mobi/Allnight/api/getPreguntasXEncuesta";
+    public static final String REGISTRAR_RESPUESTA      = "http://www.uc-web.mobi/Allnight/api/registrarRespuesta";
+    public static final String REGISTRAR_EN_LISTA       = "http://www.uc-web.mobi/Allnight/api/registrarEnListaLocal";
+    public static final String REGISTRAR_EN_LISTA_EVENTO= "http://www.uc-web.mobi/Allnight/api/registrarEnListaEvento";
+    public static final String FECHAS_LOCAL             = "http://www.uc-web.mobi/Allnight/api/listarFechasLocal";
+    public static final String USUARIOS_X_FECHA_LOCAL   = "http://www.uc-web.mobi/Allnight/api/listarUsuariosXFechaLocal";
+    public static final String USUARIOS_X_EVENTO        = "http://www.uc-web.mobi/Allnight/api/listarUsuariosXEvento";
+    public static final String DETALLE_VENTA_LOCAL      = "http://www.uc-web.mobi/Allnight/api/listarDetalleVentaLocal";
+
+
+
 
     //EXTRAS DE INTENTS
 //    public static final String K_S_ENVIO_INICIO = "k_s_envio_inicio";
@@ -57,8 +68,8 @@ public class Constantes {
     public static final int I_DISCOTECAS = 1;
     public static final int I_RESTOBARES = 2;
     public static final int I_KARAOKES   = 3;
-    public static final int I_EVENTOS    = 4;
-    public static final int I_RECOMENDADOS = 5;
+    public static final int I_RECOMENDADOS = 4;
+    public static final int I_EVENTOS    = 5;
 
     public static final String B_MOSTRAR_PROMOCION = "B_MOSTRAR_PROMOCION";
 
@@ -77,8 +88,15 @@ public class Constantes {
     public static final int FILTRO_DISTRITO = 2;
     public static final int FILTRO_MUSICA = 3;
     public static final int FILTRO_CALENDARIO = 4;
+    public static final int FILTRO_RECOMENDADO = 5;
+    public static final String FILTRO_EVENTO_ESPECIAL = "FILTRO_EVENTO_ESPECIAL";
+    public static final int FILTRO_X_LOCAL = 4;
     public static final String GENERO_MUSICA = "GENERO_MUSICA";
-    public static final String TIPO_MAPA = "TIPO_MAPA";
+    public static final int PRODUCTO_DE_EVENTO = 1;
+    public static final int PRODUCTO_DE_LOCAL = 2;
+    public static final int VISTA_DE_EVENTO = 1;
+    public static final int VISTA_DE_LOCAL = 2;
+    public static final String CALENDARIO_APUNTAR_LISTA = "CALENDARIO_APUNTAR_LISTA";
     //EXTRAS DIALOGO DE EVENTO
     public static final String I_EVENTO_DIALOG = "I_EVENTO_DIALOG";
 
@@ -100,4 +118,7 @@ public class Constantes {
     public static final String ID_EVENTO = "ID_EVENTO";
     public static final String LATITUD = "LATITUD";
     public static final String LONGITUD = "LONGITUD";
+    public static final String ID_ENCUESTA = "ID_ENCUESTA";
+    public static final String CODIGO = "CODIGO";
+    public static final String DNI = "DNI";
 }

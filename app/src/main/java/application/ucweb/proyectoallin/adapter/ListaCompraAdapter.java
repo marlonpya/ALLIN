@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import application.ucweb.proyectoallin.ListaCompraActivity;
 import application.ucweb.proyectoallin.R;
-import application.ucweb.proyectoallin.modelparseable.ItemCarrito;
+import application.ucweb.proyectoallin.modelparseable.ProductoSimple;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,11 +30,11 @@ public class ListaCompraAdapter extends RecyclerView.Adapter<ListaCompraAdapter.
     public static final String TAG = ListaCompraAdapter.class.getSimpleName();
 
     private Context context;
-    private ArrayList<ItemCarrito> productos;
+    private ArrayList<ProductoSimple> productos;
     private LayoutInflater inflater;
     private TextView textView;
 
-    public ListaCompraAdapter(Context context, ArrayList<ItemCarrito> productos, TextView textView) {
+    public ListaCompraAdapter(Context context, ArrayList<ProductoSimple> productos, TextView textView) {
         this.context = context;
         this.productos = productos;
         this.inflater = LayoutInflater.from(context);
@@ -46,44 +48,44 @@ public class ListaCompraAdapter extends RecyclerView.Adapter<ListaCompraAdapter.
 
     @Override
     public void onBindViewHolder(final ListaCompraAdapter.ViewHolder holder, int position) {
-        final ItemCarrito item = productos.get(position);
+        final ProductoSimple item = productos.get(position);
         holder.cantidad.setText(String.valueOf(item.getCantidad()));
         holder.producto.setText(item.getNombre());
-        holder.precio_normal.setText(String.valueOf(item.getPrecio_normal()));
-        holder.precio_allin.setText(String.valueOf(item.getPrecio_allin()));
+        holder.precio_normal.setText(String.format("%.2f",(item.getPrecio_normal())));
+        holder.precio_allin.setText(String.format("%.2f",(item.getPrecio_allin())));
         holder.cantidad.setText(String.valueOf(item.getCantidad()));
-        textView.setText(String.valueOf(getTotal()));
+        textView.setText("S/." + String.format("%.2f",(getTotal())));
         holder.agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (item.getCantidad() <= 8) {
                     item.setCantidad(item.getCantidad()+1);
                     holder.cantidad.setText(String.valueOf(item.getCantidad()));
-                    textView.setText(String.valueOf(getTotal()));
+                    textView.setText("S/." + String.format("%.2f",(getTotal())));
                 }
             }
         });
         holder.remover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (item.getCantidad() > 0){
+                if (item.getCantidad() > 1){
                     item.setCantidad(item.getCantidad()-1);
                     holder.cantidad.setText(String.valueOf(item.getCantidad()));
-                    textView.setText(String.valueOf(getTotal()));
+                    textView.setText("S/." + String.format("%.2f",(getTotal())));
                 }
             }
         });
     }
 
-    public ArrayList<ItemCarrito> getArray() {
+    public ArrayList<ProductoSimple> getArray() {
         return productos;
     }
 
-    private double getTotal() {
-        double total=0;
+    private BigDecimal getTotal() {
+        BigDecimal total=BigDecimal.ZERO;
         for (int i = 0; i < productos.size(); i++) {
-            double  subtotal = productos.get(i).getPrecio_allin()*productos.get(i).getCantidad();
-            total += subtotal;
+            BigDecimal  subtotal = productos.get(i).getPrecio_allin().multiply(new BigDecimal(productos.get(i).getCantidad()));
+            total = total.add(subtotal);
         }
         return total;
     }

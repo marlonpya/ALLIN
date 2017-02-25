@@ -64,6 +64,7 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
     private ArrayList<EventoSimple> lista_eventos = new ArrayList<>();
     private int id;
     private ProgressDialog pDialog;
+    private String METHOD_URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +74,24 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
         iniciarPDialog();
         tvTituloListaEvento.setText(getIntent().getStringExtra(Constantes.S_EVENTO_TOOLBAR));
         if (getIntent().hasExtra(Constantes.I_EVENTO_DIALOG)) {
-            id = getIntent().getIntExtra(Constantes.I_EVENTO_DIALOG, -1);
-            Log.d(TAG, String.valueOf(id));
+            if (getIntent().getIntExtra(Constantes.I_EVENTO_DIALOG, -1)==Constantes.FILTRO_X_LOCAL){
+                METHOD_URL=Constantes.EVENTOS_X_LOCAL;
+                id = getIntent().getIntExtra(Constantes.ID_LOCAL, -1);
+                getIntent().removeExtra(Constantes.I_EVENTO_DIALOG);
+            }else{
+                METHOD_URL=Constantes.EVENTOS;
+                id = getIntent().getIntExtra(Constantes.I_EVENTO_DIALOG, -1);
+                getIntent().removeExtra(Constantes.I_EVENTO_DIALOG);
+            }
             if (ConexionBroadcastReceiver.isConect()) requestEventos();
             else ConexionBroadcastReceiver.showSnack(layout, this);
+        }
+        else if(getIntent().hasExtra(Constantes.FILTRO_EVENTO_ESPECIAL)){
+            METHOD_URL=Constantes.EVENTOS;
+            id = getIntent().getIntExtra(Constantes.FILTRO_EVENTO_ESPECIAL, -1);
+            if (ConexionBroadcastReceiver.isConect()) requestEventos();
+            else ConexionBroadcastReceiver.showSnack(layout, this);
+
         }
     }
 
@@ -84,7 +99,7 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
         showDialog(pDialog);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                Constantes.EVENTOS,
+                METHOD_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -98,14 +113,13 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
                                     EventoSimple evento = new EventoSimple();
                                     evento.setId_server(jEventos.getJSONObject(i).getInt("EVE_ID"));
                                     evento.setNombre(jEventos.getJSONObject(i).getString("EVE_NOMBRE"));
-                                    evento.setPrecio(Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_PRECIO")));/*
-                                    evento.setLatitud(jEventos.getJSONObject(i).getString("EVE_LATITUD").isEmpty() ? 0 : Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LATITUD")));
-                                    evento.setLongitud(jEventos.getJSONObject(i).getString("EVE_LONGITUD").isEmpty() ? 0 : Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_LONGITUD")));
-                                    */
+                                    evento.setPrecio(Double.parseDouble(jEventos.getJSONObject(i).getString("EVE_PRECIO")));
                                     evento.setTipo(jEventos.getJSONObject(i).getInt("EVE_TIPO"));
                                     evento.setId_local(jEventos.getJSONObject(i).getInt("LOC_ID"));
                                     evento.setDescripcion(jEventos.getJSONObject(i).getString("EVE_DESCRIPCION"));
                                     evento.setImagen(jEventos.getJSONObject(i).getString("EVE_IMAGEN"));
+                                    evento.setMapa(jEventos.getJSONObject(i).getString("EVE_MAPA"));
+                                    evento.setRecomendado(jEventos.getJSONObject(i).getInt("EVE_RECOMENDADO")==1);
                                     if (evento.getId_local()!=0){
                                         evento.setNombre_local(jEventos.getJSONObject(i).getString("LOC_NOMBRE"));
                                         evento.setDireccion(jEventos.getJSONObject(i).getString("LOC_DIRECCION"));
@@ -122,6 +136,7 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
                                     }
                                     try {
                                         evento.setFecha_inicio(sdf.parse(jEventos.getJSONObject(i).getString("EVE_FEC_INICIO")));
+                                        evento.setFecha_fin(sdf.parse(jEventos.getJSONObject(i).getString("EVE_FEC_FIN")));
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
@@ -153,6 +168,7 @@ public class ListaEventoActivity extends BaseActivity implements IActividad{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.e(error.toString(), error);
+                        errorConexion(ListaEventoActivity.this);
                         hidepDialog(pDialog);
                     }
                 }

@@ -114,10 +114,13 @@ public class DialogoRecomendacionesAdapter  extends RecyclerView.Adapter<Dialogo
                 if (item.getTitulo().equals(lugares)) {
                     Intent intent = new Intent(context.getApplicationContext(), ListaDiscotecasActivity.class);
                     intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getTitulo().toUpperCase());
+                    intent.putExtra(Constantes.TIPO_ESTABLECIMIENTO, Constantes.I_RECOMENDADOS);
+                    intent.putExtra(Constantes.FILTRO, Constantes.FILTRO_RECOMENDADO);
                     context.startActivity(intent);
                 } else {
                     Intent intent = new Intent(context.getApplicationContext(), ListaEventoActivity.class);
-                    intent.putExtra(Constantes.K_S_TITULO_TOOLBAR, item.getTitulo().toUpperCase());
+                    intent.putExtra(Constantes.S_EVENTO_TOOLBAR, item.getTitulo().toUpperCase());
+                    intent.putExtra(Constantes.FILTRO_EVENTO_ESPECIAL, Constantes.FILTRO_RECOMENDADO);
                     context.startActivity(intent);
                 }
                 Log.d(TAG, "posicion->"+String.valueOf(getAdapterPosition()));

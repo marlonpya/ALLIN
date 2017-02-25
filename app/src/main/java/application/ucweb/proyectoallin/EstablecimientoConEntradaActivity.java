@@ -52,7 +52,7 @@ public class EstablecimientoConEntradaActivity extends BaseActivity implements I
         toolbarEvento.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
         evento = (EventoSimple) getIntent().getSerializableExtra(Constantes.OBJ_S_EVENTO);
         Glide.with(this).load(evento.getImagen()).into(ivBigPerfilEvento);
-        txtDescripcionDiscoteca.setText(evento.getDescripcion());
+        txtDescripcionDiscoteca.setText(evento.getDescripcion().trim());
         if (evento.getId_local()==0){
             txtDireccionDiscoteca.setText(getString(R.string.no_especificado));
             txtAforoDiscoteca.setText(getString(R.string.no_especificado));
@@ -61,7 +61,7 @@ public class EstablecimientoConEntradaActivity extends BaseActivity implements I
             //txtUbicanos.setTextColor(getResources().getColor(R.color.colorgreyBotonDark));
 
         }else {
-            txtDireccionDiscoteca.setText(evento.getDireccion());
+            txtDireccionDiscoteca.setText(evento.getDireccion().trim());
             txtAforoDiscoteca.setText(String.valueOf(evento.getAforo()));
         }
 
@@ -77,7 +77,11 @@ public class EstablecimientoConEntradaActivity extends BaseActivity implements I
     }
 
     @OnClick(R.id.ivCartaPerfilE)
-    public void openCarta(){ startActivity(new Intent(this, CartaEstablecimientoActivity.class));}
+    public void openCarta(){
+        //startActivity(new Intent(this, CartaEstablecimientoActivity.class));
+        startActivity(new Intent(this, CartaEstablecimientoActivity.class)
+                .putExtra(Constantes.OBJ_S_EVENTO, evento));
+    }
 
     @OnClick(R.id.ivApuntarmePerfilE)
     public void openComprarEntradaTarjeta(){ //startActivity(new Intent(this, ComprarEntradaActivity.class));
@@ -87,7 +91,8 @@ public class EstablecimientoConEntradaActivity extends BaseActivity implements I
     //VER MAPA DE EVENTO
     @OnClick(R.id.ivMapaEventosPerfilE)
     public void irAProximosEventos() {
-        String url_imagen = "http://www.uc-web.mobi/Allnight/uploads/eventos/" + evento.getId_server() + "/mapa.jpg";
+        //String url_imagen = "http://www.uc-web.mobi/Allnight/uploads/eventos/" + evento.getId_server() + "/mapa.jpg";
+        String url_imagen = evento.getMapa();
         ImagenGrandeDialogo.dialogoEvento(this, url_imagen);
         //ImagenGrandeDialogo.dialogoEvento(this, R.drawable.escenario);
     }

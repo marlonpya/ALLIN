@@ -89,7 +89,7 @@ public class InicioCorporativoActivity extends BaseActivity implements IActivida
                                         JSONArray jEvento = jData.getJSONArray("evento");
                                         for (int i = 0; i < jEvento.length(); i++) {
                                             if (jEvento.getJSONObject(i).has("EVE_NOMBRE"))
-                                            lista.add(new ItemSimpleCorporativo(jLocal.getJSONObject(i).getString("EVE_NOMBRE"), jLocal.getJSONObject(i).getInt("EVE_ID"), ItemSimpleCorporativo.EVENTO));
+                                            lista.add(new ItemSimpleCorporativo(jEvento.getJSONObject(i).getString("EVE_NOMBRE"), jEvento.getJSONObject(i).getInt("EVE_ID"), ItemSimpleCorporativo.EVENTO));
                                         }
                                         ArrayList<String> strings = new ArrayList<>();
                                         for (int i = 0; i < lista.size(); i++) {
@@ -115,6 +115,8 @@ public class InicioCorporativoActivity extends BaseActivity implements IActivida
                                                             corporativo.setSesion(true);
                                                             corporativo.setId_server(id_server);
                                                             corporativo.setLoc_nombre(lista.get(which).getNombre());
+                                                            Log.v("Amd", lista.get(which).getNombre());
+                                                            Log.v("Amd", item.getNombre());
                                                             Corporativo.iniciarSesion(corporativo);
                                                             dialog.dismiss();
                                                             startActivity(new Intent(InicioCorporativoActivity.this, MenuCorporativo.class)

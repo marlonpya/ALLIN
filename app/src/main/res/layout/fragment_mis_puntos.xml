@@ -24,6 +24,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvPuntos"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
@@ -33,6 +34,7 @@
                 android:textSize="@dimen/size_letter8" />
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"

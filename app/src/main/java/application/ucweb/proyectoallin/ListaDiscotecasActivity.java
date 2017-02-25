@@ -33,7 +33,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import application.ucweb.proyectoallin.adapter.EstablecimientoAdapter;
-import application.ucweb.proyectoallin.adapter.EstablecimientoRealmAdapter;
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
@@ -94,17 +93,24 @@ public class ListaDiscotecasActivity extends BaseActivity{
                 if (ConexionBroadcastReceiver.isConect())requestLocalXCategoria();
                 else ConexionBroadcastReceiver.showSnack(layout, this);
                 break;
+            case Constantes.FILTRO_RECOMENDADO:
+                if (ConexionBroadcastReceiver.isConect())requestLocalXCategoria();
+                else ConexionBroadcastReceiver.showSnack(layout, this);
+                break;
         }
     }
 
     private void cargarListas() {
         switch (tipoFiltro){
             case Constantes.FILTRO_DISTRITO:
-                filtrarPorDistrito();
+                filtrarPorDistrito(); break;
             case Constantes.FILTRO_MUSICA:
-                iniciarRV();
+                iniciarRV(); break;
             case Constantes.FILTRO_CALENDARIO:
-                filtrarPorCalendario();
+                filtrarPorCalendario(); break;
+            case Constantes.FILTRO_RECOMENDADO:
+                listaLocales=tempList;
+                iniciarRV(); break;
         }
     }
 
@@ -153,7 +159,9 @@ public class ListaDiscotecasActivity extends BaseActivity{
             lista_eventos.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
-        else showNotFoundDialog();
+        else {
+            showNotFoundDialog();
+        }
     }
 
     private void requestLocalXCategoria() {
@@ -209,7 +217,7 @@ public class ListaDiscotecasActivity extends BaseActivity{
                                 cargarListas();
                                 Log.d(TAG, jsonObject.toString());
                             }else {
-                                showNotFoundDialog();
+                                //showNotFoundDialog();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -222,6 +230,7 @@ public class ListaDiscotecasActivity extends BaseActivity{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.e(error.toString(), error);
+                        errorConexion(ListaDiscotecasActivity.this);
                         hidepDialog(progressDialog);
                     }
                 }
@@ -298,6 +307,7 @@ public class ListaDiscotecasActivity extends BaseActivity{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.e(error.toString(), error);
+                        errorConexion(ListaDiscotecasActivity.this);
                         hidepDialog(progressDialog);
                     }
                 }

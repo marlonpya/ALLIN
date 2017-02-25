@@ -84,7 +84,7 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         Fragment fragment = null;
         switch (position) {
             case 0:fragment = new MenuFragment();
-                                posicion = 0;               break;
+                                    posicion = 0;               break;
             case 1:fragment = new EditarPerfilFragment();
                                 posicion = 1;               break;
             case 2:compartir();                             break;

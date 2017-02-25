@@ -1,22 +1,27 @@
 package application.ucweb.proyectoallin;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,19 +37,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import application.ucweb.proyectoallin.aplicacion.BaseActivity;
 import application.ucweb.proyectoallin.aplicacion.Configuracion;
 import application.ucweb.proyectoallin.interfaz.IActividad;
+import application.ucweb.proyectoallin.model.Establecimiento;
 import application.ucweb.proyectoallin.model.Usuario;
 import application.ucweb.proyectoallin.modelparseable.EstablecimientoSimple;
 import application.ucweb.proyectoallin.modelparseable.EventoSimple;
+import application.ucweb.proyectoallin.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoallin.util.Constantes;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class EstablecimientoSinEntradaActivity extends BaseActivity implements IActividad {
     @BindView(R.id.drawer_layout) RelativeLayout layout_PerfilDiscoteca;
@@ -61,6 +75,7 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
     @BindView(R.id.iv_ic_fotosPerfilD)ImageView iv_ic_fotosPerfilD;
     @BindView(R.id.ivMarkerDiscotecaPerfilD)ImageView ivMarkerDiscotecaPerfilD;
     @BindView(R.id.iv_big_perfil_discoteca)ImageView ivBigPerfilDiscoteca;
+    @BindView(R.id.btnListaRapida) LinearLayout btnListaRapida;
 
     //@BindView(R.id.btnFotos)LinearLayout btnFotos;
 
@@ -77,6 +92,7 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
     private EventoSimple evento;
     private int idLocal=-1;
     private int idEvento=-1;
+    private int tipoVista=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,27 +102,29 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
         progressDialog.setCancelable(false);
         progressDialog.setMessage(getString(R.string.enviando_peticion));
         iniciarLayout();
+        toolbarDiscoteca.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
         if (getIntent().hasExtra(Constantes.OBJ_S_ESTABLECIMIENTO)){
             idLocal = getIntent().getIntExtra(Constantes.K_L_ID_EVENTO, -1);
             local = (EstablecimientoSimple)getIntent().getSerializableExtra(Constantes.OBJ_S_ESTABLECIMIENTO);
             getIntent().removeExtra(Constantes.OBJ_S_ESTABLECIMIENTO);
-
-            requestGeneroMusica();
+            if (ConexionBroadcastReceiver.isConect()){requestGeneroMusica();}
+            else {ConexionBroadcastReceiver.showSnack(layout_PerfilDiscoteca, this);}
             Glide.with(this).load(local.getImagen()).into(ivBigPerfilDiscoteca);
-            toolbarDiscoteca.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
-            txtDireccionDiscoteca.setText(local.getDireccion());
+            txtDireccionDiscoteca.setText(local.getDireccion().trim());
             txtAforoDiscoteca.setText(String.valueOf(local.getAforo()));
-            txtDescripcionDiscoteca.setText(local.getNosotros());
+            txtDescripcionDiscoteca.setText(local.getNosotros().trim());
+            tipoVista=Constantes.VISTA_DE_LOCAL;
         }
         else if (getIntent().hasExtra(Constantes.OBJ_S_EVENTO)){
+            btnListaRapida.setVisibility(View.GONE);
 
             evento = (EventoSimple)getIntent().getSerializableExtra(Constantes.OBJ_S_EVENTO);
             idEvento=evento.getId_server();
             getIntent().removeExtra(Constantes.OBJ_S_EVENTO);
 
             Glide.with(this).load(evento.getImagen()).into(ivBigPerfilDiscoteca);
-            toolbarDiscoteca.setText(getIntent().getStringExtra(Constantes.K_S_TITULO_TOOLBAR));
             txtDescripcionDiscoteca.setText(evento.getDescripcion());
+            tipoVista=Constantes.VISTA_DE_EVENTO;
             if (evento.getId_local()!=0){
                 txtDireccionDiscoteca.setText(evento.getDireccion());
                 txtAforoDiscoteca.setText(String.valueOf(evento.getAforo()));
@@ -119,28 +137,15 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
                 txtTipoMusicaDiscoteca.setText(getString(R.string.no_especificado));
             }
         }
-
-
-
-        //if (getIntent().hasExtra(Constantes.K_L_ID_EVENTO)) {
         if (!isSesion()){
-            /*long posicion = getIntent().getLongExtra(Constantes.K_L_ID_EVENTO, -1);
-            if (posicion == 0) {*/
-                BaseActivity.usarGlide(this, R.drawable.copablack, ivCartaPerfilD);
-                //ivCarta.setImageResource(R.drawable.copablack);
-                ivCartaPerfilD.setEnabled(false);
-                BaseActivity.usarGlide(this, R.drawable.notablack, ivApuntarmePerfilD);
-                //ivApuntarme.setImageResource(R.drawable.notablack);
-                ivApuntarmePerfilD.setEnabled(false);
-                BaseActivity.usarGlide(this, R.drawable.baileblack, ivEventosPerfilD);
-                //ivEventos.setImageResource(R.drawable.baileblack);
-                ivEventosPerfilD.setEnabled(false);
-                BaseActivity.usarGlide(this, R.drawable.listarapidablackvacio, ivAgregarPerfilD);
-                //ivAgregar.setImageResource(R.drawable.listarapidablackvacio);
-                ivAgregarPerfilD.setEnabled(false);
-
-                //dialogo like
-            //}
+            BaseActivity.usarGlide(this, R.drawable.copablack, ivCartaPerfilD);
+            ivCartaPerfilD.setEnabled(false);
+            BaseActivity.usarGlide(this, R.drawable.notablack, ivApuntarmePerfilD);
+            ivApuntarmePerfilD.setEnabled(false);
+            BaseActivity.usarGlide(this, R.drawable.baileblack, ivEventosPerfilD);
+            ivEventosPerfilD.setEnabled(false);
+            BaseActivity.usarGlide(this, R.drawable.listarapidablackvacio, ivAgregarPerfilD);
+            ivAgregarPerfilD.setEnabled(false);
         }
     }
 
@@ -207,26 +212,110 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
 
     @OnClick(R.id.ivCartaPerfilD)
     public void openCarta(){
-        startActivity(new Intent(this, CartaEstablecimientoActivity.class).putExtra(Constantes.ID_LOCAL, local.getId_server()));
+        if (tipoVista==Constantes.VISTA_DE_LOCAL){
+            startActivity(new Intent(this, CartaEstablecimientoActivity.class)
+                    //.putExtra(Constantes.ID_LOCAL, local.getId_server())
+                    .putExtra(Constantes.OBJ_S_ESTABLECIMIENTO, local));
+        }else if(tipoVista==Constantes.VISTA_DE_EVENTO){
+            //Toast.makeText(this, "Es evento " + evento.getId_server(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, CartaEstablecimientoActivity.class)
+                    //.putExtra(Constantes.ID_EVENTO, evento.getId_server())
+                    .putExtra(Constantes.OBJ_S_EVENTO, evento));
+        }
     }
 
     @OnClick(R.id.ivApuntarmePerfilD)
     public void openApuntarme(){
-        new MaterialDialog.Builder(this)
-                .title(R.string.ya_estas_en_lista_titulo)
-                .content(R.string.ya_estas_en_lista_mensaje)
-                .positiveText(R.string.aceptar)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+        if (tipoVista==Constantes.VISTA_DE_LOCAL){
+            startActivity(new Intent(getApplicationContext(), Calendario2Activity.class)
+                    .putExtra(Constantes.CALENDARIO_APUNTAR_LISTA, true)
+                    .putExtra(Constantes.OBJ_S_ESTABLECIMIENTO, local));
+        }else if(tipoVista==Constantes.VISTA_DE_EVENTO){
+            new AlertDialog.Builder(EstablecimientoSinEntradaActivity.this)
+                    .setTitle(R.string.ya_estas_en_lista_titulo)
+                    .setMessage(getString(R.string.ya_estas_en_lista_mensaje))
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            requestRegistrarEnListaEventoConLocal();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    private void requestRegistrarEnListaEventoConLocal() {
+        showDialog(progressDialog);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.REGISTRAR_EN_LISTA_EVENTO,
+                new Response.Listener<String>() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                        apuntarmeExitoso();
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String mensaje=jsonObject.getString("message");
+                            if (jsonObject.getBoolean("status")) {
+                                new AlertDialog.Builder(EstablecimientoSinEntradaActivity.this)
+                                        .setTitle(R.string.ya_estas_en_lista_titulo_si)
+                                        .setMessage(getString(R.string.ya_estas_en_lista_mensaje_si))
+                                        .setIcon(R.drawable.iconobuenarosa)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }else {
+                                new AlertDialog.Builder(EstablecimientoSinEntradaActivity.this)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(mensaje)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString(), e);
+                        }
+                        hidepDialog(progressDialog);
                     }
-                })
-                .negativeText(R.string.cancelar)
-                .onNegative(null)
-                .build()
-                .show();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.e(error.toString(), error);
+                        hidepDialog(progressDialog);
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("loc_id", String.valueOf(evento.getId_local()));
+                params.put("usu_id", String.valueOf(Usuario.getUsuario().getId_server()));
+                params.put("eve_id", String.valueOf(evento.getId_server()));
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
     private void apuntarmeExitoso() {
@@ -241,18 +330,95 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
     @OnClick(R.id.ivEventosPerfilD)
     public void openEventosProximos() {
         startActivity(new Intent(this, ListaEventoActivity.class)
-        .putExtra(Constantes.K_S_TITULO_TOOLBAR, "EVENTOS PRÓXIMOS"));
+                .putExtra(Constantes.ID_LOCAL, idLocal)
+                .putExtra(Constantes.I_EVENTO_DIALOG, Constantes.FILTRO_X_LOCAL)
+                /*.putExtra(Constantes.OBJ_S_ESTABLECIMIENTO, local)*/);
     }
 
     @OnClick(R.id.ivAgregarPerfilD)
     public void openAgregarListaRapida() {
-        new MaterialDialog.Builder(this)
-                .title(R.string.agregado_a_lista_rapida_titulo)
-                .content(R.string.agregado_a_lista_rapida_mensaje)
-                .iconRes(R.drawable.iconobuenarosa)
-                .positiveText("OK")
-                .build()
-                .show();
+        if (tipoVista==Constantes.VISTA_DE_LOCAL){
+            final Realm realm = Realm.getDefaultInstance();
+            final RealmResults <Establecimiento> listaRapida;
+            listaRapida = realm.where(Establecimiento.class).equalTo("id_server", local.getId_server()).findAll();
+            if (listaRapida.size()>0){
+                //Toast.makeText(this, "Ya fue agregado", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(EstablecimientoSinEntradaActivity.this)
+                        .setTitle(R.string.app_name)
+                        .setMessage(getString(R.string.ya_existe_lista_rapida_mensaje))
+                        .setCancelable(false)
+                        .setIcon(R.drawable.iconobuenarosa)
+                        .setPositiveButton(R.string.mantener, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.remover, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                realm.beginTransaction();
+                                listaRapida.deleteAllFromRealm();
+                                realm.commitTransaction();
+                                realm.close();
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }else {
+                realm.beginTransaction();
+                Establecimiento establecimiento = realm.createObject(Establecimiento.class);
+
+                establecimiento.setId(Establecimiento.getUltimoId());
+                establecimiento.setId_server(local.getId_server());
+                establecimiento.setImagen(local.getImagen());
+                establecimiento.setNombre(local.getNombre());
+                establecimiento.setDireccion(local.getDireccion());
+                establecimiento.setLatitud(local.getLatitud());
+                establecimiento.setLongitud(local.getLongitud());
+                establecimiento.setAforo(local.getAforo());
+                establecimiento.setNosotros(local.getNosotros());
+                establecimiento.setUrl(local.getUrl());
+                establecimiento.setGay(local.isGay());
+                establecimiento.setFecha_inicio(local.getFecha_inicio());
+                establecimiento.setFecha_fin(local.getFecha_fin());
+                establecimiento.setDepartamento(local.getDepartamento());
+                establecimiento.setProvincia(local.getProvincia());
+                establecimiento.setDistrito(local.getDistrito());
+                establecimiento.setPlus(local.isPlus());
+                establecimiento.setEstado(local.isEstado());
+                establecimiento.setRazon_social(local.getRazon_social());
+                establecimiento.setRuc(local.getRuc());
+                establecimiento.setLunes(local.isLunes());
+                establecimiento.setMartes(local.isMartes());
+                establecimiento.setMiercoles(local.isMiercoles());
+                establecimiento.setJueves(local.isJueves());
+                establecimiento.setViernes(local.isViernes());
+                establecimiento.setSabado(local.isSabado());
+                establecimiento.setDomingo(local.isDomingo());
+                establecimiento.setPrecio(local.getPrecio());
+                establecimiento.setFechaAdded(Calendar.getInstance().getTime());
+                realm.copyToRealm(establecimiento);
+                realm.commitTransaction();
+                realm.close();
+
+                new AlertDialog.Builder(EstablecimientoSinEntradaActivity.this)
+                        .setTitle(R.string.app_name)
+                        .setMessage(getString(R.string.agregado_a_lista_rapida_mensaje))
+                        .setCancelable(false)
+                        .setIcon(R.drawable.iconobuenarosa)
+                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        }
+        /*else if(tipoVista==Constantes.CARTA_DE_EVENTO){
+            //Evento
+        }*/
     }
 
     @OnClick(R.id.btnFotos)
@@ -282,7 +448,8 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
             String texto = evento.getNombre().toUpperCase();
             ShareLinkContent content = new ShareLinkContent.Builder()
                     .setContentTitle(getString(R.string.app_name))
-                    .setContentUrl(Uri.parse("http://www.uc-web.mobi/All-in-night/index.php"))
+                    //.setContentUrl(Uri.parse("http://www.uc-web.mobi/All-in-night/index.php"))
+                    .setContentUrl(Uri.parse("https://www.google.com"))
                     .setContentDescription(texto)
                     .setImageUrl(Uri.parse(evento.getImagen()))
                     .build();
@@ -294,11 +461,19 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
     @OnClick(R.id.btnverWeb)
     public void openWeb() {
         if (idEvento==-1) {
-            Uri uriUrl = Uri.parse("http://" + local.getUrl());
-            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-            startActivity(launchBrowser);
+            Log.v("Amd", local.getUrl());
+            try {
+                Uri uriUrl = Uri.parse(local.getUrl());
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                startActivity(launchBrowser);
+            }catch (Exception e){
+
+                Uri uriUrl = Uri.parse("http://" + local.getUrl());
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                startActivity(launchBrowser);
+            }
         }else {
-            Uri uriUrl = Uri.parse("http://www.uc-web.mobi/All-in-night/index.php");
+            Uri uriUrl = Uri.parse("https://www.google.com");
             Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
             startActivity(launchBrowser);
         }
@@ -350,5 +525,4 @@ public class EstablecimientoSinEntradaActivity extends BaseActivity implements I
         if (item.getItemId() == android.R.id.home) onBackPressed();
         return super.onOptionsItemSelected(item);
     }
-
 }
